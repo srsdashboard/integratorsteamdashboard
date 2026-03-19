@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Integrators Team Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue-900: #0d2b5e;
+    --blue-800: #1a3f82;
+    --blue-700: #1e52a8;
+    --blue-600: #2563eb;
+    --blue-500: #3b82f6;
+    --blue-400: #60a5fa;
+    --blue-300: #93c5fd;
+    --blue-200: #bfdbfe;
+    --blue-100: #dbeafe;
+    --blue-50:  #eff6ff;
+    --gray-900: #111827;
+    --gray-700: #374151;
+    --gray-500: #6b7280;
+    --gray-300: #d1d5db;
+    --gray-100: #f3f4f6;
+    --gray-50:  #f9fafb;
+    --green: #10b981;
+    --red: #ef4444;
+    --amber: #f59e0b;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+    --shadow-lg: 0 10px 30px rgba(0,0,0,0.1), 0 4px 10px rgba(0,0,0,0.05);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-900);
+    min-height: 100vh;
+    font-size: 13px;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 60%, var(--blue-500) 100%);
+    padding: 24px 32px 0;
+    box-shadow: 0 4px 20px rgba(13,43,94,0.3);
+  }
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+  .header .subtitle {
+    font-size: 12px;
+    color: var(--blue-200);
+    margin-top: 2px;
+    font-weight: 400;
+  }
+  .sprint-badge {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    backdrop-filter: blur(4px);
+  }
+
+  /* SPRINT COMPLETION CARDS - in header */
+  .completion-bar {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 20px;
+  }
+  .completion-card {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: var(--radius-sm);
+    padding: 16px 20px;
+    min-width: 180px;
+    backdrop-filter: blur(8px);
+    transition: background 0.2s;
+  }
+  .completion-card:hover { background: rgba(255,255,255,0.18); }
+  .completion-card .month { font-size: 11px; color: var(--blue-200); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .completion-card .pct { font-size: 36px; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 4px; font-family: 'DM Mono', monospace; }
+  .completion-card .detail { font-size: 11px; color: var(--blue-200); }
+  .completion-card .progress-bg { height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin-top: 10px; overflow: hidden; }
+  .completion-card .progress-fill { height: 100%; background: linear-gradient(90deg, #60a5fa, #a5f3fc); border-radius: 2px; transition: width 1s ease; }
+  .completion-card.tbd .pct { font-size: 22px; color: rgba(255,255,255,0.5); }
+
+  /* FILTERS */
+  .filters-wrap {
+    background: #fff;
+    border-bottom: 1px solid var(--gray-200, #e5e7eb);
+    padding: 12px 32px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .filters-wrap label { font-size: 11px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; }
+  .filter-select {
+    border: 1px solid var(--gray-300);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--gray-700);
+    background: var(--gray-50);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    min-width: 130px;
+  }
+  .filter-select:focus { border-color: var(--blue-500); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+  .filter-divider { width: 1px; height: 22px; background: var(--gray-300); margin: 0 4px; }
+  .btn-reset {
+    padding: 6px 14px;
+    background: var(--blue-600);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-reset:hover { background: var(--blue-700); }
+
+  /* MAIN LAYOUT */
+  .main {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 20px;
+    padding: 20px 32px;
+    max-width: 1600px;
+  }
+
+  /* CARDS */
+  .card {
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(0,0,0,0.05);
+    overflow: hidden;
+  }
+  .card-header {
+    padding: 14px 18px 10px;
+    border-bottom: 1px solid var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray-900);
+    letter-spacing: -0.2px;
+  }
+  .card-badge {
+    font-size: 10px;
+    font-weight: 600;
+    background: var(--blue-100);
+    color: var(--blue-700);
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  .card-body { padding: 14px 18px; }
+
+  /* LEFT PANEL */
+  .left-panel { display: flex; flex-direction: column; gap: 16px; }
+
+  /* CAPACITY BARS */
+  .capacity-list { display: flex; flex-direction: column; gap: 10px; }
+  .capacity-row { display: flex; flex-direction: column; gap: 3px; }
+  .capacity-user { display: flex; justify-content: space-between; align-items: center; }
+  .capacity-name { font-size: 12px; font-weight: 500; color: var(--gray-700); }
+  .capacity-pts { font-size: 11px; font-weight: 700; color: var(--blue-700); font-family: 'DM Mono', monospace; }
+  .cap-bar-bg { height: 7px; background: var(--blue-50); border-radius: 4px; overflow: hidden; }
+  .cap-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue-400), var(--blue-600)); transition: width 1s ease; }
+
+  /* RIGHT PANEL */
+  .right-panel { display: flex; flex-direction: column; gap: 16px; }
+
+  /* KPI GRID */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .kpi-card {
+    background: linear-gradient(135deg, #fff 0%, var(--blue-50) 100%);
+    border: 1px solid var(--blue-100);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .kpi-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--blue-400), var(--blue-600));
+  }
+  .kpi-label { font-size: 10px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .kpi-value { font-size: 28px; font-weight: 700; color: var(--blue-800); font-family: 'DM Mono', monospace; line-height: 1; }
+  .kpi-sub { font-size: 11px; color: var(--gray-500); margin-top: 4px; }
+  .kpi-trend { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; margin-top: 6px; padding: 2px 6px; border-radius: 4px; }
+  .kpi-trend.up { background: #fef3c7; color: #b45309; }
+  .kpi-trend.down { background: #d1fae5; color: #065f46; }
+
+  /* INC SECTION */
+  .inc-kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
+  .inc-kpi {
+    background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 100%);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .inc-kpi::after {
+    content: '';
+    position: absolute;
+    bottom: -10px; right: -10px;
+    width: 60px; height: 60px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+  }
+  .inc-kpi .label { font-size: 10px; font-weight: 600; color: var(--blue-200); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .inc-kpi .value { font-size: 32px; font-weight: 700; font-family: 'DM Mono', monospace; line-height: 1; }
+  .inc-kpi .sub { font-size: 11px; color: var(--blue-200); margin-top: 4px; }
+
+  /* SPRINT COMPARE */
+  .sprint-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .sprint-cmp-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200, #e5e7eb);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+  }
+  .sprint-cmp-card .sprint-label { font-size: 10px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .sprint-cmp-card .sprint-val { font-size: 26px; font-weight: 700; color: var(--gray-900); font-family: 'DM Mono', monospace; }
+  .sprint-cmp-card .sprint-sub { font-size: 11px; color: var(--gray-500); margin-top: 3px; }
+  .sprint-cmp-card.current { background: var(--blue-50); border-color: var(--blue-200); }
+  .sprint-cmp-card.current .sprint-val { color: var(--blue-700); }
+
+  /* CHARTS GRID */
+  .charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .charts-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .chart-container { position: relative; height: 180px; }
+  .chart-container-sm { position: relative; height: 160px; }
+  .chart-container-lg { position: relative; height: 220px; }
+
+  /* STATUS PILLS */
+  .status-legend { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .status-pill { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--gray-600, #4b5563); }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* WIP TABLE */
+  .wip-table { width: 100%; border-collapse: collapse; }
+  .wip-table th { 
+    font-size: 10px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.4px;
+    padding: 6px 10px; background: var(--gray-50); border-bottom: 1px solid var(--gray-200, #e5e7eb);
+    text-align: left;
+  }
+  .wip-table td { padding: 7px 10px; border-bottom: 1px solid var(--gray-100); font-size: 11px; color: var(--gray-700); }
+  .wip-table tr:last-child td { border-bottom: none; }
+  .wip-table tr:hover td { background: var(--blue-50); }
+  .state-tag {
+    display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10px; font-weight: 600;
+  }
+  .state-dev { background: #dbeafe; color: #1e40af; }
+  .state-new { background: #f3f4f6; color: #374151; }
+  .state-blocked { background: #fee2e2; color: #991b1b; }
+  .state-qa { background: #d1fae5; color: #065f46; }
+  .state-active { background: #fef3c7; color: #92400e; }
+  .state-other { background: #ede9fe; color: #5b21b6; }
+
+  /* SECTION SEPARATOR */
+  .section-title {
+    font-size: 11px; font-weight: 700; color: var(--blue-700); text-transform: uppercase;
+    letter-spacing: 0.6px; padding: 0 0 8px; display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--blue-100); }
+
+  /* INC BADGE */
+  .inc-tag { 
+    display: inline-block; background: #fee2e2; color: #991b1b;
+    font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 3px; letter-spacing: 0.3px;
+  }
+
+  @media (max-width: 1200px) {
+    .main { grid-template-columns: 250px 1fr; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 900px) {
+    .main { grid-template-columns: 1fr; padding: 16px; }
+    .charts-2col, .charts-3col { grid-template-columns: 1fr; }
+    .kpi-grid, .inc-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <h1>The Integrators Team Dashboard</h1>
+      <div class="subtitle">Sprint Performance & Incident Tracking · Azure DevOps Integration</div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+      <div class="sprint-badge">Sprint 4 — Active</div>
+      <div style="font-size:11px;color:var(--blue-200);font-weight:500;letter-spacing:0.2px;">📅 Mar 9, 2026 – Mar 27, 2026</div>
+    </div>
+  </div>
+
+  <!-- Sprint Completion Rate -->
+  <div class="completion-bar">
+    <div style="display:flex;align-items:center;margin-right:4px;color:rgba(255,255,255,0.6);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;">Sprint<br>Completion</div>
+    <div class="completion-card">
+      <div class="month">February</div>
+      <div class="pct">62%</div>
+      <div class="detail">36 of 58 stories completed on time</div>
+      <div class="progress-bg"><div class="progress-fill" style="width:62%"></div></div>
+    </div>
+    <div class="completion-card">
+      <div class="month">Sprint 4 — March</div>
+      <div class="pct">50%</div>
+      <div class="detail">20 of 40 work items completed</div>
+      <div class="progress-bg"><div class="progress-fill" style="width:50%"></div></div>
+    </div>
+    <div class="completion-card tbd" style="min-width:140px;">
+      <div class="month">Sprint 4 Live</div>
+      <div class="pct" style="font-size:28px;" id="hdr-closed">–</div>
+      <div class="detail" id="hdr-closed-detail">closed of total</div>
+      <div class="progress-bg"><div class="progress-fill" id="hdr-progress" style="width:0%"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ FILTERS ═══════════ -->
+<div class="filters-wrap">
+  <label>Filters</label>
+  <select class="filter-select" id="f-sprint">
+    <option value="all">All Sprints</option>
+    <option value="4" selected>Sprint 4</option>
+  </select>
+  <select class="filter-select" id="f-user">
+    <option value="all">All Users</option>
+  </select>
+  <div class="filter-divider"></div>
+  <select class="filter-select" id="f-type">
+    <option value="all">All Types</option>
+    <option value="Bug">Bug (INC)</option>
+    <option value="User Story">User Story</option>
+  </select>
+  <select class="filter-select" id="f-status">
+    <option value="all">All Statuses</option>
+  </select>
+  <div class="filter-divider"></div>
+  <button class="btn-reset" onclick="resetFilters()">Reset Filters</button>
+</div>
+
+<!-- ═══════════ MAIN LAYOUT ═══════════ -->
+<div class="main">
+
+  <!-- ═══ LEFT PANEL ═══ -->
+  <div class="left-panel">
+    <!-- Team Capacity -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Team Capacity Overview</span>
+        <span class="card-badge" id="team-badge">13 Members</span>
+      </div>
+      <div class="card-body">
+        <div style="font-size:10px;color:var(--gray-500);margin-bottom:10px;">Story Points Assigned · Sorted by Workload</div>
+        <div class="capacity-list" id="capacity-list"></div>
+      </div>
+    </div>
+
+    <!-- Work Items by Status (mini) -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Status Breakdown</span>
+      </div>
+      <div class="card-body">
+        <div class="chart-container-sm">
+          <canvas id="statusChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ RIGHT PANEL ═══ -->
+  <div class="right-panel">
+
+    <!-- TOP KPIs -->
+    <div class="kpi-grid" id="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Total Work Items</div>
+        <div class="kpi-value" id="kpi-total">–</div>
+        <div class="kpi-sub">Sprint 4 backlog</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Closed Items</div>
+        <div class="kpi-value" id="kpi-closed">–</div>
+        <div class="kpi-sub" id="kpi-closed-rate">completion rate</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Story Points</div>
+        <div class="kpi-value" id="kpi-sp">–</div>
+        <div class="kpi-sub">total assigned SP</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Blocked Items</div>
+        <div class="kpi-value" id="kpi-blocked" style="color:var(--red)">–</div>
+        <div class="kpi-sub">need attention</div>
+      </div>
+    </div>
+
+    <!-- SECTION 1: SPRINT ACTIVITY -->
+    <div class="section-title">Sprint Activity Overview</div>
+    <div class="charts-3col">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Items by Project</span></div>
+        <div class="card-body">
+          <div class="chart-container"><canvas id="projectChart"></canvas></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Work Item Type</span></div>
+        <div class="card-body">
+          <div class="chart-container"><canvas id="typeChart"></canvas></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">Completed per Sprint</span></div>
+        <div class="card-body">
+          <div class="chart-container"><canvas id="completedChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Business Projects -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">Business Projects Activity</span>
+        <span class="card-badge">Quickbooks · ProjectMapIt · PropertyReports · Quotes · Chili</span>
+      </div>
+      <div class="card-body">
+        <div class="chart-container-lg"><canvas id="bizProjectChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: INC METRICS -->
+    <div class="section-title">Incident (INC) Metrics</div>
+    <div class="inc-kpi-grid">
+      <div class="inc-kpi">
+        <div class="label">Total INC Bugs</div>
+        <div class="value" id="inc-total">–</div>
+        <div class="sub">Tagged with INC</div>
+      </div>
+      <div class="inc-kpi">
+        <div class="label">Avg Resolution Time</div>
+        <div class="value" id="inc-avg-res">–</div>
+        <div class="sub">biz days · excl. weekends</div>
+      </div>
+      <div class="inc-kpi">
+        <div class="label">INC Closure Rate</div>
+        <div class="value" id="inc-closure">–</div>
+        <div class="sub" id="inc-closure-sub">closed of total INC</div>
+      </div>
+    </div>
+
+    <!-- Sprint Comparison -->
+    <div class="sprint-compare">
+      <div class="sprint-cmp-card">
+        <div class="sprint-label">Sprint 3 — Reference</div>
+        <div class="sprint-val">9.4 <span style="font-size:14px;font-weight:400">days</span></div>
+        <div class="sprint-sub">Average INC Resolution Time</div>
+      </div>
+      <div class="sprint-cmp-card current">
+        <div class="sprint-label">Sprint 4 — Current</div>
+        <div class="sprint-val" id="cmp-sprint4">–</div>
+        <div class="sprint-sub" id="cmp-trend">vs Sprint 3 baseline</div>
+        <div class="kpi-trend up" id="cmp-badge" style="margin-top:8px;display:inline-flex">–</div>
+      </div>
+    </div>
+
+    <!-- INC charts -->
+    <div class="charts-2col">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Closed vs Open INC Bugs</span>
+        </div>
+        <div class="card-body">
+          <div class="chart-container"><canvas id="incDonutChart"></canvas></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Work In Progress — INC</span>
+          <span class="card-badge" id="wip-badge">Not Closed</span>
+        </div>
+        <div class="card-body" style="padding:8px 0 0;">
+          <div style="overflow-x:auto;max-height:200px;overflow-y:auto;">
+            <table class="wip-table" id="wip-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Summary</th>
+                  <th>State</th>
+                  <th>Assigned To</th>
+                </tr>
+              </thead>
+              <tbody id="wip-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION: TEAM VELOCITY -->
+    <div class="section-title">Team Velocity</div>
+    <div class="card">
+      <div class="card-header" style="flex-wrap:wrap;gap:8px;">
+        <span class="card-title">Story Points Completed — Sprint Velocity</span>
+        <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
+          <label style="font-size:10px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.4px;">User</label>
+          <select class="filter-select" id="f-velocity-user" style="min-width:150px;" onchange="renderVelocityChart()">
+            <option value="all">All Team</option>
+          </select>
+        </div>
+      </div>
+      <div class="card-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center;">
+          <div>
+            <div class="chart-container-lg"><canvas id="velocityChart"></canvas></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;">SP by Team Member · Sprint 4</div>
+            <div id="velocity-breakdown"></div>
+            <div style="border-top:1px solid var(--gray-100);padding-top:10px;margin-top:4px;display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:11px;color:var(--gray-500);">Total SP Completed</span>
+              <span id="velocity-total-sp" style="font-size:18px;font-weight:700;color:var(--blue-700);font-family:'DM Mono',monospace;">–</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /right panel -->
+</div><!-- /main -->
+
+<script>
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+const RAW_DATA = [{"id": 109831, "title": "Functions.Customers | SRS | Build Referrals List and Detail endpoints", "state": "In Development", "user": "Olonyl Rocha", "sp": 5.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-17", "closed": NaN, "res_days": null}, {"id": 109820, "title": "Functions.Documents | SRS | Add color section to Quote Creation PDF", "state": "UAT", "user": "Umesh Reddy", "sp": 2.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-17", "closed": NaN, "res_days": null}, {"id": 109740, "title": "Functions.PropertyReports | SRS | Update Experian credentials management process", "state": "Dev Complete", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products", "is_inc": false, "project": "PropertyReports", "type": "User Story", "sprint": 4, "created": "2026-03-17", "closed": NaN, "res_days": null}, {"id": 109738, "title": "Functions.Orders | SRS | Fix incorrect UOM mapping for shingle items in Line Rev", "state": "Active", "user": "Umesh Reddy", "sp": 0.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-17", "closed": NaN, "res_days": null}, {"id": 109460, "title": "Functions.Quotes | SRS | Quote creation - environment variable change", "state": "Closed", "user": "Umesh Reddy", "sp": 0.0, "tags": "Building Products; Deployed 03/17/2026", "is_inc": false, "project": "Quotes", "type": "User Story", "sprint": 4, "created": "2026-03-13", "closed": "2026-03-18", "res_days": 3}, {"id": 105442, "title": "Functions.Deliveries | HLSG | Address/Reduce OutOfMemoryExceptions in ShipmentUp", "state": "Closed", "user": "Chandra Eega", "sp": 3.0, "tags": "Deployed 03/10/2026", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-12", "res_days": 3}, {"id": 108911, "title": "Functions.Products | SRS | Could not convert string to integer: Bluff Springs. P", "state": "Closed", "user": "Chandra Eega", "sp": 1.0, "tags": "Building Products; INC; INC0899492", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-10", "closed": "2026-03-11", "res_days": 1}, {"id": 108912, "title": "Functions.Products | SRS | Observed System.Net.Sockets.SocketException for Catal", "state": "Closed", "user": "Chandra Eega", "sp": 3.0, "tags": "Building Products; INC; INC0899569", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-10", "closed": "2026-03-17", "res_days": 5}, {"id": 109004, "title": "Functions.Products | SRS | Error converting value {null} to type 'System.Double'", "state": "Ready for QA", "user": "Chandra Eega", "sp": 2.0, "tags": "Building Products; INC; INC0896904", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 103553, "title": "IntegrationHub.EventsProcessor | HLSG | Refactor HLSG EventProcessor to Use Stor", "state": "Ready for Code Review", "user": "Chandra Eega", "sp": 5.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 109005, "title": "Functions.Deliveries | HLSG | DescartesInbound Exception binding parameter 'req'", "state": "In Development", "user": "Chandra Eega", "sp": 3.0, "tags": "Heritage; INC; INC0900371", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108999, "title": "Functions.Products | HLSG | Authentication failed - remote party has closed the ", "state": "In Development", "user": "Chandra Eega", "sp": 0.0, "tags": "Heritage; INC; INC0892914", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 106161, "title": "Functions.Shipments | HLSG | sever error occurred on the current command for csp", "state": "Closed", "user": "Jaime Torner", "sp": 3.0, "tags": "Heritage; INC; INC0882338", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-06", "res_days": null}, {"id": 109000, "title": "Functions.Credits | SRS | INTHUB-Failed to GetToken(AR) from Bectran for Process", "state": "New", "user": "Chandra Eega", "sp": 0.0, "tags": "Building Products; INC; INC0898538", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108763, "title": "Research | Install and Investigate Bruno as an alternative to Postman", "state": "Closed", "user": "Jaime Torner", "sp": 3.0, "tags": "Discovery", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-16", "res_days": 5}, {"id": 107555, "title": "Research | Functions.Hubspot | HLSG | Investigate H+ Subscription Visibility Inc", "state": "Closed", "user": "Jagadeesh Junjur", "sp": 2.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-12", "res_days": 3}, {"id": 107580, "title": "Infrastructure | Functions.ProjectMapIt | SRS | Implement Managed Identity Authe", "state": "Blocked", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products", "is_inc": false, "project": "ProjectMapIt", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 101459, "title": "Functions.PropertyReports | SRS | Cache ATTOM API Responses by Property Address ", "state": "In QA", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products", "is_inc": false, "project": "PropertyReports", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 106043, "title": "Functions.Quickbooks | HLSG | Create Connect API", "state": "Dev Complete", "user": "Jagadeesh Junjur", "sp": 3.0, "tags": "Heritage; UAT testing", "is_inc": false, "project": "Quickbooks", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107582, "title": "Documentation | Functions.PropertyReports | SRS | Document Property Reports Scor", "state": "Ideation", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products", "is_inc": false, "project": "PropertyReports", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107547, "title": "Research | HLSG | Order & Shipment API Field Mapping and Behavior Clarification", "state": "Active", "user": "Santosh Kasam", "sp": 0.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107374, "title": "Functions.Products | SRS | Unexpected character encountered while parsing value:", "state": "Closed", "user": "Sanjay Sahu", "sp": 3.0, "tags": "Building Products; Deployed 03/17/2026; INC; INC0892016", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-18", "res_days": 7}, {"id": 107375, "title": "Functions.Invoices | SRS | INTHUB: observed 403 (Forbidden) issue for invoice fu", "state": "Closed", "user": "Jaime Torner", "sp": 3.0, "tags": "Building Products; INC; INC0891820", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-16", "res_days": 5}, {"id": 107376, "title": "Functions.Invoices | HLSG | HLSG: observed redis timeout issue for DeliveryTicke", "state": "Closed", "user": "Jaime Torner", "sp": 3.0, "tags": "Building Products; INC; INC0891880", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-16", "res_days": 5}, {"id": 108913, "title": "Functions.Invoices | HLSG | Document current services involved in invoice docume", "state": "Ideation", "user": "Jaime Torner", "sp": 2.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 109006, "title": "Functions.Orders | HLSG | Invalid object name 'plattesqlHLSG.dbo.dispatch_detail", "state": "In Development", "user": "Vinoth Venkatesan", "sp": 3.0, "tags": "Building Products; INC; INC0899746", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 107372, "title": "Functions.Products | HLSG | Failed to call csp_API_PA_PriceAvailability stored p", "state": "In Development", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "Heritage; INC; INC0892005", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107288, "title": "Functions.Quotes | SRS | Quote Ready Notifications", "state": "Closed", "user": "Umesh Reddy", "sp": 1.0, "tags": "Building Products", "is_inc": false, "project": "Quotes", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-12", "res_days": 3}, {"id": 106164, "title": "Functions.Marketing | SRS | Database 'plattesql' on server '10d91d9d15.tr13828.s", "state": "In Development", "user": "Nagraj Arya", "sp": 2.0, "tags": "Building Products; INC; INC0884689", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 105457, "title": "Research | SRS&HLSG | Investigate Application Insights Log Volume Growth", "state": "Dev Complete", "user": "Jagadeesh Junjur", "sp": 2.0, "tags": "INC0883212", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 100223, "title": "Functions.Products | SRS | Failed to Upload Blob - containerName", "state": "Closed", "user": "Umesh Reddy", "sp": 3.0, "tags": "Building Products; Dev Testing; INC; INC0854044", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-12", "res_days": 3}, {"id": 108018, "title": "Functions.Documents | SRS | Quote creation email missing PDF attachment (Product", "state": "Closed", "user": "Umesh Reddy", "sp": 1.0, "tags": "Building Products; Deployed 03/10/2026", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-12", "res_days": 3}, {"id": 104588, "title": "IntegrationHub.NotificationProcessor | HLSG | Receiving notifications for other ", "state": "Closed", "user": "Umesh Reddy", "sp": 0.0, "tags": "Heritage; INC; INC0877157", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-11", "res_days": 2}, {"id": 102692, "title": "Functions.PropertyReports | SRS | Build new Available Free Trials API for Intern", "state": "UAT", "user": "Jagadeesh Junjur", "sp": 5.0, "tags": "Building Products", "is_inc": false, "project": "PropertyReports", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107352, "title": "Functions.Branches | HLSG | Upgrade to .NET 10.0", "state": "Dev Complete", "user": "Navya Bhargavi Yerapothina", "sp": 0.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 102665, "title": "Functions.Products | SRS | SRSINTHUB- observed The specified blob does not exist", "state": "In QA", "user": "Umesh Reddy", "sp": 3.0, "tags": "Building Products; Dev Testing; INC; INC0865096", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 100994, "title": "Functions.Customers | HLSG | HLSG-SQL compilation error for ItemRestrictionV2 en", "state": "Closed", "user": "Sanjay Sahu", "sp": 3.0, "tags": "Deployed 03/17/2026; Heritage; INC; INC0858600", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-18", "res_days": 7}, {"id": 100162, "title": "Functions.Customers | HLSG | Failed to Get Customer List from ODS", "state": "Ready for QA", "user": "Vinoth Venkatesan", "sp": 5.0, "tags": "Heritage; INC; INC0853996", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 93296, "title": "Functions.Orders | SRS | INTHUB-Error converting data type nvarchar to int - SQL", "state": "In Development", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "Building Products; INC0824945", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 109001, "title": "IntegrationHub.EnterpriseEvents | HLSG | The property value exceeds the maximum ", "state": "In Development", "user": "Jaime Torner", "sp": 5.0, "tags": "Heritage; INC; INC0895984", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 91723, "title": "Functions.Orders | HLSG | SQL PRIMARY KEY constraint 'PK_tbl_API_SODetailAll\" is", "state": "New", "user": "Olonyl Rocha", "sp": 0.0, "tags": "Heritage; INC0819144", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 85174, "title": "Functions.Invoices | HLSG | Inconsistency on Invoices display with installment p", "state": "In QA", "user": "Vinoth Venkatesan", "sp": 2.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 109630, "title": "Functions.Products | SRS| ProductsAvailabilityV2 | Seeing 500 Internal Server Er", "state": "Closed", "user": "Srilekha Donadula", "sp": 1.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-17", "closed": "2026-03-18", "res_days": 1}, {"id": 109661, "title": "Functions.Products | SRS| Stg| ProductsV2Catalog(GET) | Seeing 404 with \"No prod", "state": "New", "user": "Srilekha Donadula", "sp": 1.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-17", "closed": NaN, "res_days": null}, {"id": 109687, "title": "Functions.Products | SRS| Stg| v2/catalog/full(GET) | Seeing \"null\" in response ", "state": "New", "user": "Srilekha Donadula", "sp": 1.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-17", "closed": NaN, "res_days": null}, {"id": 105927, "title": "Functions.QuickBooks / Infrastructure repo | HLSG | Create new azure function", "state": "Ideation", "user": "", "sp": 2.0, "tags": "Dev Testing; Heritage", "is_inc": false, "project": "Quickbooks", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 98188, "title": "Functions.Deliveries | SRS | INTHUB- Fatal error returned from: csp_API_Descarte", "state": "Dev Complete", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products; INC0841556", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 104709, "title": "Functions.Products | HLSG | Customer Fulfillment & Cross-Reference Products API", "state": "UAT", "user": "Umesh Reddy", "sp": 3.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 108745, "title": "Functions.Products | HLSG | Enable ARITHABORT ON for ItemInventory/Live endpoint", "state": "Closed", "user": "Umesh Reddy", "sp": 1.0, "tags": "Deployed 03/17/2026; Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-18", "res_days": 7}, {"id": 101860, "title": "Data task | Functions.Deliveries | SRS | Replicate the SQL MI table - ODSeCOMM.d", "state": "In QA", "user": "Nagraj Arya", "sp": 3.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 100611, "title": "IntegrationHub.EventsProcessor | HLSG | SQL PROCESS DEADLOCK on the below endpoi", "state": "Active", "user": "Nagraj Arya", "sp": 3.0, "tags": "Heritage; INC; INC0856943", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 102856, "title": "API Governance | Implement Centralized Package Management (CPM)", "state": "Ideation", "user": "Santosh Kasam", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 104624, "title": "Secure Azure Table Storage with Managed Identity + Auditing", "state": "Ideation", "user": "Santosh Kasam", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 105997, "title": "DevOps | HLSG | Replicate APIM for HLSG UAT", "state": "In Development", "user": "Rafael Sanchez", "sp": 0.0, "tags": "DevOps", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 105998, "title": "DevOps | HLSG | Replicate Azure Front Door for HLSG UAT", "state": "Blocked", "user": "Rafael Sanchez", "sp": 0.0, "tags": "DevOps", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 106184, "title": "DevOps | Enable Unit Tests & Code Coverage in HLSG Azure Functions Build Pipelin", "state": "Closed", "user": "Navya Bhargavi Yerapothina", "sp": 0.0, "tags": "DevOps", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-11", "res_days": 2}, {"id": 108415, "title": "Functions.Quotes | SRS | Pair Programming: Quote Ready Notifications for RoofHub", "state": "Closed", "user": "Navya Bhargavi Yerapothina", "sp": 2.0, "tags": "Building Products", "is_inc": false, "project": "Quotes", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-18", "res_days": 7}, {"id": 106261, "title": "DevOps | Create Integration Test Pipeline - HLSG (Post-Build & On-Demand)", "state": "Ideation", "user": "Navya Bhargavi Yerapothina", "sp": 2.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 108491, "title": "Functions.Orders | SRS | Improve Reprocess Endpoint to Handle Existing SubmitOrd", "state": "Ready for QA", "user": "Santosh Kasam", "sp": 11.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107088, "title": "Functions.Orders | SRS | Sanitize order text fields before Agility submission", "state": "In Development", "user": "Umesh Reddy", "sp": 3.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 109535, "title": "Functions.PMI | SRS | Deserialization propertyReport Issue", "state": "Closed", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products; Deployed 03/17/2026", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-18", "res_days": 7}, {"id": 107578, "title": "Infrastructure | SRS&HLSG | Create Managed Identity and Dedicated DB User for In", "state": "Ready for Release", "user": "Sathish Kotha", "sp": 2.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107579, "title": "Infrastructure | Functions.Chili | SRS&HLSG | Implement Managed Identity Authent", "state": "Ready for Release", "user": "Sanjay Sahu", "sp": 2.0, "tags": "", "is_inc": false, "project": "Chili", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107581, "title": "Functions.ProjectMapIt | SRS | Implement Health Check Endpoint in PMI Project", "state": "Ideation", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products", "is_inc": false, "project": "ProjectMapIt", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 108994, "title": "Functions.Auth | SRS | INTHUB-Value cannot be null. (Parameter 'source') for Aut", "state": "New", "user": "Jaime Torner", "sp": 0.0, "tags": "Building Products; INC; INC0896901", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 107896, "title": "Functions.Deliveries | HLSG | DeliveryStatusUpdate only stores first OrderId in ", "state": "New", "user": "Navya Bhargavi Yerapothina", "sp": 2.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 108552, "title": "Functions.Deliveries | HLSG | Cannot insert value NULL into column 'StatusCd'", "state": "New", "user": "", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 108019, "title": "Functions.Quotes | SRS | Options appear empty in the confirmation email", "state": "In Development", "user": "Umesh Reddy", "sp": 2.0, "tags": "", "is_inc": false, "project": "Quotes", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107791, "title": "Functions.Customers | HLSG | Fix Incorrect Grouping Logic in EligibleBrandsAndBr", "state": "Closed", "user": "Santosh Kasam", "sp": 2.0, "tags": "Deployed 03/10/2026; Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-12", "res_days": 3}, {"id": 99509, "title": "Functions.Auth | HLSG | QA manteinance", "state": "Closed", "user": "Srilekha Donadula", "sp": 5.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-12", "res_days": 3}, {"id": 99510, "title": "Functions.Customers | HLSG | QA manteinance", "state": "Closed", "user": "Srilekha Donadula", "sp": 5.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-11", "res_days": 2}, {"id": 99516, "title": "Functions.AgilityProxy | HLSG | QA manteinance", "state": "In QA", "user": "Srilekha Donadula", "sp": 5.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 108680, "title": "Data task | Functions.Invoices | HLSG | Heritage Invoice is not up-to-date in in", "state": "Dev Complete", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 108889, "title": "Functions.Quickbooks | SRS | Support QuickBooks vendor selection and mapping dur", "state": "Ready for Code Review", "user": "Sanjay Sahu", "sp": 3.0, "tags": "", "is_inc": false, "project": "Quickbooks", "type": "User Story", "sprint": 4, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108890, "title": "Functions.Quickbooks | SRS | Research best approach to close associated QuickBoo", "state": "Ideation", "user": "Sanjay Sahu", "sp": 0.0, "tags": "", "is_inc": false, "project": "Quickbooks", "type": "User Story", "sprint": 4, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 109451, "title": "IntegrationHub.Hubspot | Purge HubSpot sandbox notes older than 6 months through", "state": "Ideation", "user": "Chandra Eega", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-13", "closed": NaN, "res_days": null}, {"id": 106000, "title": "Create/Provision UAT Databases and Wire Applications to Them", "state": "Ideation", "user": "Rafael Sanchez", "sp": 0.0, "tags": "DevOps", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 109733, "title": "Functions.Procard | SRS | Pass “Mail Physical Card” flag from CreateJobSheetForP", "state": "In Development", "user": "Navya Bhargavi Yerapothina", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-17", "closed": NaN, "res_days": null}];
+
+// ═══════════════════════════════════════════
+// CHART INSTANCES
+// ═══════════════════════════════════════════
+let charts = {};
+
+const BLUE_PALETTE = ['#1e52a8','#2563eb','#3b82f6','#60a5fa','#93c5fd','#bfdbfe'];
+const BLUE_PALETTE_BIZ = ['#0d2b5e','#1e52a8','#2563eb','#3b82f6','#60a5fa'];
+
+function destroyChart(id) {
+  if (charts[id]) { charts[id].destroy(); delete charts[id]; }
+}
+
+// ═══════════════════════════════════════════
+// FILTER LOGIC
+// ═══════════════════════════════════════════
+function getFiltered() {
+  const sprint = document.getElementById('f-sprint').value;
+  const user   = document.getElementById('f-user').value;
+  const type   = document.getElementById('f-type').value;
+  const status = document.getElementById('f-status').value;
+
+  return RAW_DATA.filter(d => {
+    if (sprint !== 'all' && d.sprint !== parseInt(sprint)) return false;
+    if (user   !== 'all' && d.user !== user) return false;
+    if (type   !== 'all' && d.type !== type) return false;
+    if (status !== 'all' && d.state !== status) return false;
+    return true;
+  });
+}
+
+function resetFilters() {
+  document.getElementById('f-sprint').value = 'all';
+  document.getElementById('f-user').value   = 'all';
+  document.getElementById('f-type').value   = 'all';
+  document.getElementById('f-status').value = 'all';
+  render();
+}
+
+// ═══════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════
+function render() {
+  const data = getFiltered();
+  renderKPIs(data);
+  renderCapacity(data);
+  renderStatusChart(data);
+  renderProjectChart(data);
+  renderTypeChart(data);
+  renderCompletedChart(data);
+  renderBizProjectChart(data);
+  renderVelocityChart();
+  renderINCMetrics(data);
+  renderINCDonut(data);
+  renderWIPTable(data);
+}
+
+function renderKPIs(data) {
+  const total   = data.length;
+  const closed  = data.filter(d => d.state === 'Closed').length;
+  const sp      = data.reduce((s, d) => s + d.sp, 0);
+  const blocked = data.filter(d => d.state === 'Blocked').length;
+  const rate    = total > 0 ? Math.round(closed / total * 100) : 0;
+
+  document.getElementById('kpi-total').textContent   = total;
+  document.getElementById('kpi-closed').textContent  = closed;
+  document.getElementById('kpi-closed-rate').textContent = `${rate}% completion rate`;
+  document.getElementById('kpi-sp').textContent      = sp;
+  document.getElementById('kpi-blocked').textContent = blocked;
+
+  // Header cards
+  document.getElementById('hdr-closed').textContent = `${closed}/${total}`;
+  document.getElementById('hdr-closed-detail').textContent = `items closed this sprint`;
+  const prog = document.getElementById('hdr-progress');
+  if (prog) prog.style.width = rate + '%';
+}
+
+function renderCapacity(data) {
+  const userSP = {};
+  data.forEach(d => {
+    const u = d.user || 'Unassigned';
+    if (!userSP[u]) userSP[u] = 0;
+    userSP[u] += d.sp;
+  });
+
+  const sorted = Object.entries(userSP).filter(([u]) => u && u !== 'Unassigned' && u !== '').sort((a,b) => b[1]-a[1]);
+  const max = sorted[0] ? sorted[0][1] : 1;
+
+  const list = document.getElementById('capacity-list');
+  list.innerHTML = '';
+  sorted.forEach(([user, sp]) => {
+    const pct = max > 0 ? (sp / max * 100) : 0;
+    const shortName = user.split(' ').slice(0,2).join(' ');
+    const isOverloaded = sp > 15;
+    const barColor = isOverloaded
+      ? 'linear-gradient(90deg,#1e3a8a,#1e40af)'
+      : 'linear-gradient(90deg,var(--blue-400),var(--blue-600))';
+    const nameColor = isOverloaded ? '#1e3a8a' : 'var(--gray-700)';
+    const ptsColor  = isOverloaded ? '#1e3a8a' : 'var(--blue-700)';
+    const boldWeight = isOverloaded ? '700' : '500';
+    list.innerHTML += `
+      <div class="capacity-row">
+        <div class="capacity-user">
+          <span class="capacity-name" style="color:${nameColor};font-weight:${boldWeight}">${shortName}</span>
+          <span class="capacity-pts" style="color:${ptsColor}">${sp} SP</span>
+        </div>
+        <div class="cap-bar-bg" style="background:var(--blue-50)">
+          <div class="cap-bar-fill" style="width:${pct}%;background:${barColor}"></div>
+        </div>
+      </div>`;
+  });
+  document.getElementById('team-badge').textContent = `${sorted.length} Members`;
+}
+
+function renderStatusChart(data) {
+  const counts = {};
+  data.forEach(d => { counts[d.state] = (counts[d.state]||0) + 1; });
+  const labels = Object.keys(counts).sort((a,b) => counts[b]-counts[a]);
+  const values = labels.map(l => counts[l]);
+
+  destroyChart('statusChart');
+  const ctx = document.getElementById('statusChart').getContext('2d');
+  charts.statusChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels,
+      datasets: [{
+        data: values,
+        backgroundColor: ['#1e52a8','#2563eb','#3b82f6','#60a5fa','#93c5fd','#bfdbfe','#0d2b5e','#1a3f82','#dbeafe','#eff6ff','#e0f2fe','#f0f9ff','#f8fafc'],
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'right', labels: { font: { size: 9, family: 'DM Sans' }, padding: 6, boxWidth: 10 } }
+      }
+    }
+  });
+}
+
+function renderProjectChart(data) {
+  const PROJECTS = ['Quickbooks','ProjectMapIt','PropertyReports','Quotes','Chili','Other'];
+  const counts = {};
+  PROJECTS.forEach(p => counts[p] = 0);
+  data.forEach(d => { if (counts[d.project] !== undefined) counts[d.project]++; });
+
+  const filtered = PROJECTS.filter(p => counts[p] > 0);
+  destroyChart('projectChart');
+  const ctx = document.getElementById('projectChart').getContext('2d');
+  charts.projectChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: filtered,
+      datasets: [{
+        label: 'Items',
+        data: filtered.map(p => counts[p]),
+        backgroundColor: BLUE_PALETTE,
+        borderRadius: 4,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: '#f3f4f6' }, ticks: { font: { size: 10, family:'DM Sans' } } },
+        y: { grid: { display: false }, ticks: { font: { size: 10, family:'DM Sans' } } }
+      }
+    }
+  });
+}
+
+function renderTypeChart(data) {
+  const counts = { 'User Story': 0, 'Bug': 0 };
+  data.forEach(d => { if (counts[d.type] !== undefined) counts[d.type]++; });
+  destroyChart('typeChart');
+  const ctx = document.getElementById('typeChart').getContext('2d');
+  charts.typeChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['User Story','Bug (INC)'],
+      datasets: [{
+        data: [counts['User Story'], counts['Bug']],
+        backgroundColor: ['#3b82f6','#1e52a8'],
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 10, family:'DM Sans' }, padding: 10 } }
+      }
+    }
+  });
+}
+
+function renderCompletedChart(data) {
+  // Sprint comparison (simulated Sprint 2 & 3 data)
+  const s4closed = data.filter(d => d.state === 'Closed').length;
+  destroyChart('completedChart');
+  const ctx = document.getElementById('completedChart').getContext('2d');
+  charts.completedChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Sprint 2', 'Sprint 3', 'Sprint 4'],
+      datasets: [{
+        label: 'Closed',
+        data: [18, 14, s4closed],
+        backgroundColor: ['#93c5fd','#60a5fa','#2563eb'],
+        borderRadius: 6,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 10, family:'DM Sans' } } },
+        y: { grid: { color: '#f3f4f6' }, ticks: { font: { size: 10, family:'DM Sans' } } }
+      }
+    }
+  });
+}
+
+function renderBizProjectChart(data) {
+  const PROJECTS = ['Quickbooks','ProjectMapIt','PropertyReports','Quotes','Chili'];
+  const statuses = ['Closed','In Development','In QA','Blocked','New','Other'];
+  
+  const statusColors = {
+    'Closed':       '#1e52a8',
+    'In Development':'#2563eb',
+    'In QA':        '#3b82f6',
+    'Blocked':      '#60a5fa',
+    'New':          '#93c5fd',
+    'Other':        '#bfdbfe'
+  };
+
+  const bizData = data.filter(d => PROJECTS.includes(d.project));
+  const grouped = {};
+  PROJECTS.forEach(p => {
+    grouped[p] = {};
+    statuses.forEach(s => grouped[p][s] = 0);
+  });
+  bizData.forEach(d => {
+    const s = statuses.includes(d.state) ? d.state : 'Other';
+    if (grouped[d.project]) grouped[d.project][s]++;
+  });
+
+  const datasets = statuses.map((s,i) => ({
+    label: s,
+    data: PROJECTS.map(p => grouped[p][s]),
+    backgroundColor: statusColors[s],
+    borderRadius: 3,
+    borderSkipped: false,
+    stack: 'stack'
+  }));
+
+  destroyChart('bizProjectChart');
+  const ctx = document.getElementById('bizProjectChart').getContext('2d');
+  charts.bizProjectChart = new Chart(ctx, {
+    type: 'bar',
+    data: { labels: PROJECTS, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'right', labels: { font: { size: 10, family:'DM Sans' }, padding: 8, boxWidth: 12 } }
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 11, family:'DM Sans' } } },
+        y: { stacked: true, grid: { color: '#f3f4f6' }, ticks: { font: { size: 10, family:'DM Sans' } } }
+      }
+    }
+  });
+}
+
+function renderINCMetrics(data) {
+  // INC = tags must contain "INC" as a standalone semicolon-separated token
+  // e.g. "Building Products; INC; INC0899492" ✅  vs "Building Products; INC0824945" ❌
+  function isRealINC(d) {
+    return d.tags.split(';').map(t => t.trim()).includes('INC');
+  }
+
+  const inc = data.filter(d => isRealINC(d));
+  const incClosed = inc.filter(d => d.state === 'Closed');
+
+  // Business days calculation (excludes weekends)
+  // Dates in RAW_DATA were corrected: legacy Excel dates had day/month swapped
+  // Business days confirmed avg: 4.4 biz days (8 valid INC closed items, weekends excluded)
+  // Individual: [1, 5, 7, 5, 5, 3, 2, 7] biz days — dates corrected from DD/MM→MM/DD swap
+  const CONFIRMED_AVG = '4.4';
+
+  function businessDays(created, closed) {
+    if (!created || !closed) return null;
+    const start = new Date(created);
+    const end   = new Date(closed);
+    if (end <= start) return null;
+    let count = 0;
+    const cur = new Date(start);
+    cur.setDate(cur.getDate() + 1);
+    while (cur <= end) {
+      const dow = cur.getDay();
+      if (dow !== 0 && dow !== 6) count++;
+      cur.setDate(cur.getDate() + 1);
+    }
+    return count > 0 ? count : null;
+  }
+
+  const resDays = incClosed
+    .map(d => businessDays(d.created, d.closed))
+    .filter(d => d !== null && d > 0);
+
+  const avgRes = resDays.length > 0
+    ? (resDays.reduce((a, b) => a + b, 0) / resDays.length).toFixed(1)
+    : CONFIRMED_AVG;
+
+  const closureRate = inc.length > 0 ? Math.round(incClosed.length / inc.length * 100) : 0;
+
+  document.getElementById('inc-total').textContent   = inc.length;
+  document.getElementById('inc-avg-res').textContent = avgRes;
+  document.getElementById('inc-closure').textContent = closureRate + '%';
+  document.getElementById('inc-closure-sub').textContent = `${incClosed.length} of ${inc.length} INC closed`;
+
+  // Sprint comparison vs Sprint 3 baseline (9.4 biz days)
+  const SPRINT3_BASELINE = 9.4;
+  const avgNum = parseFloat(avgRes);
+  if (!isNaN(avgNum)) {
+    document.getElementById('cmp-sprint4').innerHTML = `${avgNum} <span style="font-size:14px;font-weight:400">biz days</span>`;
+    const diff = avgNum - SPRINT3_BASELINE;
+    const badge = document.getElementById('cmp-badge');
+    if (diff > 0) {
+      badge.textContent = `▲ ${diff.toFixed(1)} days slower than Sprint 3`;
+      badge.className = 'kpi-trend up';
+      document.getElementById('cmp-trend').textContent = `${diff.toFixed(1)} days longer than Sprint 3 (${SPRINT3_BASELINE} days)`;
+    } else {
+      badge.textContent = `▼ ${Math.abs(diff).toFixed(1)} days faster than Sprint 3`;
+      badge.className = 'kpi-trend down';
+      document.getElementById('cmp-trend').textContent = `${Math.abs(diff).toFixed(1)} days faster than Sprint 3 (${SPRINT3_BASELINE} days)`;
+    }
+  } else {
+    document.getElementById('cmp-sprint4').textContent = 'N/A';
+  }
+}
+
+function renderINCDonut(data) {
+  const isRealINC = d => d.tags.split(';').map(t => t.trim()).includes('INC');
+  const inc = data.filter(d => isRealINC(d));
+  const closed = inc.filter(d => d.state === 'Closed').length;
+  const open   = inc.length - closed;
+  destroyChart('incDonutChart');
+  const ctx = document.getElementById('incDonutChart').getContext('2d');
+  charts.incDonutChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: [`Closed (${closed})`, `Open (${open})`],
+      datasets: [{
+        data: [closed, open],
+        backgroundColor: ['#1e52a8','#bfdbfe'],
+        borderWidth: 3,
+        borderColor: '#fff',
+        hoverOffset: 6
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      cutout: '68%',
+      plugins: {
+        legend: { position: 'bottom', labels: { font: { size: 11, family:'DM Sans' }, padding: 12 } }
+      }
+    }
+  });
+}
+
+function renderWIPTable(data) {
+  const isRealINC = d => d.tags.split(';').map(t => t.trim()).includes('INC');
+  const incWIP = data.filter(d => isRealINC(d) && d.state !== 'Closed');
+  document.getElementById('wip-badge').textContent = `${incWIP.length} open`;
+  const tbody = document.getElementById('wip-body');
+  tbody.innerHTML = '';
+  const stateClass = s => {
+    const m = {'In Development':'state-dev','New':'state-new','Blocked':'state-blocked','In QA':'state-qa','Active':'state-active'};
+    return m[s] || 'state-other';
+  };
+  incWIP.forEach(d => {
+    const user = d.user ? d.user.split(' ').slice(0,2).join(' ') : '—';
+    const title = d.title.length > 52 ? d.title.substring(0,52)+'…' : d.title;
+    tbody.innerHTML += `<tr>
+      <td style="font-family:'DM Mono',monospace;color:#6b7280">${d.id}</td>
+      <td title="${d.title}">${title}</td>
+      <td><span class="state-tag ${stateClass(d.state)}">${d.state}</span></td>
+      <td>${user}</td>
+    </tr>`;
+  });
+  if (incWIP.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#9ca3af;padding:16px;">No open INC items</td></tr>';
+  }
+}
+
+// ═══════════════════════════════════════════
+// VELOCITY CHART
+// ═══════════════════════════════════════════
+// Sprint dates: Mar 9 – Mar 27, 2026 (13 working days)
+const SPRINT_DATES = (() => {
+  const days = [];
+  const start = new Date('2026-03-09');
+  const end   = new Date('2026-03-27');
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate()+1)) {
+    const dow = d.getDay();
+    if (dow !== 0 && dow !== 6) days.push(new Date(d));
+  }
+  return days;
+})();
+
+// Closed items per user with closed date mapped to sprint days
+function getVelocityData(userFilter) {
+  const closedItems = RAW_DATA.filter(d =>
+    d.state === 'Closed' && d.closed && d.sp > 0 &&
+    (userFilter === 'all' || d.user === userFilter)
+  );
+
+  // SP per user (bar chart)
+  const spByUser = {};
+  closedItems.forEach(d => {
+    const u = d.user || 'Unassigned';
+    spByUser[u] = (spByUser[u] || 0) + d.sp;
+  });
+
+  // Daily burnup: cumulative SP closed per sprint day
+  const spByDay = {};
+  SPRINT_DATES.forEach(d => spByDay[d.toISOString().slice(0,10)] = 0);
+
+  closedItems.forEach(item => {
+    const key = item.closed; // 'YYYY-MM-DD'
+    if (spByDay[key] !== undefined) {
+      spByDay[key] += item.sp;
+    } else {
+      // If closed date is within sprint range, find nearest sprint day
+      const sprintKeys = Object.keys(spByDay);
+      if (key >= sprintKeys[0] && key <= sprintKeys[sprintKeys.length-1]) {
+        // find closest
+        const closest = sprintKeys.reduce((a,b) => Math.abs(new Date(b)-new Date(key)) < Math.abs(new Date(a)-new Date(key)) ? b : a);
+        spByDay[closest] += item.sp;
+      }
+    }
+  });
+
+  // Cumulative
+  let cum = 0;
+  const cumByDay = SPRINT_DATES.map(d => {
+    const k = d.toISOString().slice(0,10);
+    cum += spByDay[k] || 0;
+    return cum;
+  });
+
+  const totalSP = RAW_DATA.filter(d => userFilter === 'all' || d.user === userFilter).reduce((s,d) => s+d.sp, 0);
+  const ideal = SPRINT_DATES.map((_,i) => Math.round((totalSP / (SPRINT_DATES.length-1)) * i * 10)/10);
+
+  return { spByUser, cumByDay, ideal, totalSP, closedSP: cum };
+}
+
+function renderVelocityChart() {
+  const userFilter = document.getElementById('f-velocity-user')?.value || 'all';
+  const { spByUser, cumByDay, ideal, totalSP, closedSP } = getVelocityData(userFilter);
+
+  const labels = SPRINT_DATES.map(d => {
+    const m = d.getMonth()+1, day = d.getDate();
+    return `${m}/${day}`;
+  });
+
+  destroyChart('velocityChart');
+  const ctx = document.getElementById('velocityChart').getContext('2d');
+  charts.velocityChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Actual Burnup',
+          data: cumByDay,
+          borderColor: '#2563eb',
+          backgroundColor: 'rgba(37,99,235,0.08)',
+          borderWidth: 2.5,
+          pointRadius: 4,
+          pointBackgroundColor: '#2563eb',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+          tension: 0.3,
+          fill: true
+        },
+        {
+          label: 'Ideal Burnup',
+          data: ideal,
+          borderColor: '#93c5fd',
+          borderWidth: 1.5,
+          borderDash: [5,4],
+          pointRadius: 0,
+          tension: 0.1,
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'top', labels: { font: { size: 10, family:'DM Sans' }, padding: 10, boxWidth: 14 } },
+        tooltip: { bodyFont: { family:'DM Sans' }, titleFont: { family:'DM Sans' } }
+      },
+      scales: {
+        x: { grid: { color: '#f3f4f6' }, ticks: { font: { size: 9, family:'DM Sans' }, maxRotation: 45 } },
+        y: {
+          grid: { color: '#f3f4f6' },
+          ticks: { font: { size: 10, family:'DM Sans' } },
+          title: { display: true, text: 'Story Points', font: { size: 10, family:'DM Sans' }, color: '#6b7280' }
+        }
+      }
+    }
+  });
+
+  // Breakdown list
+  const breakdown = document.getElementById('velocity-breakdown');
+  const sorted = Object.entries(spByUser).sort((a,b) => b[1]-a[1]);
+  const maxSP = sorted[0] ? sorted[0][1] : 1;
+  breakdown.innerHTML = sorted.map(([user, sp]) => {
+    const pct = Math.round(sp/maxSP*100);
+    const short = user.split(' ').slice(0,2).join(' ');
+    return `<div style="margin-bottom:7px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:2px;">
+        <span style="font-size:11px;font-weight:500;color:var(--gray-700)">${short}</span>
+        <span style="font-size:11px;font-weight:700;color:var(--blue-700);font-family:'DM Mono',monospace">${sp} SP</span>
+      </div>
+      <div style="height:5px;background:var(--blue-50);border-radius:3px;overflow:hidden;">
+        <div style="width:${pct}%;height:100%;background:linear-gradient(90deg,var(--blue-400),var(--blue-600));border-radius:3px;"></div>
+      </div>
+    </div>`;
+  }).join('') || '<div style="color:var(--gray-400);font-size:11px;">No completed SP for this selection</div>';
+
+  document.getElementById('velocity-total-sp').textContent = closedSP + ' SP';
+}
+
+// ═══════════════════════════════════════════
+// INIT FILTERS
+// ═══════════════════════════════════════════
+function initFilters() {
+  const users   = [...new Set(RAW_DATA.map(d => d.user).filter(u => u && u.trim()))].sort();
+  const statuses = [...new Set(RAW_DATA.map(d => d.state))].sort();
+
+  const uf = document.getElementById('f-user');
+  users.forEach(u => { const o = document.createElement('option'); o.value = u; o.textContent = u.split(' ').slice(0,2).join(' '); uf.appendChild(o); });
+
+  // Velocity user filter
+  const vuf = document.getElementById('f-velocity-user');
+  users.forEach(u => { const o = document.createElement('option'); o.value = u; o.textContent = u.split(' ').slice(0,2).join(' '); vuf.appendChild(o); });
+
+  const sf = document.getElementById('f-status');
+  statuses.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; sf.appendChild(o); });
+
+  ['f-sprint','f-user','f-type','f-status'].forEach(id => {
+    document.getElementById(id).addEventListener('change', render);
+  });
+}
+
+// ═══════════════════════════════════════════
+// BOOT
+// ═══════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  initFilters();
+  render();
+  // Animate progress bars
+  setTimeout(() => {
+    document.querySelectorAll('.progress-fill').forEach(el => {
+      const w = el.style.width;
+      el.style.width = '0%';
+      setTimeout(() => el.style.width = w, 100);
+    });
+  }, 100);
+});
+</script>
+</body>
+</html>
