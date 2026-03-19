@@ -422,12 +422,13 @@
       <div class="sscard-trend neutral" id="ss-inc-trend">–</div>
     </div>
 
-    <!-- Avg Velocity -->
+    <!-- Daily Avg Velocity -->
     <div class="sscard">
-      <div class="sscard-label">Avg Velocity</div>
-      <div class="sscard-value">42 <span class="unit">pts</span></div>
-      <div class="sscard-sub">pts / sprint (historical)</div>
-      <div class="sscard-trend neutral">📊 Sprint historical avg</div>
+      <div class="sscard-label">Daily Avg Velocity</div>
+      <div class="sscard-value" id="ss-vel">–<span class="unit"> pts/day</span></div>
+      <div class="sscard-sub" id="ss-vel-sub">SP closed · sprint to date</div>
+      <div class="sscard-trend neutral" id="ss-vel-trend">–</div>
+      <div class="sscard-bar"><div class="sscard-bar-fill" id="ss-vel-bar" style="width:0%"></div></div>
     </div>
 
   </div>
@@ -778,6 +779,44 @@ function renderKPIs(data) {
       incTrend.textContent = `${incClosureRate}% closure rate · ${incClosedCount} of ${inc.length} resolved`;
       incTrend.className = incClosureRate >= 50 ? 'sscard-trend up' : 'sscard-trend neutral';
     }
+  }
+
+  // ── Daily Avg Velocity ──
+  // Sprint: Mar 9–27, 2026 = 13 business days total
+  // Calculate elapsed business days from sprint start to today
+  const SPRINT_START    = new Date('2026-03-09');
+  const SPRINT_END      = new Date('2026-03-27');
+  const SPRINT_BIZ_DAYS = 13;
+
+  function countBizDays(from, to) {
+    let count = 0;
+    const cur = new Date(from);
+    while (cur < to) {
+      const dow = cur.getDay();
+      if (dow !== 0 && dow !== 6) count++;
+      cur.setDate(cur.getDate() + 1);
+    }
+    return count;
+  }
+
+  const today = new Date();
+  const elapsed = Math.max(1, Math.min(countBizDays(SPRINT_START, today), SPRINT_BIZ_DAYS));
+  const dailyVel = spDone > 0 ? (spDone / elapsed).toFixed(1) : '0.0';
+  const projectedTotal = (parseFloat(dailyVel) * SPRINT_BIZ_DAYS).toFixed(0);
+
+  const velEl = document.getElementById('ss-vel');
+  if (velEl) {
+    velEl.innerHTML = `${dailyVel}<span class="unit"> pts/day</span>`;
+    document.getElementById('ss-vel-sub').textContent =
+      `${spDone} SP closed · ${elapsed} of ${SPRINT_BIZ_DAYS} biz days elapsed`;
+    const velTrend = document.getElementById('ss-vel-trend');
+    if (velTrend) {
+      velTrend.textContent = `📈 On track for ~${projectedTotal} pts by sprint end`;
+      velTrend.className = 'sscard-trend neutral';
+    }
+    const velBar = document.getElementById('ss-vel-bar');
+    const velPct = Math.min(100, Math.round((elapsed / SPRINT_BIZ_DAYS) * 100));
+    if (velBar) velBar.style.width = velPct + '%';
   }
 }
 
