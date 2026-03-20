@@ -365,6 +365,25 @@
     font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 3px; letter-spacing: 0.3px;
   }
 
+  /* VELOCITY KPI MINI CARDS */
+  .vel-kpi-card {
+    padding: 16px 20px;
+    background: #fff;
+    transition: background 0.15s;
+  }
+  .vel-kpi-card:hover { background: #f9fffe; }
+  .vel-kpi-card-blue { background: #eff6ff; }
+  .vel-kpi-label {
+    font-size: 9px; font-weight: 700; color: #9ca3af;
+    text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px;
+  }
+  .vel-kpi-value {
+    font-size: 36px; font-weight: 700; color: #0f766e;
+    font-family: 'DM Mono', monospace; line-height: 1; margin-bottom: 4px;
+  }
+  .vel-kpi-card-blue .vel-kpi-value { color: #1d4ed8; }
+  .vel-kpi-sub { font-size: 11px; color: #6b7280; }
+
   @media (max-width: 1200px) {
     .main { grid-template-columns: 250px 1fr; }
     .kpi-grid { grid-template-columns: repeat(2, 1fr); }
@@ -617,32 +636,70 @@
     </div>
 
     <!-- SECTION: TEAM VELOCITY -->
-    <div class="section-title">Team Velocity</div>
-    <div class="card">
-      <div class="card-header" style="flex-wrap:wrap;gap:8px;">
-        <span class="card-title">Story Points Completed — Sprint Velocity</span>
-        <div style="display:flex;align-items:center;gap:8px;margin-left:auto;">
-          <label style="font-size:10px;font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.4px;">User</label>
-          <select class="filter-select" id="f-velocity-user" style="min-width:150px;" onchange="renderVelocityChart()">
-            <option value="all">All Team</option>
-          </select>
+    <div class="section-title">Sprint Velocity &amp; Daily Burnup</div>
+    <div class="card" style="overflow:visible;">
+
+      <!-- Header row -->
+      <div class="card-header" style="flex-wrap:wrap;gap:8px;background:linear-gradient(135deg,#f0fdf9 0%,#e6f7f4 100%);border-bottom:1px solid #c7ede6;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="card-title" style="color:#0f766e;">Sprint Velocity &amp; Daily Burnup</span>
+          <span style="background:#0d9488;color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;letter-spacing:0.3px;">DELIVERY</span>
+        </div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:6px;font-size:11px;color:#6b7280;">
+          <span>🗓</span>
+          <span><b style="color:#0f766e;">Sprint 4</b> · Mar 9 – Mar 27, 2026 · 13 working days</span>
         </div>
       </div>
-      <div class="card-body">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center;">
-          <div>
-            <div class="chart-container-lg"><canvas id="velocityChart"></canvas></div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <div style="font-size:10px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px;">SP by Team Member · Sprint 4</div>
-            <div id="velocity-breakdown"></div>
-            <div style="border-top:1px solid var(--gray-100);padding-top:10px;margin-top:4px;display:flex;justify-content:space-between;align-items:center;">
-              <span style="font-size:11px;color:var(--gray-500);">Total SP Completed</span>
-              <span id="velocity-total-sp" style="font-size:18px;font-weight:700;color:var(--blue-700);font-family:'DM Mono',monospace;">–</span>
-            </div>
-          </div>
+
+      <!-- Filter bar -->
+      <div style="background:#f0fdf9;border-bottom:1px solid #c7ede6;padding:10px 18px;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:10px;font-weight:700;color:#0f766e;text-transform:uppercase;letter-spacing:0.5px;">🧑 Filter by Member</span>
+        <select class="filter-select" id="f-velocity-user" style="min-width:180px;border-color:#a7f3d0;background:#fff;" onchange="renderVelocityChart()">
+          <option value="all">All Team Members</option>
+        </select>
+      </div>
+
+      <!-- KPI mini cards -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-bottom:1px solid #e5e7eb;">
+        <div class="vel-kpi-card" id="vel-days-elapsed" style="border-right:1px solid #e5e7eb;">
+          <div class="vel-kpi-label">DAYS ELAPSED</div>
+          <div class="vel-kpi-value" id="vk-elapsed">–</div>
+          <div class="vel-kpi-sub" id="vk-elapsed-sub">of 13 working days</div>
+        </div>
+        <div class="vel-kpi-card" id="vel-days-rem" style="border-right:1px solid #e5e7eb;">
+          <div class="vel-kpi-label">DAYS REMAINING</div>
+          <div class="vel-kpi-value" id="vk-remaining">–</div>
+          <div class="vel-kpi-sub">until Mar 27</div>
+        </div>
+        <div class="vel-kpi-card" id="vel-avg-sp" style="border-right:1px solid #e5e7eb;">
+          <div class="vel-kpi-label">AVG SP / DAY</div>
+          <div class="vel-kpi-value" id="vk-avg-sp">–</div>
+          <div class="vel-kpi-sub" id="vk-avg-sp-sub">SP ÷ days elapsed</div>
+        </div>
+        <div class="vel-kpi-card vel-kpi-card-blue">
+          <div class="vel-kpi-label">SP REMAINING</div>
+          <div class="vel-kpi-value" id="vk-sp-rem">–</div>
+          <div class="vel-kpi-sub" id="vk-sp-rem-sub">projected finish: – SP</div>
         </div>
       </div>
+
+      <!-- Chart -->
+      <div class="card-body" style="padding:18px 18px 10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <span style="font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.4px;">Daily SP Burnup — Sprint 4 (Mar 9 → Mar 27)</span>
+          <span style="background:#e6f7f4;color:#0f766e;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid #a7f3d0;" id="vel-avg-badge">Avg Velocity: – SP/day</span>
+        </div>
+        <div style="position:relative;height:260px;">
+          <canvas id="velocityChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Footer note -->
+      <div style="background:#f0fdf9;border-top:1px solid #c7ede6;padding:10px 18px;font-size:11px;color:#6b7280;">
+        📝 <i>Sprint Velocity helps forecast realistic delivery capacity for future sprints.</i>
+        &nbsp;·&nbsp; <b style="color:#374151;">Team:</b> <span id="vel-footer-note">– SP closed · – SP/day avg · – days left</span>
+      </div>
+
     </div>
 
   </div><!-- /right panel -->
@@ -1144,9 +1201,8 @@ function renderWIPTable(data) {
 }
 
 // ═══════════════════════════════════════════
-// VELOCITY CHART
+// VELOCITY CHART — Sprint Burnup
 // ═══════════════════════════════════════════
-// Sprint dates: Mar 9 – Mar 27, 2026 (13 working days)
 const SPRINT_DATES = (() => {
   const days = [];
   const start = new Date('2026-03-09');
@@ -1158,61 +1214,103 @@ const SPRINT_DATES = (() => {
   return days;
 })();
 
-// Closed items per user with closed date mapped to sprint days
-function getVelocityData(userFilter) {
-  const closedItems = RAW_DATA.filter(d =>
-    d.state === 'Closed' && d.closed && d.sp > 0 &&
-    (userFilter === 'all' || d.user === userFilter)
-  );
+const SPRINT_BIZ_TOTAL = 13;
 
-  // SP per user (bar chart)
-  const spByUser = {};
-  closedItems.forEach(d => {
-    const u = d.user || 'Unassigned';
-    spByUser[u] = (spByUser[u] || 0) + d.sp;
-  });
+function countElapsedBizDays() {
+  const today = new Date();
+  const start = new Date('2026-03-09');
+  const end   = new Date('2026-03-27');
+  let count = 0;
+  for (let d = new Date(start); d <= today && d <= end; d.setDate(d.getDate()+1)) {
+    const dow = d.getDay();
+    if (dow !== 0 && dow !== 6) count++;
+  }
+  return Math.max(1, count);
+}
 
-  // Daily burnup: cumulative SP closed per sprint day
+function renderVelocityChart() {
+  const userFilter = document.getElementById('f-velocity-user')?.value || 'all';
+
+  const filteredAll = RAW_DATA.filter(d => userFilter === 'all' || d.user === userFilter);
+  const totalSP     = filteredAll.reduce((s,d) => s+d.sp, 0);
+
+  const closedItems = filteredAll.filter(d => d.state === 'Closed' && d.closed && d.sp > 0);
+  const closedSP    = closedItems.reduce((s,d) => s+d.sp, 0);
+
+  // ── KPI values ──
+  const elapsed   = countElapsedBizDays();
+  const remaining = Math.max(0, SPRINT_BIZ_TOTAL - elapsed);
+  const avgSpDay  = elapsed > 0 ? (closedSP / elapsed).toFixed(2) : '0.00';
+  const projected = Math.round(parseFloat(avgSpDay) * SPRINT_BIZ_TOTAL);
+  const spRem     = Math.max(0, totalSP - closedSP);
+
+  // Populate KPI mini cards
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  set('vk-elapsed',      elapsed);
+  set('vk-elapsed-sub',  `of ${SPRINT_BIZ_TOTAL} working days`);
+  set('vk-remaining',    remaining);
+  set('vk-avg-sp',       avgSpDay);
+  set('vk-avg-sp-sub',   `${closedSP} SP ÷ ${elapsed} days`);
+  set('vk-sp-rem',       spRem);
+  set('vk-sp-rem-sub',   `projected finish: ${projected} SP`);
+  set('vel-avg-badge',   `Average Velocity: ${avgSpDay} SP / day`);
+  set('vel-footer-note', `${closedSP} SP closed · ${avgSpDay} SP/day avg · ${remaining} days left`);
+
+  // ── Build chart data ──
   const spByDay = {};
   SPRINT_DATES.forEach(d => spByDay[d.toISOString().slice(0,10)] = 0);
 
   closedItems.forEach(item => {
-    const key = item.closed; // 'YYYY-MM-DD'
+    const key = item.closed;
     if (spByDay[key] !== undefined) {
       spByDay[key] += item.sp;
     } else {
-      // If closed date is within sprint range, find nearest sprint day
-      const sprintKeys = Object.keys(spByDay);
-      if (key >= sprintKeys[0] && key <= sprintKeys[sprintKeys.length-1]) {
-        // find closest
-        const closest = sprintKeys.reduce((a,b) => Math.abs(new Date(b)-new Date(key)) < Math.abs(new Date(a)-new Date(key)) ? b : a);
+      const keys = Object.keys(spByDay);
+      if (key >= keys[0] && key <= keys[keys.length-1]) {
+        const closest = keys.reduce((a,b) =>
+          Math.abs(new Date(b)-new Date(key)) < Math.abs(new Date(a)-new Date(key)) ? b : a);
         spByDay[closest] += item.sp;
       }
     }
   });
 
-  // Cumulative
+  // Cumulative actual (only up to today)
+  const today     = new Date();
+  const todayStr  = today.toISOString().slice(0,10);
+  const todayIdx  = SPRINT_DATES.findIndex(d => d.toISOString().slice(0,10) >= todayStr);
+  const cutoff    = todayIdx === -1 ? SPRINT_DATES.length : todayIdx + 1;
+
   let cum = 0;
-  const cumByDay = SPRINT_DATES.map(d => {
+  const actualData = SPRINT_DATES.map((d, i) => {
     const k = d.toISOString().slice(0,10);
     cum += spByDay[k] || 0;
-    return cum;
+    return i < cutoff ? cum : null;
   });
 
-  const totalSP = RAW_DATA.filter(d => userFilter === 'all' || d.user === userFilter).reduce((s,d) => s+d.sp, 0);
-  const ideal = SPRINT_DATES.map((_,i) => Math.round((totalSP / (SPRINT_DATES.length-1)) * i * 10)/10);
-
-  return { spByUser, cumByDay, ideal, totalSP, closedSP: cum };
-}
-
-function renderVelocityChart() {
-  const userFilter = document.getElementById('f-velocity-user')?.value || 'all';
-  const { spByUser, cumByDay, ideal, totalSP, closedSP } = getVelocityData(userFilter);
-
-  const labels = SPRINT_DATES.map(d => {
-    const m = d.getMonth()+1, day = d.getDate();
-    return `${m}/${day}`;
+  // Projected line (from last actual point to end)
+  const lastActualIdx = actualData.reduce((last, v, i) => v !== null ? i : last, -1);
+  const lastActualVal = lastActualIdx >= 0 ? actualData[lastActualIdx] : 0;
+  const projData = SPRINT_DATES.map((_, i) => {
+    if (i < lastActualIdx) return null;
+    const stepsAhead = i - lastActualIdx;
+    return parseFloat((lastActualVal + parseFloat(avgSpDay) * stepsAhead).toFixed(1));
   });
+
+  // Ideal burnup line
+  const ideal = SPRINT_DATES.map((_, i) =>
+    parseFloat((totalSP / (SPRINT_DATES.length - 1) * i).toFixed(1))
+  );
+
+  // Daily SP earned (bar)
+  const dailyEarned = SPRINT_DATES.map((d, i) => {
+    const k = d.toISOString().slice(0,10);
+    return i < cutoff ? (spByDay[k] || 0) : null;
+  });
+
+  const labels = SPRINT_DATES.map(d => `${d.getMonth()+1}/${d.getDate()}`);
+
+  // Today annotation index
+  const todayLabel = `${today.getMonth()+1}/${today.getDate()}`;
 
   destroyChart('velocityChart');
   const ctx = document.getElementById('velocityChart').getContext('2d');
@@ -1222,66 +1320,109 @@ function renderVelocityChart() {
       labels,
       datasets: [
         {
-          label: 'Actual Burnup',
-          data: cumByDay,
-          borderColor: '#2563eb',
-          backgroundColor: 'rgba(37,99,235,0.08)',
+          label: `Average Velocity (${avgSpDay} SP/day)`,
+          data: projData,
+          borderColor: '#5eead4',
+          borderWidth: 2,
+          borderDash: [6, 3],
+          pointRadius: 0,
+          tension: 0,
+          fill: false,
+          order: 3
+        },
+        {
+          label: 'Cumulative SP (Actual)',
+          data: actualData,
+          borderColor: '#0f766e',
+          backgroundColor: 'rgba(15,118,110,0.08)',
           borderWidth: 2.5,
           pointRadius: 4,
-          pointBackgroundColor: '#2563eb',
+          pointBackgroundColor: '#0f766e',
           pointBorderColor: '#fff',
           pointBorderWidth: 2,
-          tension: 0.3,
-          fill: true
+          tension: 0.2,
+          fill: true,
+          order: 1
         },
         {
           label: 'Ideal Burnup',
           data: ideal,
-          borderColor: '#93c5fd',
+          borderColor: '#bfdbfe',
           borderWidth: 1.5,
-          borderDash: [5,4],
+          borderDash: [4, 4],
           pointRadius: 0,
-          tension: 0.1,
-          fill: false
+          tension: 0,
+          fill: false,
+          order: 4
+        },
+        {
+          label: 'Daily SP Earned',
+          data: dailyEarned,
+          type: 'bar',
+          backgroundColor: 'rgba(167,243,208,0.5)',
+          borderColor: '#6ee7b7',
+          borderWidth: 1,
+          borderRadius: 3,
+          order: 2,
+          yAxisID: 'y'
         }
       ]
     },
     options: {
-      responsive: true, maintainAspectRatio: false,
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { position: 'top', labels: { font: { size: 10, family:'DM Sans' }, padding: 10, boxWidth: 14 } },
-        tooltip: { bodyFont: { family:'DM Sans' }, titleFont: { family:'DM Sans' } }
+        legend: {
+          position: 'bottom',
+          labels: {
+            font: { size: 10, family: 'DM Sans' },
+            padding: 14,
+            boxWidth: 14,
+            usePointStyle: true
+          }
+        },
+        tooltip: {
+          bodyFont: { family: 'DM Sans', size: 11 },
+          titleFont: { family: 'DM Sans', size: 11, weight: '700' },
+          callbacks: {
+            label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y !== null ? ctx.parsed.y + ' SP' : '—'}`
+          }
+        },
+        annotation: {
+          annotations: {
+            todayLine: {
+              type: 'line',
+              xMin: todayLabel,
+              xMax: todayLabel,
+              borderColor: '#0f766e',
+              borderWidth: 1.5,
+              borderDash: [4, 3],
+              label: {
+                display: true,
+                content: 'Today',
+                position: 'start',
+                font: { size: 10, family: 'DM Sans', weight: '700' },
+                color: '#0f766e',
+                backgroundColor: 'transparent'
+              }
+            }
+          }
+        }
       },
       scales: {
-        x: { grid: { color: '#f3f4f6' }, ticks: { font: { size: 9, family:'DM Sans' }, maxRotation: 45 } },
+        x: {
+          grid: { color: '#f3f4f6' },
+          ticks: { font: { size: 9, family: 'DM Sans' }, maxRotation: 0 }
+        },
         y: {
           grid: { color: '#f3f4f6' },
-          ticks: { font: { size: 10, family:'DM Sans' } },
-          title: { display: true, text: 'Story Points', font: { size: 10, family:'DM Sans' }, color: '#6b7280' }
+          ticks: { font: { size: 10, family: 'DM Sans' } },
+          title: { display: true, text: 'Story Points', font: { size: 10, family: 'DM Sans' }, color: '#9ca3af' }
         }
       }
     }
   });
-
-  // Breakdown list
-  const breakdown = document.getElementById('velocity-breakdown');
-  const sorted = Object.entries(spByUser).sort((a,b) => b[1]-a[1]);
-  const maxSP = sorted[0] ? sorted[0][1] : 1;
-  breakdown.innerHTML = sorted.map(([user, sp]) => {
-    const pct = Math.round(sp/maxSP*100);
-    const short = user.split(' ').slice(0,2).join(' ');
-    return `<div style="margin-bottom:7px;">
-      <div style="display:flex;justify-content:space-between;margin-bottom:2px;">
-        <span style="font-size:11px;font-weight:500;color:var(--gray-700)">${short}</span>
-        <span style="font-size:11px;font-weight:700;color:var(--blue-700);font-family:'DM Mono',monospace">${sp} SP</span>
-      </div>
-      <div style="height:5px;background:var(--blue-50);border-radius:3px;overflow:hidden;">
-        <div style="width:${pct}%;height:100%;background:linear-gradient(90deg,var(--blue-400),var(--blue-600));border-radius:3px;"></div>
-      </div>
-    </div>`;
-  }).join('') || '<div style="color:var(--gray-400);font-size:11px;">No completed SP for this selection</div>';
-
-  document.getElementById('velocity-total-sp').textContent = closedSP + ' SP';
 }
 
 // ═══════════════════════════════════════════
@@ -1324,4 +1465,3 @@ window.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
-
