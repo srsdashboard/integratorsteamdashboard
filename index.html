@@ -26,7 +26,7 @@
     --gray-300: #d1d5db;
     --gray-100: #f3f4f6;
     --gray-50:  #f9fafb;
-    --green: #10b981;
+    --green: #1d4ed8;
     --red: #ef4444;
     --amber: #f59e0b;
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
@@ -96,11 +96,11 @@
     font-size: 11px; font-weight: 700; margin-top: 8px;
     padding: 2px 7px; border-radius: 20px;
   }
-  .sscard-trend.up   { background: rgba(16,185,129,0.2); color: #6ee7b7; }
+  .sscard-trend.up   { background: rgba(29,78,216,0.2); color: #93c5fd; }
   .sscard-trend.down { background: rgba(239,68,68,0.2);  color: #fca5a5; }
   .sscard-trend.neutral { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.7); }
   .sscard-bar { height: 3px; background: rgba(255,255,255,0.15); border-radius: 2px; margin-top: 10px; overflow: hidden; }
-  .sscard-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg,#60a5fa,#a5f3fc); transition: width 1.2s ease; }
+  .sscard-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg,#3b82f6,#93c5fd); transition: width 1.2s ease; }
   .sscard.live { border-color: rgba(96,165,250,0.4); background: rgba(37,99,235,0.2); }
   .header {
     background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 60%, var(--blue-500) 100%);
@@ -156,7 +156,7 @@
   .completion-card .pct { font-size: 36px; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 4px; font-family: 'DM Mono', monospace; }
   .completion-card .detail { font-size: 11px; color: var(--blue-200); }
   .completion-card .progress-bg { height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin-top: 10px; overflow: hidden; }
-  .completion-card .progress-fill { height: 100%; background: linear-gradient(90deg, #60a5fa, #a5f3fc); border-radius: 2px; transition: width 1s ease; }
+  .completion-card .progress-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #93c5fd); border-radius: 2px; transition: width 1s ease; }
   .completion-card.tbd .pct { font-size: 22px; color: rgba(255,255,255,0.5); }
 
   /* FILTERS */
@@ -378,7 +378,7 @@
     text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px;
   }
   .vel-kpi-value {
-    font-size: 36px; font-weight: 700; color: #0f766e;
+    font-size: 36px; font-weight: 700; color: #1e40af;
     font-family: 'DM Mono', monospace; line-height: 1; margin-bottom: 4px;
   }
   .vel-kpi-card-blue .vel-kpi-value { color: #1d4ed8; }
@@ -407,6 +407,7 @@
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
       <div class="sprint-badge">Sprint 4 — Active</div>
       <div style="font-size:11px;color:var(--blue-200);font-weight:500;letter-spacing:0.2px;">📅 Mar 9, 2026 – Mar 27, 2026</div>
+      <div style="margin-top:4px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;letter-spacing:0.3px;text-align:center;">🚀 Next Weekly Release: Mar 25, 2026</div>
     </div>
   </div>
 
@@ -640,21 +641,21 @@
     <div class="card" style="overflow:visible;">
 
       <!-- Header row -->
-      <div class="card-header" style="flex-wrap:wrap;gap:8px;background:linear-gradient(135deg,#f0fdf9 0%,#e6f7f4 100%);border-bottom:1px solid #c7ede6;">
+      <div class="card-header" style="flex-wrap:wrap;gap:8px;background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%);border-bottom:1px solid #bfdbfe;">
         <div style="display:flex;align-items:center;gap:10px;">
-          <span class="card-title" style="color:#0f766e;">Sprint Velocity &amp; Daily Burnup</span>
-          <span style="background:#0d9488;color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;letter-spacing:0.3px;">DELIVERY</span>
+          <span class="card-title" style="color:#1e40af;">Sprint Velocity &amp; Daily Burnup</span>
+          <span style="background:#1d4ed8;color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;letter-spacing:0.3px;">DELIVERY</span>
         </div>
         <div style="margin-left:auto;display:flex;align-items:center;gap:6px;font-size:11px;color:#6b7280;">
           <span>🗓</span>
-          <span><b style="color:#0f766e;">Sprint 4</b> · Mar 9 – Mar 27, 2026 · 13 working days</span>
+          <span><b style="color:#1e40af;">Sprint 4</b> · Mar 9 – Mar 27, 2026 · 13 working days</span>
         </div>
       </div>
 
       <!-- Filter bar -->
-      <div style="background:#f0fdf9;border-bottom:1px solid #c7ede6;padding:10px 18px;display:flex;align-items:center;gap:10px;">
-        <span style="font-size:10px;font-weight:700;color:#0f766e;text-transform:uppercase;letter-spacing:0.5px;">🧑 Filter by Member</span>
-        <select class="filter-select" id="f-velocity-user" style="min-width:180px;border-color:#a7f3d0;background:#fff;" onchange="renderVelocityChart()">
+      <div style="background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:10px 18px;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:10px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:0.5px;">🧑 Filter by Member</span>
+        <select class="filter-select" id="f-velocity-user" style="min-width:180px;border-color:#bfdbfe;background:#fff;" onchange="renderVelocityChart()">
           <option value="all">All Team Members</option>
         </select>
       </div>
@@ -687,7 +688,7 @@
       <div class="card-body" style="padding:18px 18px 10px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
           <span style="font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.4px;">Daily SP Burnup — Sprint 4 (Mar 9 → Mar 27)</span>
-          <span style="background:#e6f7f4;color:#0f766e;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid #a7f3d0;" id="vel-avg-badge">Avg Velocity: – SP/day</span>
+          <span style="background:#dbeafe;color:#1e40af;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid #bfdbfe;" id="vel-avg-badge">Avg Velocity: – SP/day</span>
         </div>
         <div style="position:relative;height:260px;">
           <canvas id="velocityChart"></canvas>
@@ -695,7 +696,7 @@
       </div>
 
       <!-- Footer note -->
-      <div style="background:#f0fdf9;border-top:1px solid #c7ede6;padding:10px 18px;font-size:11px;color:#6b7280;">
+      <div style="background:#eff6ff;border-top:1px solid #bfdbfe;padding:10px 18px;font-size:11px;color:#6b7280;">
         📝 <i>Sprint Velocity helps forecast realistic delivery capacity for future sprints.</i>
         &nbsp;·&nbsp; <b style="color:#374151;">Team:</b> <span id="vel-footer-note">– SP closed · – SP/day avg · – days left</span>
       </div>
@@ -1333,11 +1334,11 @@ function renderVelocityChart() {
         {
           label: 'Cumulative SP (Actual)',
           data: actualData,
-          borderColor: '#0f766e',
+          borderColor: '#1e40af',
           backgroundColor: 'rgba(15,118,110,0.08)',
           borderWidth: 2.5,
           pointRadius: 4,
-          pointBackgroundColor: '#0f766e',
+          pointBackgroundColor: '#1e40af',
           pointBorderColor: '#fff',
           pointBorderWidth: 2,
           tension: 0.2,
@@ -1360,7 +1361,7 @@ function renderVelocityChart() {
           data: dailyEarned,
           type: 'bar',
           backgroundColor: 'rgba(167,243,208,0.5)',
-          borderColor: '#6ee7b7',
+          borderColor: '#93c5fd',
           borderWidth: 1,
           borderRadius: 3,
           order: 2,
@@ -1395,7 +1396,7 @@ function renderVelocityChart() {
               type: 'line',
               xMin: todayLabel,
               xMax: todayLabel,
-              borderColor: '#0f766e',
+              borderColor: '#1e40af',
               borderWidth: 1.5,
               borderDash: [4, 3],
               label: {
@@ -1403,7 +1404,7 @@ function renderVelocityChart() {
                 content: 'Today',
                 position: 'start',
                 font: { size: 10, family: 'DM Sans', weight: '700' },
-                color: '#0f766e',
+                color: '#1e40af',
                 backgroundColor: 'transparent'
               }
             }
@@ -1465,3 +1466,4 @@ window.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
+ 
