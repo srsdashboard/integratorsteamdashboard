@@ -594,14 +594,14 @@
     <!-- Sprint Comparison -->
     <div class="sprint-compare">
       <div class="sprint-cmp-card">
-        <div class="sprint-label">Sprint 4 — Reference</div>
-        <div class="sprint-val">4.4 <span style="font-size:14px;font-weight:400">biz days</span></div>
+        <div class="sprint-label">Sprint 3 — Reference</div>
+        <div class="sprint-val">7.6 <span style="font-size:14px;font-weight:400">biz days</span></div>
         <div class="sprint-sub">Avg INC Resolution Time (biz days)</div>
       </div>
       <div class="sprint-cmp-card current">
-        <div class="sprint-label">Sprint 5 — Current</div>
+        <div class="sprint-label">Sprint 4 — Current</div>
         <div class="sprint-val" id="cmp-sprint4">–</div>
-        <div class="sprint-sub" id="cmp-trend">vs Sprint 4 baseline</div>
+        <div class="sprint-sub" id="cmp-trend">vs Sprint 3 baseline</div>
         <div class="kpi-trend up" id="cmp-badge" style="margin-top:8px;display:inline-flex">–</div>
       </div>
     </div>
@@ -1141,21 +1141,21 @@ function renderINCMetrics(data) {
   document.getElementById('inc-closure').textContent = closureRate + '%';
   document.getElementById('inc-closure-sub').textContent = `${incClosed.length} of ${inc.length} INC closed`;
 
-  // Sprint comparison vs Sprint 4 baseline (9.4 biz days)
-  const SPRINT4_BASELINE = 4.4; // Sprint 4 avg was 4.4 biz days
+  // Sprint 4 (current) vs Sprint 3 baseline = 7.6 biz days
+  const SPRINT3_BASELINE = 7.6;
   const avgNum = parseFloat(avgRes);
   if (!isNaN(avgNum)) {
     document.getElementById('cmp-sprint4').innerHTML = `${avgNum} <span style="font-size:14px;font-weight:400">biz days</span>`;
-    const diff = avgNum - SPRINT4_BASELINE;
+    const diff = avgNum - SPRINT3_BASELINE;
     const badge = document.getElementById('cmp-badge');
     if (diff > 0) {
-      badge.textContent = `▲ ${diff.toFixed(1)} days slower than Sprint 4`;
+      badge.textContent = `▲ ${diff.toFixed(1)} days slower than Sprint 3`;
       badge.className = 'kpi-trend up';
-      document.getElementById('cmp-trend').textContent = `${diff.toFixed(1)} days longer than Sprint 4 (${SPRINT4_BASELINE} days)`;
+      document.getElementById('cmp-trend').textContent = `${diff.toFixed(1)} days longer than Sprint 3 (${SPRINT3_BASELINE} days)`;
     } else {
-      badge.textContent = `▼ ${Math.abs(diff).toFixed(1)} days faster than Sprint 4`;
+      badge.textContent = `▼ ${Math.abs(diff).toFixed(1)} days faster than Sprint 3`;
       badge.className = 'kpi-trend down';
-      document.getElementById('cmp-trend').textContent = `${Math.abs(diff).toFixed(1)} days faster than Sprint 4 (${SPRINT4_BASELINE} days)`;
+      document.getElementById('cmp-trend').textContent = `${Math.abs(diff).toFixed(1)} days faster than Sprint 3 (${SPRINT3_BASELINE} days)`;
     }
   } else {
     document.getElementById('cmp-sprint4').textContent = 'N/A';
@@ -1519,7 +1519,4 @@ window.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html> 
-
-
-
-
+  
