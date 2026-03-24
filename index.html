@@ -26,7 +26,7 @@
     --gray-300: #d1d5db;
     --gray-100: #f3f4f6;
     --gray-50:  #f9fafb;
-    --green: #1d4ed8;
+    --green: #10b981;
     --red: #ef4444;
     --amber: #f59e0b;
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
@@ -96,11 +96,11 @@
     font-size: 11px; font-weight: 700; margin-top: 8px;
     padding: 2px 7px; border-radius: 20px;
   }
-  .sscard-trend.up   { background: rgba(29,78,216,0.2); color: #93c5fd; }
+  .sscard-trend.up   { background: rgba(16,185,129,0.2); color: #6ee7b7; }
   .sscard-trend.down { background: rgba(239,68,68,0.2);  color: #fca5a5; }
   .sscard-trend.neutral { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.7); }
   .sscard-bar { height: 3px; background: rgba(255,255,255,0.15); border-radius: 2px; margin-top: 10px; overflow: hidden; }
-  .sscard-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg,#3b82f6,#93c5fd); transition: width 1.2s ease; }
+  .sscard-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg,#60a5fa,#a5f3fc); transition: width 1.2s ease; }
   .sscard.live { border-color: rgba(96,165,250,0.4); background: rgba(37,99,235,0.2); }
   .header {
     background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 60%, var(--blue-500) 100%);
@@ -156,7 +156,7 @@
   .completion-card .pct { font-size: 36px; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 4px; font-family: 'DM Mono', monospace; }
   .completion-card .detail { font-size: 11px; color: var(--blue-200); }
   .completion-card .progress-bg { height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin-top: 10px; overflow: hidden; }
-  .completion-card .progress-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #93c5fd); border-radius: 2px; transition: width 1s ease; }
+  .completion-card .progress-fill { height: 100%; background: linear-gradient(90deg, #60a5fa, #a5f3fc); border-radius: 2px; transition: width 1s ease; }
   .completion-card.tbd .pct { font-size: 22px; color: rgba(255,255,255,0.5); }
 
   /* FILTERS */
@@ -378,7 +378,7 @@
     text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px;
   }
   .vel-kpi-value {
-    font-size: 36px; font-weight: 700; color: #1e40af;
+    font-size: 36px; font-weight: 700; color: #0f766e;
     font-family: 'DM Mono', monospace; line-height: 1; margin-bottom: 4px;
   }
   .vel-kpi-card-blue .vel-kpi-value { color: #1d4ed8; }
@@ -405,9 +405,8 @@
       <div class="subtitle">Sprint Performance & Incident Tracking · Azure DevOps Integration</div>
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
-      <div class="sprint-badge">Sprint 4 — Active</div>
-      <div style="font-size:11px;color:var(--blue-200);font-weight:500;letter-spacing:0.2px;">📅 Mar 9, 2026 – Mar 27, 2026</div>
-      <div style="margin-top:4px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;letter-spacing:0.3px;text-align:center;">🚀 Next Weekly Release: Mar 25, 2026</div>
+      <div class="sprint-badge">Sprint 5 — Active</div>
+      <div style="font-size:11px;color:var(--blue-200);font-weight:500;letter-spacing:0.2px;">📅 Mar 13, 2026 – Mar 27, 2026</div>
     </div>
   </div>
 
@@ -420,7 +419,7 @@
       <div class="sscard-label">Completion Rate</div>
       <div class="sscard-value" id="ss-rate">–</div>
       <div class="sscard-sub" id="ss-rate-sub">of sprint commitment</div>
-      <div class="sscard-trend neutral" id="ss-rate-trend">vs Sprint 3</div>
+      <div class="sscard-trend neutral" id="ss-rate-trend">vs Sprint 4</div>
       <div class="sscard-bar"><div class="sscard-bar-fill" id="ss-rate-bar" style="width:0%"></div></div>
     </div>
 
@@ -459,7 +458,7 @@
   <label>Filters</label>
   <select class="filter-select" id="f-sprint">
     <option value="all">All Sprints</option>
-    <option value="4" selected>Sprint 4</option>
+    <option value="5" selected>Sprint 5</option>
   </select>
   <select class="filter-select" id="f-user">
     <option value="all">All Users</option>
@@ -467,8 +466,12 @@
   <div class="filter-divider"></div>
   <select class="filter-select" id="f-type">
     <option value="all">All Types</option>
-    <option value="Bug">Bug (INC)</option>
     <option value="User Story">User Story</option>
+    <option value="Bug">Bug</option>
+    <option value="Task">Task</option>
+    <option value="Test Case">Test Case</option>
+    <option value="Test Suite">Test Suite</option>
+    <option value="Test Plan">Test Plan</option>
   </select>
   <select class="filter-select" id="f-status">
     <option value="all">All Statuses</option>
@@ -544,7 +547,7 @@
         </div>
       </div>
       <div class="card">
-        <div class="card-header"><span class="card-title">Work Item Type</span></div>
+        <div class="card-header"><span class="card-title">Items by Type</span></div>
         <div class="card-body">
           <div class="chart-container"><canvas id="typeChart"></canvas></div>
         </div>
@@ -591,14 +594,14 @@
     <!-- Sprint Comparison -->
     <div class="sprint-compare">
       <div class="sprint-cmp-card">
-        <div class="sprint-label">Sprint 3 — Reference</div>
-        <div class="sprint-val">9.4 <span style="font-size:14px;font-weight:400">days</span></div>
-        <div class="sprint-sub">Average INC Resolution Time</div>
+        <div class="sprint-label">Sprint 4 — Reference</div>
+        <div class="sprint-val">4.4 <span style="font-size:14px;font-weight:400">biz days</span></div>
+        <div class="sprint-sub">Avg INC Resolution Time (biz days)</div>
       </div>
       <div class="sprint-cmp-card current">
-        <div class="sprint-label">Sprint 4 — Current</div>
+        <div class="sprint-label">Sprint 5 — Current</div>
         <div class="sprint-val" id="cmp-sprint4">–</div>
-        <div class="sprint-sub" id="cmp-trend">vs Sprint 3 baseline</div>
+        <div class="sprint-sub" id="cmp-trend">vs Sprint 4 baseline</div>
         <div class="kpi-trend up" id="cmp-badge" style="margin-top:8px;display:inline-flex">–</div>
       </div>
     </div>
@@ -641,21 +644,21 @@
     <div class="card" style="overflow:visible;">
 
       <!-- Header row -->
-      <div class="card-header" style="flex-wrap:wrap;gap:8px;background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%);border-bottom:1px solid #bfdbfe;">
+      <div class="card-header" style="flex-wrap:wrap;gap:8px;background:linear-gradient(135deg,#f0fdf9 0%,#e6f7f4 100%);border-bottom:1px solid #c7ede6;">
         <div style="display:flex;align-items:center;gap:10px;">
-          <span class="card-title" style="color:#1e40af;">Sprint Velocity &amp; Daily Burnup</span>
-          <span style="background:#1d4ed8;color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;letter-spacing:0.3px;">DELIVERY</span>
+          <span class="card-title" style="color:#0f766e;">Sprint Velocity &amp; Daily Burnup</span>
+          <span style="background:#0d9488;color:#fff;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;letter-spacing:0.3px;">DELIVERY</span>
         </div>
         <div style="margin-left:auto;display:flex;align-items:center;gap:6px;font-size:11px;color:#6b7280;">
-          <span>🗓</span>
-          <span><b style="color:#1e40af;">Sprint 4</b> · Mar 9 – Mar 27, 2026 · 13 working days</span>
+          <span></span>
+          <span><b style="color:#0f766e;">Sprint 5</b> · Mar 17 – Apr 3, 2026 · 14 working days</span>
         </div>
       </div>
 
       <!-- Filter bar -->
-      <div style="background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:10px 18px;display:flex;align-items:center;gap:10px;">
-        <span style="font-size:10px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:0.5px;">🧑 Filter by Member</span>
-        <select class="filter-select" id="f-velocity-user" style="min-width:180px;border-color:#bfdbfe;background:#fff;" onchange="renderVelocityChart()">
+      <div style="background:#f0fdf9;border-bottom:1px solid #c7ede6;padding:10px 18px;display:flex;align-items:center;gap:10px;">
+        <span style="font-size:10px;font-weight:700;color:#0f766e;text-transform:uppercase;letter-spacing:0.5px;">Filter by Member</span>
+        <select class="filter-select" id="f-velocity-user" style="min-width:180px;border-color:#a7f3d0;background:#fff;" onchange="renderVelocityChart()">
           <option value="all">All Team Members</option>
         </select>
       </div>
@@ -665,12 +668,12 @@
         <div class="vel-kpi-card" id="vel-days-elapsed" style="border-right:1px solid #e5e7eb;">
           <div class="vel-kpi-label">DAYS ELAPSED</div>
           <div class="vel-kpi-value" id="vk-elapsed">–</div>
-          <div class="vel-kpi-sub" id="vk-elapsed-sub">of 13 working days</div>
+          <div class="vel-kpi-sub" id="vk-elapsed-sub">of 14 working days</div>
         </div>
         <div class="vel-kpi-card" id="vel-days-rem" style="border-right:1px solid #e5e7eb;">
           <div class="vel-kpi-label">DAYS REMAINING</div>
           <div class="vel-kpi-value" id="vk-remaining">–</div>
-          <div class="vel-kpi-sub">until Mar 27</div>
+          <div class="vel-kpi-sub">until Apr 3</div>
         </div>
         <div class="vel-kpi-card" id="vel-avg-sp" style="border-right:1px solid #e5e7eb;">
           <div class="vel-kpi-label">AVG SP / DAY</div>
@@ -687,8 +690,8 @@
       <!-- Chart -->
       <div class="card-body" style="padding:18px 18px 10px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <span style="font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.4px;">Daily SP Burnup — Sprint 4 (Mar 9 → Mar 27)</span>
-          <span style="background:#dbeafe;color:#1e40af;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid #bfdbfe;" id="vel-avg-badge">Avg Velocity: – SP/day</span>
+          <span style="font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.4px;">Daily SP Burnup — Sprint 5 (Mar 17 → Apr 3)</span>
+          <span style="background:#e6f7f4;color:#0f766e;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid #a7f3d0;" id="vel-avg-badge">Avg Velocity: – SP/day</span>
         </div>
         <div style="position:relative;height:260px;">
           <canvas id="velocityChart"></canvas>
@@ -696,8 +699,8 @@
       </div>
 
       <!-- Footer note -->
-      <div style="background:#eff6ff;border-top:1px solid #bfdbfe;padding:10px 18px;font-size:11px;color:#6b7280;">
-        📝 <i>Sprint Velocity helps forecast realistic delivery capacity for future sprints.</i>
+      <div style="background:#f0fdf9;border-top:1px solid #c7ede6;padding:10px 18px;font-size:11px;color:#6b7280;">
+         <i>Sprint Velocity helps forecast realistic delivery capacity for future sprints.</i>
         &nbsp;·&nbsp; <b style="color:#374151;">Team:</b> <span id="vel-footer-note">– SP closed · – SP/day avg · – days left</span>
       </div>
 
@@ -710,7 +713,7 @@
 // ═══════════════════════════════════════════
 // DATA
 // ═══════════════════════════════════════════
-const RAW_DATA = [{"id": 108763, "title": "Research | Install and Investigate Bruno as an alternative to Postman", "state": "Closed", "user": "Jaime Torner", "sp": 3.0, "tags": "Discovery", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-16", "res_days": 5}, {"id": 107555, "title": "Research | Functions.Hubspot | HLSG | Investigate H+ Subscription Visibility Inc", "state": "Closed", "user": "Jagadeesh Junjur", "sp": 2.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-12", "res_days": 3}, {"id": 107580, "title": "Infrastructure | Functions.ProjectMapIt | SRS | Implement Managed Identity Authe", "state": "Blocked", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products", "is_inc": false, "project": "ProjectMapIt", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 101459, "title": "Functions.PropertyReports | SRS | Cache ATTOM API Responses by Property Address ", "state": "In QA", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products", "is_inc": false, "project": "PropertyReports", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 106043, "title": "Functions.Quickbooks | HLSG | Create Connect API", "state": "Dev Complete", "user": "Jagadeesh Junjur", "sp": 3.0, "tags": "Heritage; UAT testing", "is_inc": false, "project": "Quickbooks", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107582, "title": "Documentation | Functions.PropertyReports | SRS | Document Property Reports Scor", "state": "Ideation", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products", "is_inc": false, "project": "PropertyReports", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107547, "title": "Research | HLSG | Order & Shipment API Field Mapping and Behavior Clarification", "state": "Active", "user": "Santosh Kasam", "sp": 0.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107374, "title": "Functions.Products | SRS | Unexpected character encountered while parsing value:", "state": "Closed", "user": "Sanjay Sahu", "sp": 3.0, "tags": "Building Products; Deployed 03/17/2026; INC; INC0892016", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-18", "res_days": 7}, {"id": 107375, "title": "Functions.Invoices | SRS | INTHUB: observed 403 (Forbidden) issue for invoice fu", "state": "Closed", "user": "Jaime Torner", "sp": 3.0, "tags": "Building Products; INC; INC0891820", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-16", "res_days": 5}, {"id": 107376, "title": "Functions.Invoices | HLSG | HLSG: observed redis timeout issue for DeliveryTicke", "state": "Closed", "user": "Jaime Torner", "sp": 3.0, "tags": "Building Products; INC; INC0891880", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-16", "res_days": 5}, {"id": 108913, "title": "Functions.Invoices | HLSG | Document current services involved in invoice docume", "state": "Ideation", "user": "Jaime Torner", "sp": 2.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 109006, "title": "Functions.Orders | HLSG | Invalid object name 'plattesqlHLSG.dbo.dispatch_detail", "state": "In Development", "user": "Vinoth Venkatesan", "sp": 3.0, "tags": "Building Products; INC; INC0899746", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 107372, "title": "Functions.Products | HLSG | Failed to call csp_API_PA_PriceAvailability stored p", "state": "In Development", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "Heritage; INC; INC0892005", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107288, "title": "Functions.Quotes | SRS | Quote Ready Notifications", "state": "Closed", "user": "Umesh Reddy", "sp": 1.0, "tags": "Building Products", "is_inc": false, "project": "Quotes", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-12", "res_days": 3}, {"id": 106164, "title": "Functions.Marketing | SRS | Database 'plattesql' on server '10d91d9d15.tr13828.s", "state": "In Development", "user": "Nagraj Arya", "sp": 2.0, "tags": "Building Products; INC; INC0884689", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 105457, "title": "Research | SRS&HLSG | Investigate Application Insights Log Volume Growth", "state": "Dev Complete", "user": "Jagadeesh Junjur", "sp": 2.0, "tags": "INC0883212", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 100223, "title": "Functions.Products | SRS | Failed to Upload Blob - containerName", "state": "Closed", "user": "Umesh Reddy", "sp": 3.0, "tags": "Building Products; Dev Testing; INC; INC0854044", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-12", "res_days": 3}, {"id": 108018, "title": "Functions.Documents | SRS | Quote creation email missing PDF attachment (Product", "state": "Closed", "user": "Umesh Reddy", "sp": 1.0, "tags": "Building Products; Deployed 03/10/2026", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-12", "res_days": 3}, {"id": 104588, "title": "IntegrationHub.NotificationProcessor | HLSG | Receiving notifications for other ", "state": "Closed", "user": "Umesh Reddy", "sp": 0.0, "tags": "Heritage; INC; INC0877157", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-11", "res_days": 2}, {"id": 102692, "title": "Functions.PropertyReports | SRS | Build new Available Free Trials API for Intern", "state": "UAT", "user": "Jagadeesh Junjur", "sp": 5.0, "tags": "Building Products", "is_inc": false, "project": "PropertyReports", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107352, "title": "Functions.Branches | HLSG | Upgrade to .NET 10.0", "state": "Dev Complete", "user": "Navya Bhargavi Yerapothina", "sp": 3.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 102665, "title": "Functions.Products | SRS | SRSINTHUB- observed The specified blob does not exist", "state": "In QA", "user": "Umesh Reddy", "sp": 3.0, "tags": "Building Products; Dev Testing; INC; INC0865096", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 100994, "title": "Functions.Customers | HLSG | HLSG-SQL compilation error for ItemRestrictionV2 en", "state": "Closed", "user": "Sanjay Sahu", "sp": 3.0, "tags": "Deployed 03/17/2026; Heritage; INC; INC0858600", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-18", "res_days": 7}, {"id": 100162, "title": "Functions.Customers | HLSG | Failed to Get Customer List from ODS", "state": "Ready for QA", "user": "Vinoth Venkatesan", "sp": 5.0, "tags": "Heritage; INC; INC0853996", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 93296, "title": "Functions.Orders | SRS | INTHUB-Error converting data type nvarchar to int - SQL", "state": "In Development", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "Building Products; INC0824945", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 109001, "title": "IntegrationHub.EnterpriseEvents | HLSG | The property value exceeds the maximum ", "state": "In Development", "user": "Jaime Torner", "sp": 5.0, "tags": "Heritage; INC; INC0895984", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 85174, "title": "Functions.Invoices | HLSG | Inconsistency on Invoices display with installment p", "state": "In QA", "user": "Vinoth Venkatesan", "sp": 2.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 109630, "title": "Functions.Products | SRS| ProductsAvailabilityV2 | Seeing 500 Internal Server Er", "state": "Closed", "user": "Srilekha Donadula", "sp": 1.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-17", "closed": "2026-03-18", "res_days": 1}, {"id": 109661, "title": "Functions.Products | SRS| Stg| ProductsV2Catalog(GET) | Seeing 404 with \"No prod", "state": "New", "user": "Srilekha Donadula", "sp": 1.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-17", "closed": NaN, "res_days": null}, {"id": 109687, "title": "Functions.Products | SRS| Stg| v2/catalog/full(GET) | Seeing \"null\" in response ", "state": "New", "user": "Srilekha Donadula", "sp": 1.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-17", "closed": NaN, "res_days": null}, {"id": 105927, "title": "Functions.QuickBooks | HLSG | Infra - Create new azure function", "state": "Ideation", "user": "Sathish Kotha", "sp": 2.0, "tags": "Dev Testing; Heritage", "is_inc": false, "project": "Quickbooks", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 98188, "title": "Functions.Deliveries | SRS | INTHUB- Fatal error returned from: csp_API_Descarte", "state": "Dev Complete", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products; INC0841556", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 104709, "title": "Functions.Products | HLSG | Customer Fulfillment & Cross-Reference Products API", "state": "UAT", "user": "Umesh Reddy", "sp": 3.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 108745, "title": "Functions.Products | HLSG | Enable ARITHABORT ON for ItemInventory/Live endpoint", "state": "Closed", "user": "Umesh Reddy", "sp": 1.0, "tags": "Deployed 03/17/2026; Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-18", "res_days": 7}, {"id": 101860, "title": "Data task | Functions.Deliveries | SRS | Replicate the SQL MI table - ODSeCOMM.d", "state": "In QA", "user": "Nagraj Arya", "sp": 3.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 100611, "title": "IntegrationHub.EventsProcessor | HLSG | SQL PROCESS DEADLOCK on the below endpoi", "state": "Active", "user": "Nagraj Arya", "sp": 3.0, "tags": "Heritage; INC; INC0856943", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 102856, "title": "API Governance | Implement Centralized Package Management (CPM)", "state": "Active", "user": "Santosh Kasam", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 104624, "title": "Secure Azure Table Storage with Managed Identity + Auditing", "state": "Ideation", "user": "Santosh Kasam", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 105182, "title": "Functions.Orders | HLSG | SPIKE: Assess Agility SalesOrderPayment integration fo", "state": "Ideation", "user": "Navya Bhargavi Yerapothina", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 106184, "title": "DevOps | Enable Unit Tests & Code Coverage in HLSG Azure Functions Build Pipelin", "state": "Closed", "user": "Navya Bhargavi Yerapothina", "sp": 1.0, "tags": "DevOps", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-11", "res_days": 2}, {"id": 108415, "title": "Functions.Quotes | SRS | Pair Programming: Quote Ready Notifications for RoofHub", "state": "Closed", "user": "Navya Bhargavi Yerapothina", "sp": 2.0, "tags": "Building Products", "is_inc": false, "project": "Quotes", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-18", "res_days": 7}, {"id": 106261, "title": "DevOps | Create Integration Test Pipeline - HLSG (Post-Build & On-Demand)", "state": "Ideation", "user": "Navya Bhargavi Yerapothina", "sp": 2.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 108491, "title": "Functions.Orders | SRS | Improve Reprocess Endpoint to Handle Existing SubmitOrd", "state": "Ready for QA", "user": "Santosh Kasam", "sp": 9.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107088, "title": "Functions.Orders | SRS | Sanitize order text fields before Agility submission", "state": "In Development", "user": "Umesh Reddy", "sp": 3.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 109535, "title": "Functions.PMI | SRS | Deserialization propertyReport Issue", "state": "Closed", "user": "Jagadeesh Junjur", "sp": 2.0, "tags": "Building Products; Deployed 03/17/2026", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-16", "closed": "2026-03-18", "res_days": 2}, {"id": 107578, "title": "Infrastructure | SRS&HLSG | Create Managed Identity and Dedicated DB User for In", "state": "Ready for Release", "user": "Sathish Kotha", "sp": 2.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107579, "title": "Infrastructure | Functions.Chili | SRS&HLSG | Implement Managed Identity Authent", "state": "Ready for Release", "user": "Sanjay Sahu", "sp": 2.0, "tags": "", "is_inc": false, "project": "Chili", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107581, "title": "Functions.ProjectMapIt | SRS | Implement Health Check Endpoint in PMI Project", "state": "Ideation", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products", "is_inc": false, "project": "ProjectMapIt", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 108994, "title": "Functions.Auth | SRS | INTHUB-Value cannot be null. (Parameter 'source') for Aut", "state": "New", "user": "Jaime Torner", "sp": 0.0, "tags": "Building Products; INC; INC0896901", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 107896, "title": "Functions.Deliveries | HLSG | DeliveryStatusUpdate only stores first OrderId in ", "state": "New", "user": "Navya Bhargavi Yerapothina", "sp": 2.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 108552, "title": "Functions.Deliveries | HLSG | Cannot insert value NULL into column 'StatusCd'", "state": "New", "user": "", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 108019, "title": "Functions.Quotes | SRS | Options appear empty in the confirmation email", "state": "In Development", "user": "Umesh Reddy", "sp": 2.0, "tags": "", "is_inc": false, "project": "Quotes", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 107791, "title": "Functions.Customers | HLSG | Fix Incorrect Grouping Logic in EligibleBrandsAndBr", "state": "Closed", "user": "Santosh Kasam", "sp": 2.0, "tags": "Deployed 03/10/2026; Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-12", "res_days": 3}, {"id": 99509, "title": "Functions.Auth | HLSG | QA manteinance", "state": "Closed", "user": "Srilekha Donadula", "sp": 5.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-12", "res_days": 3}, {"id": 99510, "title": "Functions.Customers | HLSG | QA manteinance", "state": "Closed", "user": "Srilekha Donadula", "sp": 5.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": "2026-03-11", "res_days": 2}, {"id": 99516, "title": "Functions.AgilityProxy | HLSG | QA manteinance", "state": "In QA", "user": "Srilekha Donadula", "sp": 5.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 108680, "title": "Data task | Functions.Invoices | HLSG | Heritage Invoice is not up-to-date in in", "state": "Dev Complete", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 108889, "title": "Functions.Quickbooks | SRS | Support QuickBooks vendor selection and mapping dur", "state": "Ready for Code Review", "user": "Sanjay Sahu", "sp": 3.0, "tags": "", "is_inc": false, "project": "Quickbooks", "type": "User Story", "sprint": 4, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108890, "title": "Functions.Quickbooks | SRS | Research best approach to close associated QuickBoo", "state": "Ideation", "user": "Sanjay Sahu", "sp": 0.0, "tags": "", "is_inc": false, "project": "Quickbooks", "type": "User Story", "sprint": 4, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 109733, "title": "Functions.Procard | SRS | Pass “Mail Physical Card” flag from CreateJobSheetForP", "state": "In Development", "user": "Navya Bhargavi Yerapothina", "sp": 0.0, "tags": "", "is_inc": false, "project": "Procard", "type": "User Story", "sprint": 4, "created": "2026-03-17", "closed": NaN, "res_days": null}, {"id": 109961, "title": "Functions.Orders | SRS | Investigate failed ACCULYNX order submission not presen", "state": "New", "user": "", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-18", "closed": NaN, "res_days": null}, {"id": 109994, "title": "Functions.PriceOptimization | SRS | Update Vendavo AWS Key in PRD", "state": "Ready for Release", "user": "Santosh Kasam", "sp": 2.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 4, "created": "2026-03-19", "closed": NaN, "res_days": null}, {"id": 105442, "title": "Functions.Deliveries | HLSG | Address/Reduce OutOfMemoryExceptions in ShipmentUp", "state": "Closed", "user": "Chandra Eega", "sp": 3.0, "tags": "Deployed 03/10/2026", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 0, "created": "2026-02-12", "closed": "2026-03-12", "res_days": 20}, {"id": 108911, "title": "Functions.Products | SRS | Could not convert string to integer: Bluff Springs. P", "state": "Closed", "user": "Chandra Eega", "sp": 1.0, "tags": "Building Products; INC; INC0899492", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 0, "created": "2026-03-10", "closed": "2026-03-11", "res_days": 1}, {"id": 108912, "title": "Functions.Products | SRS | Observed System.Net.Sockets.SocketException for Catal", "state": "Closed", "user": "Chandra Eega", "sp": 3.0, "tags": "Building Products; INC; INC0899569", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 0, "created": "2026-03-10", "closed": "2026-03-17", "res_days": 5}, {"id": 109004, "title": "Functions.Products | SRS | Error converting value {null} to type 'System.Double'", "state": "Ready for QA", "user": "Chandra Eega", "sp": 2.0, "tags": "Building Products; INC; INC0896904", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 0, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 103553, "title": "IntegrationHub.EventsProcessor | HLSG | Refactor HLSG EventProcessor to Use Stor", "state": "Ready for Code Review", "user": "Chandra Eega", "sp": 5.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 0, "created": "2026-01-30", "closed": NaN, "res_days": null}, {"id": 109005, "title": "Functions.Deliveries | HLSG | DescartesInbound Exception binding parameter 'req'", "state": "In Development", "user": "Chandra Eega", "sp": 3.0, "tags": "Heritage; INC; INC0900371", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 0, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108999, "title": "Functions.Products | HLSG | Authentication failed - remote party has closed the ", "state": "In Development", "user": "Chandra Eega", "sp": 0.0, "tags": "Heritage; INC; INC0892914", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 0, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 109000, "title": "Functions.Credits | SRS | INTHUB-Failed to GetToken(AR) from Bectran for Process", "state": "New", "user": "Chandra Eega", "sp": 0.0, "tags": "Building Products; INC; INC0898538", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 0, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 109451, "title": "IntegrationHub.Hubspot | Purge HubSpot sandbox notes older than 6 months through", "state": "Ideation", "user": "Chandra Eega", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 0, "created": "2026-03-13", "closed": NaN, "res_days": null}, {"id": 109831, "title": "Functions.Customers | SRS | Build Referrals List and Detail endpoints", "state": "In Development", "user": "Olonyl Rocha", "sp": 5.0, "tags": "Building Products", "is_inc": false, "project": "ProReferral", "type": "User Story", "sprint": 4, "created": "2026-03-17", "closed": NaN, "res_days": null}, {"id": 91723, "title": "Functions.Orders | HLSG | SQL PRIMARY KEY constraint 'PK_tbl_API_SODetailAll\" is", "state": "New", "user": "Olonyl Rocha", "sp": 2.0, "tags": "Heritage; INC0819144", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 4, "created": "2026-03-09", "closed": NaN, "res_days": null}];
+const RAW_DATA = [{"id": 85174, "title": "Functions.Invoices | HLSG | Inconsistency on Invoices display with installment p", "state": "Closed", "user": "Vinoth Venkatesan", "sp": 2.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "Bug", "sprint": 5, "created": "2025-09-15", "closed": "2026-03-19", "res_days": 133}, {"id": 91723, "title": "Functions.Orders | HLSG | SQL PRIMARY KEY constraint 'PK_tbl_API_SODetailAll\" is", "state": "Active", "user": "Olonyl Rocha", "sp": 4.0, "tags": "Heritage; INC0819144", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 93296, "title": "Functions.Orders | SRS | INTHUB-Error converting data type nvarchar to int - SQL", "state": "Closed", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "Building Products; INC0824945", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-09", "closed": "2026-03-20", "res_days": 9}, {"id": 98025, "title": "Data task | Functions.Products | HLSG | New proc to return HLSG Customer Product", "state": "In QA", "user": "Nagraj Arya", "sp": 3.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2025-12-04", "closed": NaN, "res_days": null}, {"id": 98188, "title": "Functions.Deliveries | SRS | INTHUB- Fatal error returned from: csp_API_Descarte", "state": "Dev Complete", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products; INC0841556", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 99509, "title": "Functions.Auth | HLSG | QA manteinance", "state": "Closed", "user": "Srilekha Donadula", "sp": 5.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2025-12-18", "closed": "2026-03-12", "res_days": 60}, {"id": 99510, "title": "Functions.Customers | HLSG | QA manteinance", "state": "Closed", "user": "Srilekha Donadula", "sp": 5.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2025-12-18", "closed": "2026-03-11", "res_days": 59}, {"id": 99516, "title": "Functions.AgilityProxy | HLSG | QA manteinance", "state": "Closed", "user": "Srilekha Donadula", "sp": 5.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2025-12-18", "closed": "2026-03-23", "res_days": 67}, {"id": 100162, "title": "Functions.Customers | HLSG | Failed to Get Customer List from ODS", "state": "Ready for QA", "user": "Vinoth Venkatesan", "sp": 5.0, "tags": "Heritage; INC; INC0853996", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 100223, "title": "Functions.Products | SRS | Failed to Upload Blob - containerName", "state": "Closed", "user": "Umesh Reddy", "sp": 3.0, "tags": "Building Products; Dev Testing; INC; INC0854044", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-09", "closed": "2026-03-12", "res_days": 3}, {"id": 100611, "title": "IntegrationHub.EventsProcessor | HLSG | SQL PROCESS DEADLOCK on the below endpoi", "state": "Active", "user": "Nagraj Arya", "sp": 3.0, "tags": "Heritage; INC; INC0856943", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 100994, "title": "Functions.Customers | HLSG | HLSG-SQL compilation error for ItemRestrictionV2 en", "state": "Closed", "user": "Sanjay Sahu", "sp": 3.0, "tags": "Deployed 03/17/2026; Heritage; INC; INC0858600", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-09", "closed": "2026-03-18", "res_days": 7}, {"id": 101459, "title": "Functions.PropertyReports | SRS | Cache ATTOM API Responses by Property Address ", "state": "Ready for Release", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products", "is_inc": false, "project": "PropertyReports", "type": "User Story", "sprint": 5, "created": "2026-01-12", "closed": NaN, "res_days": null}, {"id": 101860, "title": "Data task | Functions.Deliveries | SRS | Replicate the SQL MI table - ODSeCOMM.d", "state": "Closed", "user": "Nagraj Arya", "sp": 3.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-01-15", "closed": "2026-03-19", "res_days": 45}, {"id": 102450, "title": "Data task | Functions.PropertyReports | SRS | Remove old Free Trials Credits tab", "state": "New", "user": "Matheus Pena", "sp": 0.0, "tags": "", "is_inc": false, "project": "PropertyReports", "type": "Task", "sprint": 5, "created": "2026-01-21", "closed": NaN, "res_days": null}, {"id": 102665, "title": "Functions.Products | SRS | SRSINTHUB- observed The specified blob does not exist", "state": "In QA", "user": "Umesh Reddy", "sp": 3.0, "tags": "Building Products; Dev Testing; INC; INC0865096", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 102856, "title": "API Governance | Implement Centralized Package Management (CPM)", "state": "Active", "user": "Santosh Kasam", "sp": 5.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-01-26", "closed": NaN, "res_days": null}, {"id": 103553, "title": "IntegrationHub.EventsProcessor | HLSG | Refactor HLSG EventProcessor to Use Stor", "state": "Ready for Code Review", "user": "Chandra Eega", "sp": 5.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-01-30", "closed": NaN, "res_days": null}, {"id": 103554, "title": "Create Stored Procedure: GetCustomerLevelShipmentSubscriptions", "state": "Dev Complete - Ready for QA", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-01-30", "closed": NaN, "res_days": null}, {"id": 103555, "title": "Create Stored Procedure: GetShipmentNotificationSubscriptions", "state": "Dev Complete - Ready for QA", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-01-30", "closed": NaN, "res_days": null}, {"id": 103556, "title": "Create Stored Procedure: GetShiptoLevelShipmentSubscriptions", "state": "Dev Complete - Ready for QA", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-01-30", "closed": NaN, "res_days": null}, {"id": 104588, "title": "IntegrationHub.NotificationProcessor | HLSG | Receiving notifications for other ", "state": "Closed", "user": "Umesh Reddy", "sp": 0.0, "tags": "Heritage; INC; INC0877157", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-09", "closed": "2026-03-11", "res_days": 2}, {"id": 104624, "title": "Secure Azure Table Storage with Managed Identity + Auditing", "state": "Ideation", "user": "Santosh Kasam", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-02-05", "closed": NaN, "res_days": null}, {"id": 104709, "title": "Functions.Products | HLSG | Customer Fulfillment & Cross-Reference Products API", "state": "UAT", "user": "Umesh Reddy", "sp": 3.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-02-06", "closed": NaN, "res_days": null}, {"id": 104711, "title": "Data task | Functions.Products | HLSG | Customer Fulfillment & Cross-Reference P", "state": "Dev Complete - Ready for QA", "user": "Nagraj Arya", "sp": 3.0, "tags": "New SP", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-02-06", "closed": NaN, "res_days": null}, {"id": 105089, "title": "DevOps | HLSG & SRS | Create new UAT environment for external integration testin", "state": "Duplicate", "user": "Rafael Sanchez", "sp": 0.0, "tags": "DevOps", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-02-10", "closed": NaN, "res_days": null}, {"id": 105182, "title": "Functions.Orders | HLSG | SPIKE: Assess Agility SalesOrderPayment integration fo", "state": "In Development", "user": "Navya Bhargavi Yerapothina", "sp": 2.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-02-10", "closed": NaN, "res_days": null}, {"id": 105442, "title": "Functions.Deliveries | HLSG | Address/Reduce OutOfMemoryExceptions in ShipmentUp", "state": "Closed", "user": "Chandra Eega", "sp": 3.0, "tags": "Deployed 03/10/2026", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-02-12", "closed": "2026-03-12", "res_days": 20}, {"id": 105457, "title": "Research | SRS&HLSG | Investigate Application Insights Log Volume Growth", "state": "Dev Complete", "user": "Jagadeesh Junjur", "sp": 2.0, "tags": "INC0883212", "is_inc": true, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-02-12", "closed": NaN, "res_days": null}, {"id": 105927, "title": "Functions.QuickBooks | HLSG | Infra - Create new azure function", "state": "Ideation", "user": "Sathish Kotha", "sp": 2.0, "tags": "Dev Testing; Heritage", "is_inc": false, "project": "Quickbooks", "type": "User Story", "sprint": 5, "created": "2026-02-17", "closed": NaN, "res_days": null}, {"id": 106043, "title": "Functions.Quickbooks | HLSG | Create Connect API", "state": "Dev Complete", "user": "Jagadeesh Junjur", "sp": 3.0, "tags": "Heritage; UAT testing", "is_inc": false, "project": "Quickbooks", "type": "User Story", "sprint": 5, "created": "2026-02-18", "closed": NaN, "res_days": null}, {"id": 106164, "title": "Functions.Marketing | SRS | Database 'plattesql' on server '10d91d9d15.tr13828.s", "state": "In Development", "user": "Nagraj Arya", "sp": 2.0, "tags": "Building Products; INC; INC0884689", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-09", "closed": NaN, "res_days": null}, {"id": 106184, "title": "DevOps | Enable Unit Tests & Code Coverage in HLSG Azure Functions Build Pipelin", "state": "Closed", "user": "Navya Bhargavi Yerapothina", "sp": 1.0, "tags": "DevOps", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-02-19", "closed": "2026-03-11", "res_days": 14}, {"id": 106261, "title": "DevOps | Create Integration Test Pipeline - HLSG (Post-Build & On-Demand)", "state": "Ideation", "user": "Navya Bhargavi Yerapothina", "sp": 2.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-02-19", "closed": NaN, "res_days": null}, {"id": 107088, "title": "Functions.Orders | SRS | Sanitize order text fields before Agility submission", "state": "Ready for Code Review", "user": "Umesh Reddy", "sp": 3.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-02-25", "closed": NaN, "res_days": null}, {"id": 107288, "title": "Functions.Quotes | SRS | Quote Ready Notifications", "state": "Closed", "user": "Umesh Reddy", "sp": 1.0, "tags": "Building Products", "is_inc": false, "project": "Quotes", "type": "User Story", "sprint": 5, "created": "2026-02-26", "closed": "2026-03-12", "res_days": 10}, {"id": 107294, "title": "Research | Functions.Quotes | SRS | Quote Ready Notifications", "state": "Closed", "user": "Navya Bhargavi Yerapothina", "sp": 2.0, "tags": "", "is_inc": false, "project": "Quotes", "type": "Task", "sprint": 5, "created": "2026-02-26", "closed": "2026-03-06", "res_days": 6}, {"id": 107352, "title": "Functions.Branches | HLSG | Upgrade to .NET 10.0", "state": "Dev Complete", "user": "Navya Bhargavi Yerapothina", "sp": 3.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-02-26", "closed": NaN, "res_days": null}, {"id": 107372, "title": "Functions.Products | HLSG | Failed to call csp_API_PA_PriceAvailability stored p", "state": "Closed", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "Heritage; INC; INC0892005", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-09", "closed": "2026-03-20", "res_days": 9}, {"id": 107374, "title": "Functions.Products | SRS | Unexpected character encountered while parsing value:", "state": "Closed", "user": "Sanjay Sahu", "sp": 3.0, "tags": "Building Products; Deployed 03/17/2026; INC; INC0892016", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-09", "closed": "2026-03-18", "res_days": 7}, {"id": 107375, "title": "Functions.Invoices | SRS | INTHUB: observed 403 (Forbidden) issue for invoice fu", "state": "Closed", "user": "Jaime Torner", "sp": 3.0, "tags": "Building Products; INC; INC0891820", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-09", "closed": "2026-03-16", "res_days": 5}, {"id": 107376, "title": "Functions.Invoices | HLSG | HLSG: observed redis timeout issue for DeliveryTicke", "state": "Closed", "user": "Jaime Torner", "sp": 3.0, "tags": "Building Products; INC; INC0891880", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-09", "closed": "2026-03-16", "res_days": 5}, {"id": 107547, "title": "Research | HLSG | Order & Shipment API Field Mapping and Behavior Clarification", "state": "Active", "user": "Santosh Kasam", "sp": 3.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-02-27", "closed": NaN, "res_days": null}, {"id": 107555, "title": "Research | Functions.Hubspot | HLSG | Investigate H+ Subscription Visibility Inc", "state": "Closed", "user": "Jagadeesh Junjur", "sp": 2.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-02-27", "closed": "2026-03-12", "res_days": 9}, {"id": 107578, "title": "Infrastructure | SRS&HLSG | Create Managed Identity and Dedicated DB User for In", "state": "Ready for Release", "user": "Sathish Kotha", "sp": 2.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-02-28", "closed": NaN, "res_days": null}, {"id": 107579, "title": "Infrastructure | Functions.Chili | SRS&HLSG | Implement Managed Identity Authent", "state": "Ready for Release", "user": "Sanjay Sahu", "sp": 2.0, "tags": "", "is_inc": false, "project": "Chili", "type": "User Story", "sprint": 5, "created": "2026-02-28", "closed": NaN, "res_days": null}, {"id": 107580, "title": "Infrastructure | Functions.ProjectMapIt | SRS | Implement Managed Identity Authe", "state": "Dev Complete", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products", "is_inc": false, "project": "ProjectMapIt", "type": "User Story", "sprint": 5, "created": "2026-02-28", "closed": NaN, "res_days": null}, {"id": 107581, "title": "Functions.ProjectMapIt | SRS | Implement Health Check Endpoint in PMI Project", "state": "In Development", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products", "is_inc": false, "project": "ProjectMapIt", "type": "User Story", "sprint": 5, "created": "2026-02-28", "closed": NaN, "res_days": null}, {"id": 107582, "title": "Documentation | Functions.PropertyReports | SRS | Document Property Reports Scor", "state": "Closed", "user": "Jagadeesh Junjur", "sp": 2.0, "tags": "Building Products", "is_inc": false, "project": "PropertyReports", "type": "User Story", "sprint": 5, "created": "2026-02-28", "closed": "2026-03-23", "res_days": 15}, {"id": 107791, "title": "Functions.Customers | HLSG | Fix Incorrect Grouping Logic in EligibleBrandsAndBr", "state": "Closed", "user": "Santosh Kasam", "sp": 2.0, "tags": "Deployed 03/10/2026; Heritage", "is_inc": false, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-02", "closed": "2026-03-12", "res_days": 8}, {"id": 107896, "title": "Functions.Deliveries | HLSG | DeliveryStatusUpdate only stores first OrderId in ", "state": "New", "user": "Navya Bhargavi Yerapothina", "sp": 1.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-03", "closed": NaN, "res_days": null}, {"id": 108018, "title": "Functions.Documents | SRS | Quote creation email missing PDF attachment (Product", "state": "Closed", "user": "Umesh Reddy", "sp": 1.0, "tags": "Building Products; Deployed 03/10/2026", "is_inc": false, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-04", "closed": "2026-03-12", "res_days": 6}, {"id": 108019, "title": "Functions.Quotes | SRS | Options appear empty in the confirmation email", "state": "UAT", "user": "Umesh Reddy", "sp": 2.0, "tags": "", "is_inc": false, "project": "Quotes", "type": "Bug", "sprint": 5, "created": "2026-03-04", "closed": NaN, "res_days": null}, {"id": 108025, "title": "Add Documentation on resource deployments in Confluence", "state": "In development", "user": "Sathish Kotha", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-04", "closed": NaN, "res_days": null}, {"id": 108415, "title": "Functions.Quotes | SRS | Pair Programming: Quote Ready Notifications for RoofHub", "state": "Closed", "user": "Navya Bhargavi Yerapothina", "sp": 3.0, "tags": "Building Products", "is_inc": false, "project": "Quotes", "type": "User Story", "sprint": 5, "created": "2026-03-05", "closed": "2026-03-18", "res_days": 9}, {"id": 108491, "title": "Functions.Orders | SRS | Improve Reprocess Endpoint to Handle Existing SubmitOrd", "state": "Ready for QA", "user": "Santosh Kasam", "sp": 3.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-03-06", "closed": NaN, "res_days": null}, {"id": 108503, "title": "Data task | Functions.Shipments | HLSG | sever error occurred on the current com", "state": "New", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-06", "closed": NaN, "res_days": null}, {"id": 108552, "title": "Functions.Deliveries | HLSG | Cannot insert value NULL into column 'StatusCd'", "state": "New", "user": "", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-06", "closed": NaN, "res_days": null}, {"id": 108610, "title": "[Testing Task] Regression Testing for March 10th Release", "state": "Closed", "user": "Vinay Ageer", "sp": 5.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-09", "closed": "2026-03-11", "res_days": 2}, {"id": 108680, "title": "Data task | Functions.Invoices | HLSG | Heritage Invoice is not up-to-date in in", "state": "Closed", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-09", "closed": "2026-03-20", "res_days": 9}, {"id": 108688, "title": "Regression Testing for 3/10 release", "state": "Closed", "user": "Srilekha Donadula", "sp": 2.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-09", "closed": "2026-03-11", "res_days": 2}, {"id": 108745, "title": "Functions.Products | HLSG | Enable ARITHABORT ON for ItemInventory/Live endpoint", "state": "Closed", "user": "Umesh Reddy", "sp": 1.0, "tags": "Deployed 03/17/2026; Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-03-09", "closed": "2026-03-18", "res_days": 7}, {"id": 108763, "title": "Research | Install and Investigate Bruno as an alternative to Postman", "state": "Closed", "user": "Jaime Torner", "sp": 3.0, "tags": "Discovery", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-03-09", "closed": "2026-03-16", "res_days": 5}, {"id": 108806, "title": "TC_01_Verify COSA CustomersList API response.", "state": "Design", "user": "Srilekha Donadula", "sp": 0.0, "tags": "HLSG-Customers-RegressionTest; HLSG-RegressionTest", "is_inc": false, "project": "Other", "type": "Test Case", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108807, "title": "TC_02_Verify COSA CustomersList API response is same for Cache Vs Bypass cache", "state": "Design", "user": "Srilekha Donadula", "sp": 0.0, "tags": "HLSG-Customers-RegressionTest; HLSG-RegressionTest", "is_inc": false, "project": "Other", "type": "Test Case", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108809, "title": "TC_03_Verify COSA CustomersList API should return 401 for Invalid/empty/No Auth", "state": "Design", "user": "Srilekha Donadula", "sp": 0.0, "tags": "HLSG-Customers-RegressionTest; HLSG-RegressionTest", "is_inc": false, "project": "Other", "type": "Test Case", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108813, "title": "TC_01_Verify Customers License COSA API response.", "state": "Design", "user": "Srilekha Donadula", "sp": 0.0, "tags": "HLSG-Customers-RegressionTest; HLSG-RegressionTest", "is_inc": false, "project": "Other", "type": "Test Case", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108814, "title": "TC_02_Verify Customers License COSA API response is same for Cache Vs Bypass cac", "state": "Design", "user": "Srilekha Donadula", "sp": 0.0, "tags": "HLSG-Customers-RegressionTest; HLSG-RegressionTest", "is_inc": false, "project": "Other", "type": "Test Case", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108819, "title": "TC_03_Verify Customers License COSA API should return 401 for Invalid/empty/No A", "state": "Design", "user": "Srilekha Donadula", "sp": 0.0, "tags": "HLSG-Customers-RegressionTest; HLSG-RegressionTest", "is_inc": false, "project": "Other", "type": "Test Case", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108821, "title": "TC_01_Verify Update Customer COSA API response.", "state": "Design", "user": "Srilekha Donadula", "sp": 0.0, "tags": "HLSG-Customers-RegressionTest; HLSG-RegressionTest", "is_inc": false, "project": "Other", "type": "Test Case", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108822, "title": "TC_01_Verify Update Customer COSA API response is same for Cache Vs Bypass cache", "state": "Design", "user": "Srilekha Donadula", "sp": 0.0, "tags": "HLSG-Customers-RegressionTest; HLSG-RegressionTest", "is_inc": false, "project": "Other", "type": "Test Case", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108823, "title": "TC_03_Verify Update Customer COSA API should return 401 for Invalid/empty/No Aut", "state": "Design", "user": "Srilekha Donadula", "sp": 0.0, "tags": "HLSG-Customers-RegressionTest; HLSG-RegressionTest", "is_inc": false, "project": "Other", "type": "Test Case", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108886, "title": "QA task | Research | Install and Investigate Bruno as an alternative to Postman", "state": "Closed", "user": "Vinay Ageer", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-10", "closed": "2026-03-13", "res_days": 3}, {"id": 108887, "title": "Testing task | Functions.Orders | SRS | Add Request Validation for Special Chara", "state": "New", "user": "Srilekha Donadula", "sp": 5.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108889, "title": "Functions.Quickbooks | SRS | Support QuickBooks vendor selection and mapping dur", "state": "UAT", "user": "Sanjay Sahu", "sp": 3.0, "tags": "", "is_inc": false, "project": "Quickbooks", "type": "User Story", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108890, "title": "Functions.Quickbooks | SRS | Research best approach to close associated QuickBoo", "state": "Gathering Requirements", "user": "Sanjay Sahu", "sp": 0.0, "tags": "", "is_inc": false, "project": "Quickbooks", "type": "User Story", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108911, "title": "Functions.Products | SRS | Could not convert string to integer: Bluff Springs. P", "state": "Closed", "user": "Chandra Eega", "sp": 1.0, "tags": "Building Products; INC; INC0899492", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-10", "closed": "2026-03-11", "res_days": 1}, {"id": 108912, "title": "Functions.Products | SRS | Observed System.Net.Sockets.SocketException for Catal", "state": "Closed", "user": "Chandra Eega", "sp": 3.0, "tags": "Building Products; INC; INC0899569", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-10", "closed": "2026-03-17", "res_days": 5}, {"id": 108913, "title": "Functions.Invoices | HLSG | Document current services involved in invoice docume", "state": "Ideation", "user": "Jaime Torner", "sp": 2.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108929, "title": "HLSG Customers-DetailsTED endpoint-Getting the response but the values are showi", "state": "Closed", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-10", "closed": "2026-03-20", "res_days": 8}, {"id": 108978, "title": "Data Task | Functions.Quotes | Update existing SP csp_API_QuotesReleased to incl", "state": "Closed", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "", "is_inc": false, "project": "Quotes", "type": "Task", "sprint": 5, "created": "2026-03-10", "closed": "2026-03-11", "res_days": 1}, {"id": 108994, "title": "Functions.Auth | SRS | INTHUB-Value cannot be null. (Parameter 'source') for Aut", "state": "New", "user": "Jaime Torner", "sp": 0.0, "tags": "Building Products; INC; INC0896901", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 108999, "title": "Functions.Products | HLSG | Authentication failed - remote party has closed the ", "state": "In Development", "user": "Chandra Eega", "sp": 0.0, "tags": "Heritage; INC; INC0892914", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 109000, "title": "Functions.Credits | SRS | INTHUB-Failed to GetToken(AR) from Bectran for Process", "state": "New", "user": "Chandra Eega", "sp": 0.0, "tags": "Building Products; INC; INC0898538", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 109001, "title": "IntegrationHub.EnterpriseEvents | HLSG | The property value exceeds the maximum ", "state": "In Development", "user": "Jaime Torner", "sp": 5.0, "tags": "Heritage; INC; INC0895984", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 109004, "title": "Functions.Products | SRS | Error converting value {null} to type 'System.Double'", "state": "Ready for QA", "user": "Chandra Eega", "sp": 2.0, "tags": "Building Products; INC; INC0896904", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 109005, "title": "Functions.Deliveries | HLSG | DescartesInbound Exception binding parameter 'req'", "state": "In Development", "user": "Chandra Eega", "sp": 3.0, "tags": "Heritage; INC; INC0900371", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-10", "closed": NaN, "res_days": null}, {"id": 109006, "title": "Functions.Orders | HLSG | Invalid object name 'plattesqlHLSG.dbo.dispatch_detail", "state": "Closed", "user": "Vinoth Venkatesan", "sp": 3.0, "tags": "Building Products; INC; INC0899746", "is_inc": true, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-10", "closed": "2026-03-20", "res_days": 8}, {"id": 109149, "title": "Testing task | Functions.Customers | HLSG | HLSG-SQL compilation error for ItemR", "state": "Closed", "user": "Srilekha Donadula", "sp": 2.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-11", "closed": "2026-03-13", "res_days": 2}, {"id": 109227, "title": "Functions.Customers | HLSG | Validate required and invalid Customer Number for E", "state": "New", "user": "Santosh Kasam", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-11", "closed": NaN, "res_days": null}, {"id": 109305, "title": "Creating Automation regression Suite for the SRS Auth function", "state": "Active", "user": "Vinay Ageer", "sp": 2.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-12", "closed": NaN, "res_days": null}, {"id": 109318, "title": "Testing task-Property Reports | SRS | Cache ATTOM API Responses in Lower Environ", "state": "Closed", "user": "Vinay Ageer", "sp": 2.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-12", "closed": "2026-03-23", "res_days": 7}, {"id": 109381, "title": "Delete entity from submitorder table", "state": "Closed", "user": "Santosh Kasam", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-12", "closed": "2026-03-18", "res_days": 4}, {"id": 109438, "title": "Dev testing task | Infrastructure | SRS&HLSG | Create Managed Identity and Dedic", "state": "Active", "user": "Sanjay Sahu", "sp": 2.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-13", "closed": NaN, "res_days": null}, {"id": 109451, "title": "IntegrationHub.Hubspot | Purge HubSpot sandbox notes older than 6 months through", "state": "Ideation", "user": "Chandra Eega", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-03-13", "closed": NaN, "res_days": null}, {"id": 109460, "title": "Functions.Quotes | SRS | Quote creation - environment variable change", "state": "Closed", "user": "Umesh Reddy", "sp": 2.0, "tags": "Building Products; Deployed 03/17/2026", "is_inc": false, "project": "Quotes", "type": "User Story", "sprint": 5, "created": "2026-03-13", "closed": "2026-03-18", "res_days": 3}, {"id": 109472, "title": "Data Task | Functions.Quotes | Update csp_API_QuotesReleased with new fields", "state": "New", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "", "is_inc": false, "project": "Quotes", "type": "Task", "sprint": 5, "created": "2026-03-13", "closed": NaN, "res_days": null}, {"id": 109522, "title": "March 17th Release - Regression Test Plan", "state": "Active", "user": "Srilekha Donadula", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Test Plan", "sprint": 5, "created": "2026-03-16", "closed": NaN, "res_days": null}, {"id": 109523, "title": "March 17th Release - Regression Test Plan", "state": "In Progress", "user": "Srilekha Donadula", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Test Suite", "sprint": 5, "created": "2026-03-16", "closed": NaN, "res_days": null}, {"id": 109524, "title": "[Testing Task] Regression Testing for March 17th Release", "state": "Closed", "user": "Srilekha Donadula", "sp": 5.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-16", "closed": "2026-03-18", "res_days": 2}, {"id": 109530, "title": "SRS-Products", "state": "In Progress", "user": "Vinay Ageer", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Test Suite", "sprint": 5, "created": "2026-03-16", "closed": NaN, "res_days": null}, {"id": 109532, "title": "Performing Regression on SRS Invoices & HLSG Customers & HLSG Credits for 17th M", "state": "Closed", "user": "Vinay Ageer", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-16", "closed": "2026-03-17", "res_days": 1}, {"id": 109535, "title": "Functions.PMI | SRS | Deserialization propertyReport Issue", "state": "Closed", "user": "Jagadeesh Junjur", "sp": 2.0, "tags": "Building Products; Deployed 03/17/2026", "is_inc": false, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-16", "closed": "2026-03-18", "res_days": 2}, {"id": 109550, "title": "HLSG-Customers", "state": "In Progress", "user": "Vinay Ageer", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Test Suite", "sprint": 5, "created": "2026-03-16", "closed": NaN, "res_days": null}, {"id": 109566, "title": "SRS-Invoices", "state": "In Progress", "user": "Vinay Ageer", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Test Suite", "sprint": 5, "created": "2026-03-16", "closed": NaN, "res_days": null}, {"id": 109607, "title": "Data task| Functions.Deliveries | SRS | INTHUB- Fatal error returned from: csp_A", "state": "Closed", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-16", "closed": "2026-03-20", "res_days": 4}, {"id": 109630, "title": "Functions.Products | SRS| ProductsAvailabilityV2 | Seeing 500 Internal Server Er", "state": "Closed", "user": "Srilekha Donadula", "sp": 1.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-17", "closed": "2026-03-18", "res_days": 1}, {"id": 109661, "title": "Functions.Products | SRS| Stg| ProductsV2Catalog(GET) | Seeing 404 with \"No prod", "state": "Closed", "user": "Srilekha Donadula", "sp": 1.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-17", "closed": "2026-03-23", "res_days": 4}, {"id": 109687, "title": "Functions.Products | SRS| Stg| v2/catalog/full(GET) | Seeing \"null\" in response ", "state": "Closed", "user": "Srilekha Donadula", "sp": 1.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-17", "closed": "2026-03-23", "res_days": 4}, {"id": 109729, "title": "HLSG-Credits", "state": "In Progress", "user": "Vinay Ageer", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Test Suite", "sprint": 5, "created": "2026-03-17", "closed": NaN, "res_days": null}, {"id": 109733, "title": "Functions.Credit | SRS | Pass “Mail Physical Card” flag from CreateJobSheetForPr", "state": "Ready for QA", "user": "Navya Bhargavi Yerapothina", "sp": 2.0, "tags": "Dev Testing", "is_inc": false, "project": "Procard", "type": "User Story", "sprint": 5, "created": "2026-03-17", "closed": NaN, "res_days": null}, {"id": 109738, "title": "Functions.Orders | SRS | Fix incorrect UOM mapping for shingle items in Line Rev", "state": "Active", "user": "Umesh Reddy", "sp": 2.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-17", "closed": NaN, "res_days": null}, {"id": 109740, "title": "Functions.PropertyReports | SRS | Update Experian credentials management process", "state": "Closed", "user": "Jagadeesh Junjur", "sp": 2.0, "tags": "Building Products", "is_inc": false, "project": "PropertyReports", "type": "User Story", "sprint": 5, "created": "2026-03-17", "closed": "2026-03-23", "res_days": 4}, {"id": 109820, "title": "Functions.Documents | SRS | Add color section to Quote Creation PDF", "state": "UAT", "user": "Umesh Reddy", "sp": 2.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-03-17", "closed": NaN, "res_days": null}, {"id": 109831, "title": "Functions.Customers | SRS | Build Referrals List and Detail endpoints", "state": "Ready for Code Review", "user": "Jaime Torner", "sp": 5.0, "tags": "Building Products", "is_inc": false, "project": "ProReferral", "type": "User Story", "sprint": 5, "created": "2026-03-17", "closed": NaN, "res_days": null}, {"id": 109834, "title": "Pair programming | Functions.Customers | SRS | Build Referrals List and Detail e", "state": "Active", "user": "Olonyl Rocha", "sp": 5.0, "tags": "", "is_inc": false, "project": "ProReferral", "type": "Task", "sprint": 5, "created": "2026-03-17", "closed": NaN, "res_days": null}, {"id": 109928, "title": "Verify SRS Property Reports Cache ATTOM API Responses in Lower Environments", "state": "Design", "user": "Vinay Ageer", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Test Case", "sprint": 5, "created": "2026-03-18", "closed": NaN, "res_days": null}, {"id": 109935, "title": "Functions.Quotes | SRS | Track SRS Quote Alert Notifications for Quote.Ready Eve", "state": "New", "user": "Umesh Reddy", "sp": 3.0, "tags": "", "is_inc": false, "project": "Quotes", "type": "Task", "sprint": 5, "created": "2026-03-18", "closed": NaN, "res_days": null}, {"id": 109938, "title": "Testing task | Functions.Customers | SRS | Build Referrals List and Detail endpo", "state": "New", "user": "Vinay Ageer", "sp": 0.0, "tags": "", "is_inc": false, "project": "ProReferral", "type": "Task", "sprint": 5, "created": "2026-03-18", "closed": NaN, "res_days": null}, {"id": 109939, "title": "SRS- Auth", "state": "In Progress", "user": "Jyothi Pesingi", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Test Suite", "sprint": 5, "created": "2026-03-18", "closed": NaN, "res_days": null}, {"id": 109940, "title": "SRS- Credit", "state": "In Progress", "user": "Jyothi Pesingi", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Test Suite", "sprint": 5, "created": "2026-03-18", "closed": NaN, "res_days": null}, {"id": 109949, "title": "testing task | Functions.Products | SRS | Error converting value {null} to type ", "state": "New", "user": "Vinay Ageer", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-18", "closed": NaN, "res_days": null}, {"id": 109950, "title": "testing task| Functions.Customers | HLSG | Failed to Get Customer List from ODS", "state": "New", "user": "Vinay Ageer", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-18", "closed": NaN, "res_days": null}, {"id": 109951, "title": "testing task | Functions.Orders | SRS | Improve Reprocess Endpoint to Handle Exi", "state": "New", "user": "Srilekha Donadula", "sp": 5.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-18", "closed": NaN, "res_days": null}, {"id": 109953, "title": "SRS- Customers", "state": "In Progress", "user": "Jyothi Pesingi", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Test Suite", "sprint": 5, "created": "2026-03-18", "closed": NaN, "res_days": null}, {"id": 109954, "title": "PMI", "state": "In Progress", "user": "Jyothi Pesingi", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Test Suite", "sprint": 5, "created": "2026-03-18", "closed": NaN, "res_days": null}, {"id": 109961, "title": "Functions.Orders | SRS | Investigate failed ACCULYNX order submission not presen", "state": "New", "user": "", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-18", "closed": NaN, "res_days": null}, {"id": 109994, "title": "Functions.PriceOptimization | SRS | Update Vendavo AWS Key in PRD", "state": "Ready for Release", "user": "Santosh Kasam", "sp": 2.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-03-19", "closed": NaN, "res_days": null}, {"id": 110006, "title": "Functions.Orders | HLSG | Order List API with Filtering and Pagination", "state": "Ideation", "user": "Umesh Reddy", "sp": 0.0, "tags": "Heritage; UAT testing", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-03-19", "closed": NaN, "res_days": null}, {"id": 110007, "title": "Data task | Functions.Orders | HLSG | Order List API with Filtering and Paginati", "state": "New", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-19", "closed": NaN, "res_days": null}, {"id": 110010, "title": "Functions.Orders | HLSG | Credit Card Implementation - Document in Confluence", "state": "Active", "user": "Navya Bhargavi Yerapothina", "sp": 1.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-19", "closed": NaN, "res_days": null}, {"id": 110011, "title": "Functions.Orders | HLSG | Update getOrderDetails endpoint to return enhanced ord", "state": "Ideation", "user": "Umesh Reddy", "sp": 0.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-03-19", "closed": NaN, "res_days": null}, {"id": 110012, "title": "Data task | Functions.Orders | HLSG | Update getOrderDetails endpoint to return ", "state": "New", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-19", "closed": NaN, "res_days": null}, {"id": 110014, "title": "Functions.Shipments | HLSG | Update getShipmentDetails endpoint to return enhanc", "state": "Ideation", "user": "Umesh Reddy", "sp": 0.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-03-19", "closed": NaN, "res_days": null}, {"id": 110015, "title": "Data task | Functions.Shipments | HLSG | Update getShipmentDetails endpoint to r", "state": "New", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-19", "closed": NaN, "res_days": null}, {"id": 110080, "title": "Create Directory props file", "state": "Active", "user": "Santosh Kasam", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-20", "closed": NaN, "res_days": null}, {"id": 110081, "title": "Create Global directory props file", "state": "Active", "user": "Santosh Kasam", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-20", "closed": NaN, "res_days": null}, {"id": 110085, "title": "Functions.Credit | SRS | Create internal endpoint to retrieve decrypted Bectran ", "state": "Ideation", "user": "Navya Bhargavi Yerapothina", "sp": 2.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-03-20", "closed": NaN, "res_days": null}, {"id": 110091, "title": "Functions.Products | HLSG | ItemInventory performance enhancements for HIPS", "state": "Ready for Release", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-03-20", "closed": NaN, "res_days": null}, {"id": 110095, "title": "Dev task | LoadEmployeePhotosTimer", "state": "New", "user": "", "sp": 1.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-20", "closed": NaN, "res_days": null}, {"id": 110178, "title": "Data task | Functions.Invoices | HLSG | Fix Duplicate and Incorrect Split Invoic", "state": "New", "user": "Vinoth Venkatesan", "sp": 0.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "Bug", "sprint": 5, "created": "2026-03-23", "closed": NaN, "res_days": null}, {"id": 110179, "title": "Documentation | Functions.PropertyReports | SRS | Confluence documentation for t", "state": "Closed", "user": "Jagadeesh Junjur", "sp": 1.0, "tags": "Building Products", "is_inc": false, "project": "PropertyReports", "type": "User Story", "sprint": 5, "created": "2026-03-23", "closed": "2026-03-23", "res_days": null}, {"id": 110185, "title": "Functions.Hubspot | SRS | Re-create the sandbox instances for the SRS HubSpot", "state": "In Development", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Building Products", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-03-23", "closed": NaN, "res_days": null}, {"id": 110186, "title": "Testing Task - Functions.Credit | SRS | Pass “Mail Physical Card” flag", "state": "New", "user": "Navya Bhargavi Yerapothina", "sp": 1.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-03-23", "closed": NaN, "res_days": null}, {"id": 110187, "title": "Functions.Hubspot | HLSG | Re-create the sandbox instances for the HLSG HubSpot", "state": "In Development", "user": "Jagadeesh Junjur", "sp": 0.0, "tags": "Heritage", "is_inc": false, "project": "Other", "type": "User Story", "sprint": 5, "created": "2026-03-23", "closed": NaN, "res_days": null}];
 
 // ═══════════════════════════════════════════
 // CHART INSTANCES
@@ -784,31 +787,31 @@ function renderKPIs(data) {
   document.getElementById('kpi-blocked').textContent = blocked;
 
   // ── Sprint Summary Bar ──
-  const SPRINT3_RATE = 63; // Sprint 3 completion rate reference
-  // Sprint 4 to-date: 22 of 40 planned work items completed = 55%
-  const SPRINT4_RATE = 55;
-  const SPRINT4_PLANNED = 40;
-  const SPRINT4_DONE = 22;
+  const SPRINT3_RATE = 50; // Sprint 4 reference rate
+  // Sprint 5 completion: 34 of 40 planned work items = 85%
+  const SPRINT5_RATE = 85;
+  const SPRINT5_PLANNED = 40;
+  const SPRINT5_DONE = 34;
 
   // Completion Rate card
   const rateEl = document.getElementById('ss-rate');
   if (rateEl) {
-    rateEl.textContent = SPRINT4_RATE + '%';
-    document.getElementById('ss-rate-sub').textContent = `${SPRINT4_DONE} of ${SPRINT4_PLANNED} planned items completed`;
-    const diff = SPRINT4_RATE - SPRINT3_RATE;
+    rateEl.textContent = SPRINT5_RATE + '%';
+    document.getElementById('ss-rate-sub').textContent = `${SPRINT5_DONE} of ${SPRINT5_PLANNED} items completed`;
+    const diff = SPRINT5_RATE - SPRINT3_RATE;
     const trendEl = document.getElementById('ss-rate-trend');
     if (diff > 0) {
-      trendEl.textContent = `▲ +${diff}% vs Sprint 3`;
+      trendEl.textContent = `▲ +${diff}% vs Sprint 4`;
       trendEl.className = 'sscard-trend up';
     } else if (diff < 0) {
-      trendEl.textContent = `▼ ${Math.abs(diff)}% vs Sprint 3`;
+      trendEl.textContent = `▼ ${Math.abs(diff)}% vs Sprint 4`;
       trendEl.className = 'sscard-trend down';
     } else {
-      trendEl.textContent = `= Same as Sprint 3`;
+      trendEl.textContent = `= Same as Sprint 4`;
       trendEl.className = 'sscard-trend neutral';
     }
     const barEl = document.getElementById('ss-rate-bar');
-    if (barEl) barEl.style.width = SPRINT4_RATE + '%';
+    if (barEl) barEl.style.width = SPRINT5_RATE + '%';
   }
 
   // Story Points card
@@ -840,11 +843,11 @@ function renderKPIs(data) {
   }
 
   // ── Daily Avg Velocity ──
-  // Sprint: Mar 9–27, 2026 = 13 business days total
+  // Sprint: Mar 17 – Apr 3, 2026 = 14 business days total
   // Calculate elapsed business days from sprint start to today
-  const SPRINT_START    = new Date('2026-03-09');
-  const SPRINT_END      = new Date('2026-03-27');
-  const SPRINT_BIZ_DAYS = 13;
+  const SPRINT_START    = new Date('2026-03-13');
+  const SPRINT_END      = new Date('2026-04-03');
+  const SPRINT_BIZ_DAYS = 14;
 
   function countBizDays(from, to) {
     let count = 0;
@@ -869,7 +872,7 @@ function renderKPIs(data) {
       `${spDone} SP closed · ${elapsed} of ${SPRINT_BIZ_DAYS} biz days elapsed`;
     const velTrend = document.getElementById('ss-vel-trend');
     if (velTrend) {
-      velTrend.textContent = `📈 On track for ~${projectedTotal} pts by sprint end`;
+      velTrend.textContent = ` On track for ~${projectedTotal} pts by sprint end`;
       velTrend.className = 'sscard-trend neutral';
     }
     const velBar = document.getElementById('ss-vel-bar');
@@ -976,17 +979,28 @@ function renderProjectChart(data) {
 }
 
 function renderTypeChart(data) {
-  const counts = { 'User Story': 0, 'Bug': 0 };
-  data.forEach(d => { if (counts[d.type] !== undefined) counts[d.type]++; });
+  const ALL_TYPES = ['User Story','Bug','Task','Test Case','Test Suite','Test Plan'];
+  const TYPE_COLORS = {
+    'User Story': '#2563eb',
+    'Bug':        '#1e40af',
+    'Task':       '#60a5fa',
+    'Test Case':  '#93c5fd',
+    'Test Suite': '#bfdbfe',
+    'Test Plan':  '#dbeafe'
+  };
+  const counts = {};
+  ALL_TYPES.forEach(t => counts[t] = 0);
+  data.forEach(d => { if (counts[d.type] !== undefined) counts[d.type]++; else counts[d.type] = (counts[d.type]||0)+1; });
+  const active = ALL_TYPES.filter(t => counts[t] > 0);
   destroyChart('typeChart');
   const ctx = document.getElementById('typeChart').getContext('2d');
   charts.typeChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
-      labels: ['User Story','Bug (INC)'],
+      labels: active,
       datasets: [{
-        data: [counts['User Story'], counts['Bug']],
-        backgroundColor: ['#3b82f6','#1e52a8'],
+        data: active.map(t => counts[t]),
+        backgroundColor: active.map(t => TYPE_COLORS[t] || '#93c5fd'),
         borderWidth: 2,
         borderColor: '#fff'
       }]
@@ -994,7 +1008,8 @@ function renderTypeChart(data) {
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: { position: 'bottom', labels: { font: { size: 10, family:'DM Sans' }, padding: 10 } }
+        legend: { position: 'bottom', labels: { font: { size: 10, family:'DM Sans' }, padding: 8, boxWidth: 10 } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed} items` } }
       }
     }
   });
@@ -1008,7 +1023,7 @@ function renderCompletedChart(data) {
   charts.completedChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Sprint 2', 'Sprint 3', 'Sprint 4'],
+      labels: ['Sprint 3', 'Sprint 4', 'Sprint 5'],
       datasets: [{
         label: 'Closed',
         data: [18, 14, s4closed],
@@ -1093,7 +1108,7 @@ function renderINCMetrics(data) {
   // Dates in RAW_DATA were corrected: legacy Excel dates had day/month swapped
   // Business days confirmed avg: 4.4 biz days (8 valid INC closed items, weekends excluded)
   // Individual: [1, 5, 7, 5, 5, 3, 2, 7] biz days — dates corrected from DD/MM→MM/DD swap
-  const CONFIRMED_AVG = '4.4';
+  const CONFIRMED_AVG = '5.5';
 
   function businessDays(created, closed) {
     if (!created || !closed) return null;
@@ -1126,21 +1141,21 @@ function renderINCMetrics(data) {
   document.getElementById('inc-closure').textContent = closureRate + '%';
   document.getElementById('inc-closure-sub').textContent = `${incClosed.length} of ${inc.length} INC closed`;
 
-  // Sprint comparison vs Sprint 3 baseline (9.4 biz days)
-  const SPRINT3_BASELINE = 9.4;
+  // Sprint comparison vs Sprint 4 baseline (9.4 biz days)
+  const SPRINT4_BASELINE = 4.4; // Sprint 4 avg was 4.4 biz days
   const avgNum = parseFloat(avgRes);
   if (!isNaN(avgNum)) {
     document.getElementById('cmp-sprint4').innerHTML = `${avgNum} <span style="font-size:14px;font-weight:400">biz days</span>`;
-    const diff = avgNum - SPRINT3_BASELINE;
+    const diff = avgNum - SPRINT4_BASELINE;
     const badge = document.getElementById('cmp-badge');
     if (diff > 0) {
-      badge.textContent = `▲ ${diff.toFixed(1)} days slower than Sprint 3`;
+      badge.textContent = `▲ ${diff.toFixed(1)} days slower than Sprint 4`;
       badge.className = 'kpi-trend up';
-      document.getElementById('cmp-trend').textContent = `${diff.toFixed(1)} days longer than Sprint 3 (${SPRINT3_BASELINE} days)`;
+      document.getElementById('cmp-trend').textContent = `${diff.toFixed(1)} days longer than Sprint 4 (${SPRINT4_BASELINE} days)`;
     } else {
-      badge.textContent = `▼ ${Math.abs(diff).toFixed(1)} days faster than Sprint 3`;
+      badge.textContent = `▼ ${Math.abs(diff).toFixed(1)} days faster than Sprint 4`;
       badge.className = 'kpi-trend down';
-      document.getElementById('cmp-trend').textContent = `${Math.abs(diff).toFixed(1)} days faster than Sprint 3 (${SPRINT3_BASELINE} days)`;
+      document.getElementById('cmp-trend').textContent = `${Math.abs(diff).toFixed(1)} days faster than Sprint 4 (${SPRINT4_BASELINE} days)`;
     }
   } else {
     document.getElementById('cmp-sprint4').textContent = 'N/A';
@@ -1202,12 +1217,18 @@ function renderWIPTable(data) {
 }
 
 // ═══════════════════════════════════════════
-// VELOCITY CHART — Sprint Burnup
+// VELOCITY CHART — Sprint 5 Burnup
+// Sprint: Mar 17 – Apr 3, 2026 · 14 business days
+// Uses ALL work item types (User Story, Bug, Task, Test Case, etc.)
 // ═══════════════════════════════════════════
+const SPRINT_START_DATE = '2026-03-17';
+const SPRINT_END_DATE   = '2026-04-03';
+const SPRINT_BIZ_TOTAL  = 14;
+
 const SPRINT_DATES = (() => {
   const days = [];
-  const start = new Date('2026-03-09');
-  const end   = new Date('2026-03-27');
+  const start = new Date(SPRINT_START_DATE + 'T00:00:00');
+  const end   = new Date(SPRINT_END_DATE   + 'T00:00:00');
   for (let d = new Date(start); d <= end; d.setDate(d.getDate()+1)) {
     const dow = d.getDay();
     if (dow !== 0 && dow !== 6) days.push(new Date(d));
@@ -1215,12 +1236,12 @@ const SPRINT_DATES = (() => {
   return days;
 })();
 
-const SPRINT_BIZ_TOTAL = 13;
-
 function countElapsedBizDays() {
+  // Count business days from sprint start up to today (capped at sprint end)
   const today = new Date();
-  const start = new Date('2026-03-09');
-  const end   = new Date('2026-03-27');
+  today.setHours(23,59,59,0); // end of today
+  const start = new Date(SPRINT_START_DATE + 'T00:00:00');
+  const end   = new Date(SPRINT_END_DATE   + 'T23:59:59');
   let count = 0;
   for (let d = new Date(start); d <= today && d <= end; d.setDate(d.getDate()+1)) {
     const dow = d.getDay();
@@ -1232,86 +1253,103 @@ function countElapsedBizDays() {
 function renderVelocityChart() {
   const userFilter = document.getElementById('f-velocity-user')?.value || 'all';
 
-  const filteredAll = RAW_DATA.filter(d => userFilter === 'all' || d.user === userFilter);
-  const totalSP     = filteredAll.reduce((s,d) => s+d.sp, 0);
+  // Include ALL work item types — no filter on type
+  const filteredAll = RAW_DATA.filter(d =>
+    (userFilter === 'all' || d.user === userFilter)
+  );
+  const totalSP  = filteredAll.reduce((s, d) => s + d.sp, 0);
 
-  const closedItems = filteredAll.filter(d => d.state === 'Closed' && d.closed && d.sp > 0);
-  const closedSP    = closedItems.reduce((s,d) => s+d.sp, 0);
+  // Closed items with a closed date (any work item type)
+  const closedItems = filteredAll.filter(d =>
+    d.state === 'Closed' && d.closed && d.closed !== 'null' && d.closed !== null
+  );
+  const closedSP = closedItems.reduce((s, d) => s + d.sp, 0);
+  const closedCount = closedItems.length;
 
-  // ── KPI values ──
+  // ── KPI calculations ──
   const elapsed   = countElapsedBizDays();
   const remaining = Math.max(0, SPRINT_BIZ_TOTAL - elapsed);
-  const avgSpDay  = elapsed > 0 ? (closedSP / elapsed).toFixed(2) : '0.00';
-  const projected = Math.round(parseFloat(avgSpDay) * SPRINT_BIZ_TOTAL);
+  // Avg SP/day = total closed SP / business days elapsed
+  const avgSpDay  = elapsed > 0 ? parseFloat((closedSP / elapsed).toFixed(2)) : 0;
+  // Projected total SP by end of sprint at current velocity
+  const projected = Math.round(avgSpDay * SPRINT_BIZ_TOTAL);
   const spRem     = Math.max(0, totalSP - closedSP);
+  // Completion rate = closed items / total items
+  const completionPct = filteredAll.length > 0
+    ? Math.round(closedCount / filteredAll.length * 100) : 0;
 
-  // Populate KPI mini cards
+  // Populate KPI cards
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
   set('vk-elapsed',      elapsed);
   set('vk-elapsed-sub',  `of ${SPRINT_BIZ_TOTAL} working days`);
   set('vk-remaining',    remaining);
-  set('vk-avg-sp',       avgSpDay);
-  set('vk-avg-sp-sub',   `${closedSP} SP ÷ ${elapsed} days`);
+  set('vk-avg-sp',       avgSpDay.toFixed(2));
+  set('vk-avg-sp-sub',   `${closedSP} SP closed ÷ ${elapsed} days`);
   set('vk-sp-rem',       spRem);
   set('vk-sp-rem-sub',   `projected finish: ${projected} SP`);
-  set('vel-avg-badge',   `Average Velocity: ${avgSpDay} SP / day`);
-  set('vel-footer-note', `${closedSP} SP closed · ${avgSpDay} SP/day avg · ${remaining} days left`);
+  set('vel-avg-badge',   `Avg Velocity: ${avgSpDay.toFixed(2)} SP / day`);
+  set('vel-footer-note',
+    `${closedCount} items closed (${closedSP} SP) · ${avgSpDay.toFixed(2)} SP/day · ${remaining} days left · ${completionPct}% complete`
+  );
 
-  // ── Build chart data ──
+  // ── Build daily SP buckets ──
+  // Map each sprint business day to its key
   const spByDay = {};
-  SPRINT_DATES.forEach(d => spByDay[d.toISOString().slice(0,10)] = 0);
+  SPRINT_DATES.forEach(d => { spByDay[d.toISOString().slice(0,10)] = 0; });
 
   closedItems.forEach(item => {
     const key = item.closed;
-    if (spByDay[key] !== undefined) {
+    if (spByDay.hasOwnProperty(key)) {
       spByDay[key] += item.sp;
     } else {
-      const keys = Object.keys(spByDay);
-      if (key >= keys[0] && key <= keys[keys.length-1]) {
-        const closest = keys.reduce((a,b) =>
-          Math.abs(new Date(b)-new Date(key)) < Math.abs(new Date(a)-new Date(key)) ? b : a);
+      // If closed outside sprint days (e.g. weekend), assign to nearest sprint day
+      const sprintKeys = Object.keys(spByDay);
+      if (key >= sprintKeys[0] && key <= sprintKeys[sprintKeys.length - 1]) {
+        const closest = sprintKeys.reduce((a, b) =>
+          Math.abs(new Date(b) - new Date(key)) < Math.abs(new Date(a) - new Date(key)) ? b : a
+        );
         spByDay[closest] += item.sp;
       }
     }
   });
 
-  // Cumulative actual (only up to today)
-  const today     = new Date();
-  const todayStr  = today.toISOString().slice(0,10);
-  const todayIdx  = SPRINT_DATES.findIndex(d => d.toISOString().slice(0,10) >= todayStr);
-  const cutoff    = todayIdx === -1 ? SPRINT_DATES.length : todayIdx + 1;
-
+  // ── Cumulative actual SP (stop at today) ──
+  const todayStr = new Date().toISOString().slice(0, 10);
   let cum = 0;
-  const actualData = SPRINT_DATES.map((d, i) => {
-    const k = d.toISOString().slice(0,10);
-    cum += spByDay[k] || 0;
-    return i < cutoff ? cum : null;
+  const actualData = [];
+  const dailyEarned = [];
+  SPRINT_DATES.forEach((d, i) => {
+    const k = d.toISOString().slice(0, 10);
+    const earned = spByDay[k] || 0;
+    if (k <= todayStr) {
+      cum += earned;
+      actualData.push(cum);
+      dailyEarned.push(earned);
+    } else {
+      actualData.push(null);  // future days — no data yet
+      dailyEarned.push(null);
+    }
   });
 
-  // Projected line (from last actual point to end)
+  // ── Projected velocity line (from last actual point → sprint end) ──
+  // Extends the actual cumulative at current avg SP/day rate
   const lastActualIdx = actualData.reduce((last, v, i) => v !== null ? i : last, -1);
   const lastActualVal = lastActualIdx >= 0 ? actualData[lastActualIdx] : 0;
   const projData = SPRINT_DATES.map((_, i) => {
     if (i < lastActualIdx) return null;
-    const stepsAhead = i - lastActualIdx;
-    return parseFloat((lastActualVal + parseFloat(avgSpDay) * stepsAhead).toFixed(1));
+    return parseFloat((lastActualVal + avgSpDay * (i - lastActualIdx)).toFixed(1));
   });
 
-  // Ideal burnup line
-  const ideal = SPRINT_DATES.map((_, i) =>
-    parseFloat((totalSP / (SPRINT_DATES.length - 1) * i).toFixed(1))
-  );
-
-  // Daily SP earned (bar)
-  const dailyEarned = SPRINT_DATES.map((d, i) => {
-    const k = d.toISOString().slice(0,10);
-    return i < cutoff ? (spByDay[k] || 0) : null;
+  // ── Ideal burnup: straight line from 0 → totalSP ──
+  const ideal = SPRINT_DATES.map((_, i) => {
+    const n = SPRINT_DATES.length - 1;
+    return n > 0 ? parseFloat((totalSP * i / n).toFixed(1)) : 0;
   });
 
-  const labels = SPRINT_DATES.map(d => `${d.getMonth()+1}/${d.getDate()}`);
-
-  // Today annotation index
-  const todayLabel = `${today.getMonth()+1}/${today.getDate()}`;
+  const labels = SPRINT_DATES.map(d => {
+    const m = d.getMonth() + 1, day = d.getDate();
+    return `${m}/${day}`;
+  });
 
   destroyChart('velocityChart');
   const ctx = document.getElementById('velocityChart').getContext('2d');
@@ -1321,49 +1359,49 @@ function renderVelocityChart() {
       labels,
       datasets: [
         {
-          label: `Average Velocity (${avgSpDay} SP/day)`,
+          label: `Projected (${avgSpDay.toFixed(2)} SP/day)`,
           data: projData,
           borderColor: '#5eead4',
+          backgroundColor: 'transparent',
           borderWidth: 2,
-          borderDash: [6, 3],
+          borderDash: [6, 4],
           pointRadius: 0,
           tension: 0,
-          fill: false,
-          order: 3
+          order: 4
         },
         {
-          label: 'Cumulative SP (Actual)',
+          label: 'Cumulative SP Closed (Actual)',
           data: actualData,
-          borderColor: '#1e40af',
-          backgroundColor: 'rgba(15,118,110,0.08)',
+          borderColor: '#0f766e',
+          backgroundColor: 'rgba(15,118,110,0.07)',
           borderWidth: 2.5,
           pointRadius: 4,
-          pointBackgroundColor: '#1e40af',
+          pointBackgroundColor: '#0f766e',
           pointBorderColor: '#fff',
           pointBorderWidth: 2,
-          tension: 0.2,
+          tension: 0.15,
           fill: true,
           order: 1
         },
         {
-          label: 'Ideal Burnup',
+          label: `Ideal Burnup (${totalSP} SP target)`,
           data: ideal,
-          borderColor: '#bfdbfe',
+          borderColor: '#93c5fd',
+          backgroundColor: 'transparent',
           borderWidth: 1.5,
           borderDash: [4, 4],
           pointRadius: 0,
           tension: 0,
-          fill: false,
-          order: 4
+          order: 3
         },
         {
           label: 'Daily SP Earned',
           data: dailyEarned,
           type: 'bar',
-          backgroundColor: 'rgba(167,243,208,0.5)',
-          borderColor: '#93c5fd',
+          backgroundColor: 'rgba(167,243,208,0.55)',
+          borderColor: '#34d399',
           borderWidth: 1,
-          borderRadius: 3,
+          borderRadius: 4,
           order: 2,
           yAxisID: 'y'
         }
@@ -1378,48 +1416,63 @@ function renderVelocityChart() {
           position: 'bottom',
           labels: {
             font: { size: 10, family: 'DM Sans' },
-            padding: 14,
-            boxWidth: 14,
-            usePointStyle: true
+            padding: 16,
+            boxWidth: 12,
+            usePointStyle: true,
+            pointStyleWidth: 16
           }
         },
         tooltip: {
-          bodyFont: { family: 'DM Sans', size: 11 },
+          backgroundColor: 'rgba(17,24,39,0.9)',
           titleFont: { family: 'DM Sans', size: 11, weight: '700' },
+          bodyFont: { family: 'DM Sans', size: 11 },
+          padding: 10,
           callbacks: {
-            label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y !== null ? ctx.parsed.y + ' SP' : '—'}`
-          }
-        },
-        annotation: {
-          annotations: {
-            todayLine: {
-              type: 'line',
-              xMin: todayLabel,
-              xMax: todayLabel,
-              borderColor: '#1e40af',
-              borderWidth: 1.5,
-              borderDash: [4, 3],
-              label: {
-                display: true,
-                content: 'Today',
-                position: 'start',
-                font: { size: 10, family: 'DM Sans', weight: '700' },
-                color: '#1e40af',
-                backgroundColor: 'transparent'
+            title: items => `Sprint Day: ${items[0].label}`,
+            label: ctx => {
+              if (ctx.parsed.y === null) return null;
+              const labels = {
+                'Cumulative SP Closed (Actual)': `Actual: ${ctx.parsed.y} SP closed`,
+                'Daily SP Earned': `Daily: +${ctx.parsed.y} SP`,
+              };
+              return labels[ctx.dataset.label] || `${ctx.dataset.label}: ${ctx.parsed.y} SP`;
+            },
+            afterBody: items => {
+              const actualItem = items.find(i => i.dataset.label.includes('Actual'));
+              if (actualItem && actualItem.parsed.y !== null) {
+                const pct = totalSP > 0 ? Math.round(actualItem.parsed.y / totalSP * 100) : 0;
+                return [`— ${pct}% of ${totalSP} total SP`];
               }
+              return [];
             }
           }
         }
       },
       scales: {
         x: {
-          grid: { color: '#f3f4f6' },
-          ticks: { font: { size: 9, family: 'DM Sans' }, maxRotation: 0 }
+          grid: { color: '#f0fdf4', lineWidth: 1 },
+          ticks: {
+            font: { size: 9, family: 'DM Sans' },
+            maxRotation: 0,
+            color: '#6b7280'
+          },
+          border: { color: '#e5e7eb' }
         },
         y: {
-          grid: { color: '#f3f4f6' },
-          ticks: { font: { size: 10, family: 'DM Sans' } },
-          title: { display: true, text: 'Story Points', font: { size: 10, family: 'DM Sans' }, color: '#9ca3af' }
+          beginAtZero: true,
+          grid: { color: '#f0fdf4', lineWidth: 1 },
+          ticks: {
+            font: { size: 10, family: 'DM Sans' },
+            color: '#6b7280',
+            callback: v => v + ' SP'
+          },
+          title: {
+            display: true,
+            text: 'Story Points',
+            font: { size: 10, family: 'DM Sans' },
+            color: '#9ca3af'
+          },
+          border: { color: '#e5e7eb' }
         }
       }
     }
@@ -1465,5 +1518,8 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 </body>
-</html>
- 
+</html> 
+
+
+
+
