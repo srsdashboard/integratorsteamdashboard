@@ -406,7 +406,7 @@
     </div>
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
       <div class="sprint-badge">Sprint 5 — Active</div>
-      <div style="font-size:11px;color:var(--blue-200);font-weight:500;letter-spacing:0.2px;">📅 Mar 13, 2026 – Mar 27, 2026</div>
+      <div style="font-size:11px;color:var(--blue-200);font-weight:500;letter-spacing:0.2px;">📅 Mar 30, 2026 – Apr 17, 2026</div>
     </div>
   </div>
 
@@ -485,18 +485,6 @@
 
   <!-- ═══ LEFT PANEL ═══ -->
   <div class="left-panel">
-    <!-- Team Capacity -->
-    <div class="card">
-      <div class="card-header">
-        <span class="card-title">Team Capacity Overview</span>
-        <span class="card-badge" id="team-badge">13 Members</span>
-      </div>
-      <div class="card-body">
-        <div style="font-size:10px;color:var(--gray-500);margin-bottom:10px;">Story Points Assigned · Sorted by Workload</div>
-        <div class="capacity-list" id="capacity-list"></div>
-      </div>
-    </div>
-
     <!-- Work Items by Status (mini) -->
     <div class="card">
       <div class="card-header">
@@ -514,21 +502,11 @@
   <div class="right-panel">
 
     <!-- TOP KPIs -->
-    <div class="kpi-grid" id="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-label">Total Work Items</div>
-        <div class="kpi-value" id="kpi-total">–</div>
-        <div class="kpi-sub">Sprint 4 backlog</div>
-      </div>
+    <div class="kpi-grid" id="kpi-grid" style="grid-template-columns:repeat(2,1fr);">
       <div class="kpi-card">
         <div class="kpi-label">Closed Items</div>
         <div class="kpi-value" id="kpi-closed">–</div>
         <div class="kpi-sub" id="kpi-closed-rate">completion rate</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Story Points</div>
-        <div class="kpi-value" id="kpi-sp">–</div>
-        <div class="kpi-sub">total assigned SP</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">Blocked Items</div>
@@ -537,9 +515,8 @@
       </div>
     </div>
 
-    <!-- SECTION 1: SPRINT ACTIVITY -->
     <div class="section-title">Sprint Activity Overview</div>
-    <div class="charts-3col">
+    <div class="charts-2col">
       <div class="card">
         <div class="card-header"><span class="card-title">Items by Project</span></div>
         <div class="card-body">
@@ -550,12 +527,6 @@
         <div class="card-header"><span class="card-title">Items by Type</span></div>
         <div class="card-body">
           <div class="chart-container"><canvas id="typeChart"></canvas></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-header"><span class="card-title">Completed per Sprint</span></div>
-        <div class="card-body">
-          <div class="chart-container"><canvas id="completedChart"></canvas></div>
         </div>
       </div>
     </div>
@@ -594,7 +565,7 @@
     <!-- Sprint Comparison -->
     <div class="sprint-compare">
       <div class="sprint-cmp-card">
-        <div class="sprint-label">Sprint 3 — Reference</div>
+        <div class="sprint-label">Sprint 4 — Reference</div>
         <div class="sprint-val">7.6 <span style="font-size:14px;font-weight:400">biz days</span></div>
         <div class="sprint-sub">Avg INC Resolution Time (biz days)</div>
       </div>
@@ -639,6 +610,109 @@
       </div>
     </div>
 
+    <!-- SECTION: VULNERABILITIES -->
+    <div class="section-title">Serverless Security Vulnerabilities</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:4px;">
+
+      <!-- Progress Stats -->
+      <div class="card" style="overflow:visible;">
+        <div class="card-header">
+          <span class="card-title">Remediation Progress</span>
+          <span class="card-badge">Critical Serverless · 7 Stories</span>
+        </div>
+        <div class="card-body" style="padding:0;">
+
+          <!-- Stats row -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--gray-100);">
+            <div style="padding:14px 16px;border-right:1px solid var(--gray-100);">
+              <div style="font-size:9px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;">Stories Added</div>
+              <div style="font-size:26px;font-weight:700;color:var(--blue-800);font-family:'DM Mono',monospace;line-height:1;">7</div>
+              <div style="font-size:10px;color:var(--gray-500);margin-top:3px;">SRS &amp; HLSG functions</div>
+            </div>
+            <div style="padding:14px 16px;border-right:1px solid var(--gray-100);">
+              <div style="font-size:9px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;">Dev Complete</div>
+              <div style="font-size:26px;font-weight:700;color:var(--blue-600);font-family:'DM Mono',monospace;line-height:1;">2</div>
+              <div style="font-size:10px;color:var(--gray-500);margin-top:3px;">of 7 stories</div>
+            </div>
+            <div style="padding:14px 16px;">
+              <div style="font-size:9px;font-weight:700;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;">Progress</div>
+              <div style="font-size:26px;font-weight:700;color:var(--blue-700);font-family:'DM Mono',monospace;line-height:1;">29%</div>
+              <div style="font-size:10px;color:var(--gray-500);margin-top:3px;">in progress</div>
+            </div>
+          </div>
+
+          <!-- Progress bar -->
+          <div style="padding:14px 18px 6px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <span style="font-size:10px;font-weight:600;color:var(--gray-500);">Remediation Progress</span>
+              <span style="font-size:10px;font-weight:700;color:var(--blue-700);font-family:'DM Mono',monospace;">2 / 7</span>
+            </div>
+            <div style="height:8px;background:var(--blue-50);border-radius:4px;overflow:hidden;margin-bottom:14px;">
+              <div style="height:100%;width:29%;background:linear-gradient(90deg,var(--blue-400),var(--blue-600));border-radius:4px;transition:width 1s ease;"></div>
+            </div>
+            <!-- Per-story status breakdown -->
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 10px;background:var(--gray-50);border-radius:6px;font-size:11px;">
+                <span style="color:var(--gray-500);">Ideation</span>
+                <span style="font-weight:700;color:var(--gray-500);font-family:'DM Mono',monospace;">2 <span style="font-size:9px;color:var(--gray-400);font-weight:400;">(29%)</span></span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 10px;background:var(--gray-50);border-radius:6px;font-size:11px;">
+                <span style="color:var(--gray-500);">In Development</span>
+                <span style="font-weight:700;color:var(--blue-400);font-family:'DM Mono',monospace;">1 <span style="font-size:9px;color:var(--gray-400);font-weight:400;">(14%)</span></span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 10px;background:var(--gray-50);border-radius:6px;font-size:11px;">
+                <span style="color:var(--gray-500);">Active</span>
+                <span style="font-weight:700;color:var(--blue-400);font-family:'DM Mono',monospace;">1 <span style="font-size:9px;color:var(--gray-400);font-weight:400;">(14%)</span></span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 10px;background:var(--gray-50);border-radius:6px;font-size:11px;">
+                <span style="color:var(--gray-500);">Ready for Code Review</span>
+                <span style="font-weight:700;color:var(--blue-500);font-family:'DM Mono',monospace;">1 <span style="font-size:9px;color:var(--gray-400);font-weight:400;">(14%)</span></span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 10px;background:var(--blue-50);border-radius:6px;font-size:11px;">
+                <span style="color:var(--blue-700);font-weight:600;">Dev Complete</span>
+                <span style="font-weight:700;color:var(--blue-700);font-family:'DM Mono',monospace;">2 <span style="font-size:9px;color:var(--blue-400);font-weight:400;">(29%)</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vuln Donut Chart -->
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Vulnerability Status</span>
+          <span class="card-badge">7 Stories</span>
+        </div>
+        <div class="card-body">
+          <div class="chart-container" style="height:160px;">
+            <canvas id="vulnDonutChart"></canvas>
+          </div>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:5px;">
+            <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--gray-500);">
+              <span style="width:10px;height:10px;border-radius:2px;background:#bfdbfe;display:inline-block;flex-shrink:0;"></span>
+              <span style="flex:1;">Ideation</span>
+              <span style="font-weight:700;font-family:'DM Mono',monospace;color:var(--gray-700);">2</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--gray-500);">
+              <span style="width:10px;height:10px;border-radius:2px;background:#60a5fa;display:inline-block;flex-shrink:0;"></span>
+              <span style="flex:1;">In Development / Active</span>
+              <span style="font-weight:700;font-family:'DM Mono',monospace;color:var(--gray-700);">2</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--gray-500);">
+              <span style="width:10px;height:10px;border-radius:2px;background:#3b82f6;display:inline-block;flex-shrink:0;"></span>
+              <span style="flex:1;">Ready for Code Review</span>
+              <span style="font-weight:700;font-family:'DM Mono',monospace;color:var(--gray-700);">1</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:var(--gray-500);">
+              <span style="width:10px;height:10px;border-radius:2px;background:#1e52a8;display:inline-block;flex-shrink:0;"></span>
+              <span style="flex:1;">Dev Complete</span>
+              <span style="font-weight:700;font-family:'DM Mono',monospace;color:var(--blue-700);">2</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- SECTION: TEAM VELOCITY -->
     <div class="section-title">Sprint Velocity &amp; Daily Burnup</div>
     <div class="card" style="overflow:visible;">
@@ -651,7 +725,7 @@
         </div>
         <div style="margin-left:auto;display:flex;align-items:center;gap:6px;font-size:11px;color:#6b7280;">
           <span></span>
-          <span><b style="color:#0f766e;">Sprint 5</b> · Mar 17 – Apr 3, 2026 · 14 working days</span>
+          <span><b style="color:#0f766e;">Sprint 5</b> · Mar 30 – Apr 17, 2026 · 13 working days</span>
         </div>
       </div>
 
@@ -673,7 +747,7 @@
         <div class="vel-kpi-card" id="vel-days-rem" style="border-right:1px solid #e5e7eb;">
           <div class="vel-kpi-label">DAYS REMAINING</div>
           <div class="vel-kpi-value" id="vk-remaining">–</div>
-          <div class="vel-kpi-sub">until Apr 3</div>
+          <div class="vel-kpi-sub">until Apr 17</div>
         </div>
         <div class="vel-kpi-card" id="vel-avg-sp" style="border-right:1px solid #e5e7eb;">
           <div class="vel-kpi-label">AVG SP / DAY</div>
@@ -690,7 +764,7 @@
       <!-- Chart -->
       <div class="card-body" style="padding:18px 18px 10px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <span style="font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.4px;">Daily SP Burnup — Sprint 5 (Mar 17 → Apr 3)</span>
+          <span style="font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.4px;">Daily SP Burnup — Sprint 5 (Mar 30 → Apr 17)</span>
           <span style="background:#e6f7f4;color:#0f766e;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;border:1px solid #a7f3d0;" id="vel-avg-badge">Avg Velocity: – SP/day</span>
         </div>
         <div style="position:relative;height:260px;">
@@ -759,11 +833,10 @@ function resetFilters() {
 function render() {
   const data = getFiltered();
   renderKPIs(data);
-  renderCapacity(data);
   renderStatusChart(data);
   renderProjectChart(data);
   renderTypeChart(data);
-  renderCompletedChart(data);
+
   renderBizProjectChart(data);
   renderVelocityChart();
   renderINCMetrics(data);
@@ -780,35 +853,38 @@ function renderKPIs(data) {
   const rate    = total > 0 ? Math.round(closed / total * 100) : 0;
 
   // Main KPI cards
-  document.getElementById('kpi-total').textContent   = total;
-  document.getElementById('kpi-closed').textContent  = closed;
-  document.getElementById('kpi-closed-rate').textContent = `${rate}% completion rate`;
-  document.getElementById('kpi-sp').textContent      = sp;
-  document.getElementById('kpi-blocked').textContent = blocked;
+  const safeSet = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  safeSet('kpi-total',      total);
+  safeSet('kpi-closed',     closed);
+  safeSet('kpi-closed-rate', `${rate}% completion rate`);
+  safeSet('kpi-sp',         sp);
+  safeSet('kpi-blocked',    blocked);
 
   // ── Sprint Summary Bar ──
-  const SPRINT3_RATE = 50; // Sprint 4 reference rate
-  // Sprint 5 completion: 34 of 40 planned work items = 85%
-  const SPRINT5_RATE = 85;
-  const SPRINT5_PLANNED = 40;
-  const SPRINT5_DONE = 34;
+  const SPRINT4_REF_RATE = 50; // Sprint 4 reference rate
+  // Sprint 5 completion: 4 of 60 planned work items = 7%
+  const SPRINT5_RATE = 7;
+  const SPRINT5_PLANNED = 60;
+  const SPRINT5_DONE = 4;
 
   // Completion Rate card
   const rateEl = document.getElementById('ss-rate');
   if (rateEl) {
     rateEl.textContent = SPRINT5_RATE + '%';
-    document.getElementById('ss-rate-sub').textContent = `${SPRINT5_DONE} of ${SPRINT5_PLANNED} items completed`;
-    const diff = SPRINT5_RATE - SPRINT3_RATE;
+    safeSet('ss-rate-sub', `${SPRINT5_DONE} of ${SPRINT5_PLANNED} items completed`);
+    const diff = SPRINT5_RATE - SPRINT4_REF_RATE;
     const trendEl = document.getElementById('ss-rate-trend');
-    if (diff > 0) {
-      trendEl.textContent = `▲ +${diff}% vs Sprint 4`;
-      trendEl.className = 'sscard-trend up';
-    } else if (diff < 0) {
-      trendEl.textContent = `▼ ${Math.abs(diff)}% vs Sprint 4`;
-      trendEl.className = 'sscard-trend down';
-    } else {
-      trendEl.textContent = `= Same as Sprint 4`;
-      trendEl.className = 'sscard-trend neutral';
+    if (trendEl) {
+      if (diff > 0) {
+        trendEl.textContent = `▲ +${diff}% vs Sprint 4`;
+        trendEl.className = 'sscard-trend up';
+      } else if (diff < 0) {
+        trendEl.textContent = `▼ ${Math.abs(diff)}% vs Sprint 4`;
+        trendEl.className = 'sscard-trend down';
+      } else {
+        trendEl.textContent = `= Same as Sprint 4`;
+        trendEl.className = 'sscard-trend neutral';
+      }
     }
     const barEl = document.getElementById('ss-rate-bar');
     if (barEl) barEl.style.width = SPRINT5_RATE + '%';
@@ -818,9 +894,9 @@ function renderKPIs(data) {
   const spDoneEl = document.getElementById('ss-sp-done');
   if (spDoneEl) {
     spDoneEl.textContent = spDone;
-    document.getElementById('ss-sp-total').textContent = '/' + sp;
+    safeSet('ss-sp-total', '/' + sp);
     const rem = sp - spDone;
-    document.getElementById('ss-sp-rem').textContent = `${rem > 0 ? rem + ' pts remaining' : 'All points completed!'}`;
+    safeSet('ss-sp-rem', `${rem > 0 ? rem + ' pts remaining' : 'All points completed!'}`);
     const spPct = sp > 0 ? Math.round(spDone / sp * 100) : 0;
     const spBarEl = document.getElementById('ss-sp-bar');
     if (spBarEl) spBarEl.style.width = spPct + '%';
@@ -837,17 +913,17 @@ function renderKPIs(data) {
     const incTrend = document.getElementById('ss-inc-trend');
     const incClosureRate = inc.length > 0 ? Math.round(incClosedCount / inc.length * 100) : 0;
     if (incTrend) {
-      incTrend.textContent = `${incClosureRate}% closure rate · ${incClosedCount} of ${inc.length} resolved`;
+      incTrend.textContent = `${incClosureRate}% resolution rate`;
       incTrend.className = incClosureRate >= 50 ? 'sscard-trend up' : 'sscard-trend neutral';
     }
   }
 
   // ── Daily Avg Velocity ──
-  // Sprint: Mar 17 – Apr 3, 2026 = 14 business days total
+  // Sprint: Mar 30 – Apr 17, 2026 = 13 business days total
   // Calculate elapsed business days from sprint start to today
-  const SPRINT_START    = new Date('2026-03-13');
-  const SPRINT_END      = new Date('2026-04-03');
-  const SPRINT_BIZ_DAYS = 14;
+  const SPRINT_START    = new Date('2026-03-30');
+  const SPRINT_END      = new Date('2026-04-17');
+  const SPRINT_BIZ_DAYS = 13;
 
   function countBizDays(from, to) {
     let count = 0;
@@ -868,8 +944,8 @@ function renderKPIs(data) {
   const velEl = document.getElementById('ss-vel');
   if (velEl) {
     velEl.innerHTML = `${dailyVel}<span class="unit"> pts/day</span>`;
-    document.getElementById('ss-vel-sub').textContent =
-      `${spDone} SP closed · ${elapsed} of ${SPRINT_BIZ_DAYS} biz days elapsed`;
+    safeSet('ss-vel-sub',
+      `${spDone} SP closed · ${elapsed} of ${SPRINT_BIZ_DAYS} biz days elapsed`);
     const velTrend = document.getElementById('ss-vel-trend');
     if (velTrend) {
       velTrend.textContent = ` On track for ~${projectedTotal} pts by sprint end`;
@@ -882,17 +958,8 @@ function renderKPIs(data) {
 }
 
 function renderCapacity(data) {
-  const userSP = {};
-  data.forEach(d => {
-    const u = d.user || 'Unassigned';
-    if (!userSP[u]) userSP[u] = 0;
-    userSP[u] += d.sp;
-  });
-
-  const sorted = Object.entries(userSP).filter(([u]) => u && u !== 'Unassigned' && u !== '').sort((a,b) => b[1]-a[1]);
-  const max = sorted[0] ? sorted[0][1] : 1;
-
   const list = document.getElementById('capacity-list');
+  if (!list) return;
   list.innerHTML = '';
   sorted.forEach(([user, sp]) => {
     const pct = max > 0 ? (sp / max * 100) : 0;
@@ -915,7 +982,62 @@ function renderCapacity(data) {
         </div>
       </div>`;
   });
-  document.getElementById('team-badge').textContent = `${sorted.length} Members`;
+  const teamBadge = document.getElementById('team-badge');
+  if (teamBadge) teamBadge.textContent = `${sorted.length} Members`;
+}
+
+// ── Tasks Panel ──────────────────────────────────────────────────────────────
+function renderTasksPanel() {
+  const summary = document.getElementById('tasks-panel-summary');
+  const list = document.getElementById('tasks-list');
+  if (!summary || !list) return;
+  summary.innerHTML = Object.entries(catCounts)
+    .sort((a,b) => b[1]-a[1])
+    .map(([cat, cnt]) => {
+      const [bg, color] = catColors[cat] || ['#f3f4f6','#374151'];
+      const isActive = catFilter === 'all' || catFilter === cat;
+      return `<div style="background:${bg};color:${color};font-size:9px;font-weight:700;padding:3px 9px;border-radius:12px;opacity:${isActive?1:0.4};white-space:nowrap;">${cat} <span style="font-size:10px;">${cnt}</span></div>`;
+    }).join('');
+
+  // List tasks grouped by category
+  if (tasks.length === 0) {
+    list.innerHTML = '<div style="color:var(--gray-400);font-size:11px;text-align:center;padding:12px;">No tasks for this category</div>';
+    return;
+  }
+
+  // Group by user, show count + closed
+  const byUser = {};
+  tasks.forEach(d => {
+    const u = d.user || 'Unassigned';
+    if (!byUser[u]) byUser[u] = { total: 0, closed: 0 };
+    byUser[u].total++;
+    if (d.state === 'Closed') byUser[u].closed++;
+  });
+
+  const sorted = Object.entries(byUser)
+    .filter(([u]) => u && u !== '' && u !== 'Unassigned')
+    .sort((a,b) => b[1].total - a[1].total);
+  const maxTasks = sorted[0] ? sorted[0][1].total : 1;
+
+  list.innerHTML = sorted.map(([user, counts]) => {
+    const pct = Math.round(counts.total / maxTasks * 100);
+    const closedPct = counts.total > 0 ? Math.round(counts.closed / counts.total * 100) : 0;
+    const short = user.split(' ').slice(0,2).join(' ');
+    return `<div class="capacity-row">
+      <div class="capacity-user">
+        <span class="capacity-name" style="color:var(--gray-700)">${short}</span>
+        <span style="font-size:10px;color:var(--gray-500);">
+          <b style="color:var(--blue-700)">${counts.total}</b> tasks
+          <span style="margin-left:6px;color:#059669;">✓ ${counts.closed}</span>
+          <span style="margin-left:4px;color:var(--gray-400);">(${closedPct}%)</span>
+        </span>
+      </div>
+      <div class="cap-bar-bg" style="background:var(--blue-50);position:relative;">
+        <div style="position:absolute;left:0;top:0;height:100%;width:${pct}%;background:linear-gradient(90deg,#bfdbfe,#60a5fa);border-radius:4px;"></div>
+        <div style="position:absolute;left:0;top:0;height:100%;width:${Math.round(closedPct*pct/100)}%;background:linear-gradient(90deg,#34d399,#059669);border-radius:4px;"></div>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function renderStatusChart(data) {
@@ -925,7 +1047,9 @@ function renderStatusChart(data) {
   const values = labels.map(l => counts[l]);
 
   destroyChart('statusChart');
-  const ctx = document.getElementById('statusChart').getContext('2d');
+  const el_statusChart = document.getElementById('statusChart');
+  if (!el_statusChart) return;
+  const ctx = el_statusChart.getContext('2d');
   charts.statusChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
@@ -951,10 +1075,14 @@ function renderProjectChart(data) {
   const counts = {};
   PROJECTS.forEach(p => counts[p] = 0);
   data.forEach(d => { if (counts[d.project] !== undefined) counts[d.project]++; });
+  counts['Remediation'] = 7;
 
-  const filtered = PROJECTS.filter(p => counts[p] > 0);
+  const allProjects = [...PROJECTS, 'Remediation'];
+  const filtered = allProjects.filter(p => counts[p] > 0);
   destroyChart('projectChart');
-  const ctx = document.getElementById('projectChart').getContext('2d');
+  const el_projectChart = document.getElementById('projectChart');
+  if (!el_projectChart) return;
+  const ctx = el_projectChart.getContext('2d');
   charts.projectChart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -993,7 +1121,9 @@ function renderTypeChart(data) {
   data.forEach(d => { if (counts[d.type] !== undefined) counts[d.type]++; else counts[d.type] = (counts[d.type]||0)+1; });
   const active = ALL_TYPES.filter(t => counts[t] > 0);
   destroyChart('typeChart');
-  const ctx = document.getElementById('typeChart').getContext('2d');
+  const el_typeChart = document.getElementById('typeChart');
+  if (!el_typeChart) return;
+  const ctx = el_typeChart.getContext('2d');
   charts.typeChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
@@ -1016,10 +1146,8 @@ function renderTypeChart(data) {
 }
 
 function renderCompletedChart(data) {
-  // Sprint comparison (simulated Sprint 2 & 3 data)
-  const s4closed = data.filter(d => d.state === 'Closed').length;
-  destroyChart('completedChart');
-  const ctx = document.getElementById('completedChart').getContext('2d');
+  const canvas = document.getElementById('completedChart');
+  if (!canvas) return;
   charts.completedChart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -1077,7 +1205,9 @@ function renderBizProjectChart(data) {
   }));
 
   destroyChart('bizProjectChart');
-  const ctx = document.getElementById('bizProjectChart').getContext('2d');
+  const el_bizProjectChart = document.getElementById('bizProjectChart');
+  if (!el_bizProjectChart) return;
+  const ctx = el_bizProjectChart.getContext('2d');
   charts.bizProjectChart = new Chart(ctx, {
     type: 'bar',
     data: { labels: PROJECTS, datasets },
@@ -1136,29 +1266,29 @@ function renderINCMetrics(data) {
 
   const closureRate = inc.length > 0 ? Math.round(incClosed.length / inc.length * 100) : 0;
 
-  document.getElementById('inc-total').textContent   = inc.length;
-  document.getElementById('inc-avg-res').textContent = avgRes;
-  document.getElementById('inc-closure').textContent = closureRate + '%';
-  document.getElementById('inc-closure-sub').textContent = `${incClosed.length} of ${inc.length} INC closed`;
+  const safeSetI = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  safeSetI('inc-total',       inc.length);
+  safeSetI('inc-avg-res',     avgRes);
+  safeSetI('inc-closure',     closureRate + '%');
+  safeSetI('inc-closure-sub', `${incClosed.length} of ${inc.length} INC closed`);
 
-  // Sprint 4 (current) vs Sprint 3 baseline = 7.6 biz days
   const SPRINT3_BASELINE = 7.6;
   const avgNum = parseFloat(avgRes);
+  const cmpSprint4 = document.getElementById('cmp-sprint4');
+  const cmpTrend   = document.getElementById('cmp-trend');
+  const badge      = document.getElementById('cmp-badge');
   if (!isNaN(avgNum)) {
-    document.getElementById('cmp-sprint4').innerHTML = `${avgNum} <span style="font-size:14px;font-weight:400">biz days</span>`;
+    if (cmpSprint4) cmpSprint4.innerHTML = `${avgNum} <span style="font-size:14px;font-weight:400">biz days</span>`;
     const diff = avgNum - SPRINT3_BASELINE;
-    const badge = document.getElementById('cmp-badge');
     if (diff > 0) {
-      badge.textContent = `▲ ${diff.toFixed(1)} days slower than Sprint 3`;
-      badge.className = 'kpi-trend up';
-      document.getElementById('cmp-trend').textContent = `${diff.toFixed(1)} days longer than Sprint 3 (${SPRINT3_BASELINE} days)`;
+      if (badge) { badge.textContent = `▲ ${diff.toFixed(1)} days slower than Sprint 3`; badge.className = 'kpi-trend up'; }
+      if (cmpTrend) cmpTrend.textContent = `${diff.toFixed(1)} days longer than Sprint 3 (${SPRINT3_BASELINE} days)`;
     } else {
-      badge.textContent = `▼ ${Math.abs(diff).toFixed(1)} days faster than Sprint 3`;
-      badge.className = 'kpi-trend down';
-      document.getElementById('cmp-trend').textContent = `${Math.abs(diff).toFixed(1)} days faster than Sprint 3 (${SPRINT3_BASELINE} days)`;
+      if (badge) { badge.textContent = `▼ ${Math.abs(diff).toFixed(1)} days faster than Sprint 3`; badge.className = 'kpi-trend down'; }
+      if (cmpTrend) cmpTrend.textContent = `${Math.abs(diff).toFixed(1)} days faster than Sprint 3 (${SPRINT3_BASELINE} days)`;
     }
   } else {
-    document.getElementById('cmp-sprint4').textContent = 'N/A';
+    if (cmpSprint4) cmpSprint4.textContent = 'N/A';
   }
 }
 
@@ -1168,7 +1298,9 @@ function renderINCDonut(data) {
   const closed = inc.filter(d => d.state === 'Closed').length;
   const open   = inc.length - closed;
   destroyChart('incDonutChart');
-  const ctx = document.getElementById('incDonutChart').getContext('2d');
+  const el_incDonutChart = document.getElementById('incDonutChart');
+  if (!el_incDonutChart) return;
+  const ctx = el_incDonutChart.getContext('2d');
   charts.incDonutChart = new Chart(ctx, {
     type: 'doughnut',
     data: {
@@ -1194,7 +1326,8 @@ function renderINCDonut(data) {
 function renderWIPTable(data) {
   const isRealINC = d => d.tags.split(';').map(t => t.trim()).some(t => t === 'INC' || /^INC\d+$/.test(t));
   const incWIP = data.filter(d => isRealINC(d) && d.state !== 'Closed');
-  document.getElementById('wip-badge').textContent = `${incWIP.length} open`;
+  const wipBadge = document.getElementById('wip-badge');
+  if (wipBadge) wipBadge.textContent = `${incWIP.length} open`;
   const tbody = document.getElementById('wip-body');
   tbody.innerHTML = '';
   const stateClass = s => {
@@ -1218,11 +1351,11 @@ function renderWIPTable(data) {
 
 // ═══════════════════════════════════════════
 // VELOCITY CHART — Sprint 5 Burnup
-// Sprint: Mar 17 – Apr 3, 2026 · 14 business days
+// Sprint 5 · Mar 30 – Apr 17, 2026 · 13 business days
 // Uses ALL work item types (User Story, Bug, Task, Test Case, etc.)
 // ═══════════════════════════════════════════
-const SPRINT_START_DATE = '2026-03-17';
-const SPRINT_END_DATE   = '2026-04-03';
+const SPRINT_START_DATE = '2026-03-30';
+const SPRINT_END_DATE   = '2026-04-17';
 const SPRINT_BIZ_TOTAL  = 14;
 
 const SPRINT_DATES = (() => {
@@ -1352,7 +1485,9 @@ function renderVelocityChart() {
   });
 
   destroyChart('velocityChart');
-  const ctx = document.getElementById('velocityChart').getContext('2d');
+  const el_velocityChart = document.getElementById('velocityChart');
+  if (!el_velocityChart) return;
+  const ctx = el_velocityChart.getContext('2d');
   charts.velocityChart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -1502,6 +1637,53 @@ function initFilters() {
 }
 
 // ═══════════════════════════════════════════
+// VULNERABILITIES
+// ═══════════════════════════════════════════
+(function initVuln() {
+  const ctx = document.getElementById('vulnDonutChart');
+  if (!ctx) return;
+  new Chart(ctx.getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Ideation', 'In Development / Active', 'Ready for Code Review', 'Dev Complete'],
+      datasets: [{
+        data: [2, 2, 1, 2],
+        backgroundColor: ['#bfdbfe', '#60a5fa', '#3b82f6', '#1e52a8'],
+        borderColor: ['#93c5fd', '#3b82f6', '#2563eb', '#1e3a8a'],
+        borderWidth: 2,
+        hoverOffset: 6
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '68%',
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.label}: ${ctx.parsed} stories`
+          }
+        }
+      }
+    },
+    plugins: [{
+      id: 'vulnCtr',
+      beforeDraw(c) {
+        const { ctx, chartArea: { width, height } } = c;
+        ctx.save();
+        ctx.fillStyle = '#9ca3af';
+        ctx.font = '500 10px DM Sans';
+        ctx.textAlign = 'center';
+        ctx.fillText('Progress', width / 2, height / 2 - 8);
+        ctx.fillStyle = '#1e52a8';
+        ctx.font = '700 22px DM Sans';
+        ctx.fillText('29%', width / 2, height / 2 + 12);
+        ctx.restore();
+      }
+    }]
+  });
+})();
+
+// ═══════════════════════════════════════════
 // BOOT
 // ═══════════════════════════════════════════
 window.addEventListener('DOMContentLoaded', () => {
@@ -1518,5 +1700,4 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 </body>
-</html> 
-  
+</html>
