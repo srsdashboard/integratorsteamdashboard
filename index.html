@@ -2,1000 +2,988 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Integrators Team Dashboard</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Integrators Team — Sprint 5</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* ── TOKENS ── */
+:root {
+  --color-bg:       #f0f4f8;
+  --color-surface:  #ffffff;
+  --color-surface2: #f7f9fc;
+  --color-border:   #e4eaf2;
+  --color-border-2: #d0dae8;
 
-  :root {
-    --blue-900: #0d2b5e;
-    --blue-800: #1a3f82;
-    --blue-700: #1e52a8;
-    --blue-600: #2563eb;
-    --blue-500: #3b82f6;
-    --blue-400: #60a5fa;
-    --blue-300: #93c5fd;
-    --blue-200: #bfdbfe;
-    --blue-100: #dbeafe;
-    --blue-50:  #eff6ff;
-    --gray-900: #111827;
-    --gray-700: #374151;
-    --gray-500: #6b7280;
-    --gray-300: #d1d5db;
-    --gray-100: #f3f4f6;
-    --gray-50:  #f9fafb;
-    --green: #10b981;
-    --red: #ef4444;
-    --amber: #f59e0b;
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
-    --shadow-lg: 0 10px 30px rgba(0,0,0,0.1), 0 4px 10px rgba(0,0,0,0.05);
-    --radius: 12px;
-    --radius-sm: 8px;
-  }
+  --b900: #0c1f38; --b800: #0f2d54; --b700: #133c72;
+  --b600: #1756a9; --b500: #2272d4; --b400: #4a92e8;
+  --b300: #7db5f4; --b200: #b8d8fa; --b100: #deeeff; --b50: #eef6ff;
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--gray-50);
-    color: var(--gray-900);
-    min-height: 100vh;
-    font-size: 13px;
-  }
+  --t700: #0d6375; --t600: #0e7d95; --t500: #0fa3bf;
+  --t400: #22c4db; --t300: #6ddce9; --t200: #b0eff6;
 
-  /* SPRINT SUMMARY BAR */
-  .sprint-summary-bar {
-    display: flex;
-    gap: 12px;
-    padding: 0 0 22px;
-    align-items: stretch;
-  }
-  .sprint-summary-label {
-    display: flex;
-    align-items: center;
-    font-size: 10px;
-    font-weight: 700;
-    color: rgba(255,255,255,0.5);
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    white-space: nowrap;
-    margin-right: 4px;
-    writing-mode: horizontal-tb;
-  }
-  .sscard {
-    background: rgba(255,255,255,0.10);
-    border: 1px solid rgba(255,255,255,0.18);
-    border-radius: 10px;
-    padding: 14px 18px;
-    min-width: 170px;
-    backdrop-filter: blur(8px);
-    transition: background 0.2s, transform 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-  .sscard:hover { background: rgba(255,255,255,0.16); transform: translateY(-1px); }
-  .sscard-label {
-    font-size: 10px; font-weight: 600; color: var(--blue-200);
-    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
-    white-space: nowrap;
-  }
-  .sscard-value {
-    font-size: 34px; font-weight: 700; color: #fff;
-    font-family: 'DM Mono', monospace; line-height: 1; margin-bottom: 4px;
-  }
-  .sscard-value span.denom {
-    font-size: 16px; font-weight: 500; color: rgba(255,255,255,0.6);
-  }
-  .sscard-value span.unit {
-    font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.7);
-  }
-  .sscard-sub { font-size: 11px; color: var(--blue-200); margin-top: 2px; }
-  .sscard-trend {
-    display: inline-flex; align-items: center; gap: 3px;
-    font-size: 11px; font-weight: 700; margin-top: 8px;
-    padding: 2px 7px; border-radius: 20px;
-  }
-  .sscard-trend.up   { background: rgba(16,185,129,0.2); color: #6ee7b7; }
-  .sscard-trend.down { background: rgba(239,68,68,0.2);  color: #fca5a5; }
-  .sscard-trend.neutral { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.7); }
-  .sscard-bar { height: 3px; background: rgba(255,255,255,0.15); border-radius: 2px; margin-top: 10px; overflow: hidden; }
-  .sscard-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg,#60a5fa,#a5f3fc); transition: width 1.2s ease; }
-  .sscard.live { border-color: rgba(96,165,250,0.4); background: rgba(37,99,235,0.2); }
-  .header {
-    background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 60%, var(--blue-500) 100%);
-    padding: 24px 32px 0;
-    box-shadow: 0 4px 20px rgba(13,43,94,0.3);
-  }
-  .header-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  .header h1 {
-    font-size: 22px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -0.3px;
-  }
-  .header .subtitle {
-    font-size: 12px;
-    color: var(--blue-200);
-    margin-top: 2px;
-    font-weight: 400;
-  }
-  .sprint-badge {
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.25);
-    color: #fff;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    backdrop-filter: blur(4px);
-  }
+  --tx1: #0d1b2e; --tx2: #344966; --tx3: #647999; --tx4: #97afc6;
 
-  /* SPRINT COMPLETION CARDS - in header */
-  .completion-bar {
-    display: flex;
-    gap: 12px;
-    padding-bottom: 20px;
-  }
-  .completion-card {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: var(--radius-sm);
-    padding: 16px 20px;
-    min-width: 180px;
-    backdrop-filter: blur(8px);
-    transition: background 0.2s;
-  }
-  .completion-card:hover { background: rgba(255,255,255,0.18); }
-  .completion-card .month { font-size: 11px; color: var(--blue-200); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-  .completion-card .pct { font-size: 36px; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 4px; font-family: 'DM Mono', monospace; }
-  .completion-card .detail { font-size: 11px; color: var(--blue-200); }
-  .completion-card .progress-bg { height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; margin-top: 10px; overflow: hidden; }
-  .completion-card .progress-fill { height: 100%; background: linear-gradient(90deg, #60a5fa, #a5f3fc); border-radius: 2px; transition: width 1s ease; }
-  .completion-card.tbd .pct { font-size: 22px; color: rgba(255,255,255,0.5); }
+  --success:    #0d9168; --success-bg: #ecfdf5;
+  --warning:    #b45309; --warning-bg: #fef9ee;
+  --danger:     #d1273a; --danger-bg:  #fef2f3;
 
-  /* FILTERS */
-  .filters-wrap {
-    background: #fff;
-    border-bottom: 1px solid var(--gray-200, #e5e7eb);
-    padding: 12px 32px;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    flex-wrap: wrap;
-    box-shadow: var(--shadow-sm);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .filters-wrap label { font-size: 11px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; }
-  .filter-select {
-    border: 1px solid var(--gray-300);
-    border-radius: 6px;
-    padding: 6px 10px;
-    font-size: 12px;
-    font-family: 'DM Sans', sans-serif;
-    color: var(--gray-700);
-    background: var(--gray-50);
-    cursor: pointer;
-    outline: none;
-    transition: border-color 0.15s, box-shadow 0.15s;
-    min-width: 130px;
-  }
-  .filter-select:focus { border-color: #0891b2; box-shadow: 0 0 0 3px rgba(8,145,178,0.12); }
-  .filter-divider { width: 1px; height: 22px; background: var(--gray-300); margin: 0 4px; }
-  .btn-reset {
-    padding: 6px 14px;
-    background: #0e7490;
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    font-size: 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-  .btn-reset:hover { background: #0891b2; }
+  --r-sm: 6px; --r-md: 9px; --r-lg: 13px;
+  --sh1: 0 1px 3px rgba(13,27,46,.06),0 1px 2px rgba(13,27,46,.04);
+  --sh2: 0 4px 14px rgba(13,27,46,.08);
+}
 
-  /* MAIN LAYOUT */
-  .main {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 20px;
-    padding: 20px 32px;
-    max-width: 1600px;
-  }
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body {
+  font-family:'Outfit',sans-serif;
+  background:var(--color-bg);
+  color:var(--tx1);
+  font-size:13px;
+  line-height:1.5;
+  min-height:100vh;
+}
 
-  /* CARDS */
-  .card {
-    background: #fff;
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
-    border: 1px solid rgba(0,0,0,0.05);
-    overflow: hidden;
-  }
-  .card-header {
-    padding: 14px 18px 10px;
-    border-bottom: 1px solid var(--gray-100);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .card-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--gray-900);
-    letter-spacing: -0.2px;
-  }
-  .card-badge {
-    font-size: 10px;
-    font-weight: 600;
-    background: var(--blue-100);
-    color: var(--blue-700);
-    padding: 2px 8px;
-    border-radius: 10px;
-  }
-  .card-body { padding: 14px 18px; }
+/* ── TOPBAR ── */
+.topbar {
+  position:sticky; top:0; z-index:200;
+  background:var(--b900);
+  height:54px;
+  display:flex; align-items:center;
+  padding:0 24px; gap:0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  box-shadow:0 2px 16px rgba(0,0,0,.3);
+}
+.tb-logo {
+  width:30px; height:30px; border-radius:8px;
+  background:linear-gradient(135deg,var(--t500),var(--b500));
+  display:flex; align-items:center; justify-content:center;
+  font-size:12px; font-weight:800; color:#fff; flex-shrink:0;
+  margin-right:10px; letter-spacing:-.5px;
+}
+.tb-brand { display:flex; flex-direction:column; justify-content:center; margin-right:28px; }
+.tb-brand-name { font-size:13.5px; font-weight:700; color:#fff; letter-spacing:-.2px; }
+.tb-brand-sub { font-size:10.5px; color:rgba(255,255,255,.38); font-weight:400; margin-top:1px; }
+.tb-tabs { display:flex; gap:2px; flex:1; }
+.tb-tab {
+  display:flex; align-items:center; gap:6px;
+  padding:5px 13px; border-radius:var(--r-md);
+  font-size:12px; font-weight:500; color:rgba(255,255,255,.45);
+  cursor:pointer; border:none; background:transparent;
+  transition:all .15s; white-space:nowrap; font-family:'Outfit',sans-serif;
+}
+.tb-tab:hover { color:rgba(255,255,255,.8); background:rgba(255,255,255,.06); }
+.tb-tab.on-dev { color:var(--b300); background:rgba(34,114,212,.2); font-weight:600; }
+.tb-tab.on-sup { color:var(--t300); background:rgba(15,163,191,.18); font-weight:600; }
+.tb-pip { width:6px; height:6px; border-radius:50%; }
+.pip-dev { background:var(--b400); }
+.pip-sup { background:var(--t400); }
+.tb-right { margin-left:auto; display:flex; align-items:center; gap:8px; }
+.tb-chip {
+  display:flex; align-items:center; gap:5px;
+  padding:4px 11px; border-radius:99px;
+  font-size:10.5px; font-weight:600; color:rgba(255,255,255,.55);
+  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1);
+}
+.tb-chip .live {
+  width:6px; height:6px; border-radius:50%; background:#4ade80;
+  box-shadow:0 0 5px rgba(74,222,128,.5);
+  animation:blink 2s infinite;
+}
+.tb-chip.deploy { color:var(--t300); background:rgba(15,163,191,.12); border-color:rgba(15,163,191,.25); }
+.tb-chip.dates { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:400; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
 
-  /* LEFT PANEL */
-  .left-panel { display: flex; flex-direction: column; gap: 16px; }
-
-  /* CAPACITY BARS */
-  .capacity-list { display: flex; flex-direction: column; gap: 10px; }
-  .capacity-row { display: flex; flex-direction: column; gap: 3px; }
-  .capacity-user { display: flex; justify-content: space-between; align-items: center; }
-  .capacity-name { font-size: 12px; font-weight: 500; color: var(--gray-700); }
-  .capacity-pts { font-size: 11px; font-weight: 700; color: var(--blue-700); font-family: 'DM Mono', monospace; }
-  .cap-bar-bg { height: 7px; background: var(--blue-50); border-radius: 4px; overflow: hidden; }
-  .cap-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue-400), var(--blue-600)); transition: width 1s ease; }
-
-  /* RIGHT PANEL */
-  .right-panel { display: flex; flex-direction: column; gap: 16px; }
-
-  /* KPI GRID */
-  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .kpi-card {
-    background: linear-gradient(135deg, #fff 0%, var(--blue-50) 100%);
-    border: 1px solid var(--blue-100);
-    border-radius: var(--radius-sm);
-    padding: 16px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .kpi-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-  .kpi-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, var(--blue-400), var(--blue-600));
-  }
-  .kpi-label { font-size: 10px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-  .kpi-value { font-size: 28px; font-weight: 700; color: var(--blue-800); font-family: 'DM Mono', monospace; line-height: 1; }
-  .kpi-sub { font-size: 11px; color: var(--gray-500); margin-top: 4px; }
-  .kpi-trend { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; margin-top: 6px; padding: 2px 6px; border-radius: 4px; }
-  .kpi-trend.up { background: #fef3c7; color: #b45309; }
-  .kpi-trend.down { background: #d1fae5; color: #065f46; }
-
-  /* INC SECTION */
-  .inc-kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
-  .inc-kpi {
-    background: linear-gradient(135deg, var(--blue-900) 0%, var(--blue-700) 100%);
-    border-radius: var(--radius-sm);
-    padding: 16px;
-    color: #fff;
-    position: relative;
-    overflow: hidden;
-  }
-  .inc-kpi::after {
-    content: '';
-    position: absolute;
-    bottom: -10px; right: -10px;
-    width: 60px; height: 60px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 50%;
-  }
-  .inc-kpi .label { font-size: 10px; font-weight: 600; color: var(--blue-200); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-  .inc-kpi .value { font-size: 32px; font-weight: 700; font-family: 'DM Mono', monospace; line-height: 1; }
-  .inc-kpi .sub { font-size: 11px; color: var(--blue-200); margin-top: 4px; }
-
-  /* SPRINT COMPARE */
-  .sprint-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
-  .sprint-cmp-card {
-    background: var(--gray-50);
-    border: 1px solid var(--gray-200, #e5e7eb);
-    border-radius: var(--radius-sm);
-    padding: 14px;
-  }
-  .sprint-cmp-card .sprint-label { font-size: 10px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-  .sprint-cmp-card .sprint-val { font-size: 26px; font-weight: 700; color: var(--gray-900); font-family: 'DM Mono', monospace; }
-  .sprint-cmp-card .sprint-sub { font-size: 11px; color: var(--gray-500); margin-top: 3px; }
-  .sprint-cmp-card.current { background: var(--blue-50); border-color: var(--blue-200); }
-  .sprint-cmp-card.current .sprint-val { color: var(--blue-700); }
-
-  /* CHARTS GRID */
-  .charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  .charts-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  .chart-container { position: relative; height: 180px; }
-  .chart-container-sm { position: relative; height: 160px; }
-  .chart-container-lg { position: relative; height: 220px; }
-
-  /* STATUS PILLS */
-  .status-legend { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-  .status-pill { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--gray-600, #4b5563); }
-  .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-
-  /* WIP TABLE */
-  .wip-table { width: 100%; border-collapse: collapse; }
-  .wip-table th { 
-    font-size: 10px; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.4px;
-    padding: 6px 10px; background: var(--gray-50); border-bottom: 1px solid var(--gray-200, #e5e7eb);
-    text-align: left;
-  }
-  .wip-table td { padding: 7px 10px; border-bottom: 1px solid var(--gray-100); font-size: 11px; color: var(--gray-700); }
-  .wip-table tr:last-child td { border-bottom: none; }
-  .wip-table tr:hover td { background: var(--blue-50); }
-  .state-tag {
-    display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 10px; font-weight: 600;
-  }
-  .state-dev { background: #dbeafe; color: #1e40af; }
-  .state-new { background: #f3f4f6; color: #374151; }
-  .state-blocked { background: #fee2e2; color: #991b1b; }
-  .state-qa { background: #d1fae5; color: #065f46; }
-  .state-active { background: #fef3c7; color: #92400e; }
-  .state-other { background: #ede9fe; color: #5b21b6; }
-
-  /* SECTION SEPARATOR */
-  .section-title {
-    font-size: 11px; font-weight: 700; color: var(--blue-700); text-transform: uppercase;
-    letter-spacing: 0.6px; padding: 0 0 8px; display: flex; align-items: center; gap: 8px;
-  }
-  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--blue-100); }
-
-  /* INC BADGE */
-  .inc-tag { 
-    display: inline-block; background: #fee2e2; color: #991b1b;
-    font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 3px; letter-spacing: 0.3px;
-  }
-
-  /* VELOCITY KPI MINI CARDS */
-  .vel-kpi-card {
-    padding: 16px 20px;
-    background: #fff;
-    transition: background 0.15s;
-  }
-  .vel-kpi-card:hover { background: #f9fffe; }
-  .vel-kpi-card-blue { background: #eff6ff; }
-  .vel-kpi-label {
-    font-size: 9px; font-weight: 700; color: #9ca3af;
-    text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px;
-  }
-  .vel-kpi-value {
-    font-size: 36px; font-weight: 700; color: #0f766e;
-    font-family: 'DM Mono', monospace; line-height: 1; margin-bottom: 4px;
-  }
-  .vel-kpi-card-blue .vel-kpi-value { color: #1d4ed8; }
-  .vel-kpi-sub { font-size: 11px; color: #6b7280; }
-
-  @media (max-width: 1200px) {
-    .main { grid-template-columns: 250px 1fr; }
-    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (max-width: 900px) {
-    .main { grid-template-columns: 1fr; padding: 16px; }
-    .charts-2col, .charts-3col { grid-template-columns: 1fr; }
-    .kpi-grid, .inc-kpi-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  /* ── VIEW TABS ── */
-  .view-tabs {
-    background: #fff;
-    border-bottom: 2px solid #e5e7eb;
-    padding: 0 32px;
-    display: flex;
-    gap: 0;
-    position: sticky;
-    top: 0;
-    z-index: 200;
-    box-shadow: 0 1px 4px rgba(0,0,0,.06);
-  }
-  .view-tab {
-    padding: 13px 22px;
-    font-size: 12.5px;
-    font-weight: 600;
-    color: var(--gray-500);
-    border-bottom: 3px solid transparent;
-    margin-bottom: -2px;
-    cursor: pointer;
-    user-select: none;
-    transition: all .15s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .view-tab:hover { color: var(--gray-700); }
-  .view-tab.active-dev { color: var(--blue-700); border-color: var(--blue-600); }
-  .view-tab.active-sup { color: #0891b2; border-color: #06b6d4; }
-  .view-pip { width: 7px; height: 7px; border-radius: 50%; }
-  .pip-b { background: var(--blue-500); }
-  .pip-g { background: #06b6d4; }
-
-  /* ── SUPPORT VIEW ── */
-  .sup-view { display: none; }
-  .sup-view.on { display: block; }
-  .dev-view { display: block; }
-  .dev-view.hidden { display: none; }
-
-  /* Support color vars */
-  --g50:#f0fdf4;--g100:#dcfce7;--g200:#bbf7d0;--g300:#86efac;
-  --g400:#4ade80;--g500:#22c55e;--g600:#16a34a;--g700:#15803d;--g800:#166534;
-
-  /* Vertical banner cards */
-  .vert-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; padding: 20px 32px 0; }
-  .vert-card {
-    border-radius: 12px; padding: 18px 22px;
-    position: relative; overflow: hidden;
-  }
-  .vert-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 12px 12px 0 0;
-  }
-  .vc-h { background: linear-gradient(135deg,#ecfeff 0%,#cffafe 100%); border: 1px solid #a5f3fc; }
-  .vc-h::before { background: linear-gradient(90deg, #0e7490, #06b6d4); }
-  .vc-s { background: linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%); border: 1px solid #93c5fd; }
-  .vc-s::before { background: linear-gradient(90deg, #1d4ed8, #3b82f6); }
-  .vc-name { font-size: 14px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-  .vc-name::before { content: ''; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .vc-h .vc-name { color: #0e4f5c; }
-  .vc-h .vc-name::before { background: #0e7490; }
-  .vc-s .vc-name { color: #1e3a8a; }
-  .vc-s .vc-name::before { background: #1d4ed8; }
-  .vc-stats { display: flex; gap: 24px; flex-wrap: wrap; }
-  .vc-stat { display: flex; flex-direction: column; gap: 2px; }
-  .vc-v { font-size: 22px; font-weight: 700; line-height: 1; font-family: 'DM Mono', monospace; }
-  .vc-h .vc-v { color: #0e7490; }
-  .vc-s .vc-v { color: #1d4ed8; }
-  .vc-k { font-size: 10px; color: #64748b; font-weight: 500; margin-top: 2px; }
-    /* Support main layout */
-  .sup-main { display: grid; grid-template-columns: 300px 1fr; gap: 20px; padding: 20px 32px; max-width: 1600px; }
-  .sup-left { display: flex; flex-direction: column; gap: 16px; }
-  .sup-right { display: flex; flex-direction: column; gap: 16px; }
-
-  /* Green KPI cards */
-  .kpi-card-green {
-    background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
-    border: 1px solid #a5f3fc;
-    border-radius: var(--radius-sm);
-    padding: 16px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .kpi-card-green:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-  .kpi-card-green::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, #06b6d4, #0891b2);
-  }
-  .kpi-card-green .kpi-label { font-size: 10px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-  .kpi-card-green .kpi-value { font-size: 28px; font-weight: 700; color: #0e7490; font-family: 'DM Mono', monospace; line-height: 1; }
-  .kpi-card-green .kpi-sub { font-size: 11px; color: var(--gray-500); margin-top: 4px; }
-
-  /* Green INC KPIs */
-  .inc-kpi-green {
-    background: linear-gradient(135deg, #0c4a6e 0%, #0e7490 50%, #0891b2 100%);
-    border-radius: var(--radius-sm); padding: 16px; color: #fff;
-    position: relative; overflow: hidden;
-  }
-  .inc-kpi-green::after { content:''; position:absolute; bottom:-10px; right:-10px; width:60px; height:60px; background:rgba(255,255,255,.06); border-radius:50%; }
-  .inc-kpi-green .label { font-size:10px; font-weight:600; color:#bae6fd; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
-  .inc-kpi-green .value { font-size:32px; font-weight:700; font-family:'DM Mono',monospace; line-height:1; }
-  .inc-kpi-green .sub { font-size:11px; color:#7dd3fc; margin-top:4px; }
-
-  /* Scrumban board */
-  .scrumban { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; }
-  .scrum-col { flex: 1; min-width: 140px; max-width: 190px; }
-  .scrum-col-hd {
-    padding: 7px 10px; border-radius: 6px 6px 0 0;
-    font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .sch-n { background: #f1f5f9; color: #475569; border-bottom: 2px solid #e2e8f0; }
-  .sch-g { background: #cffafe; color: #155e75; border-bottom: 2px solid #a5f3fc; }
-  .sch-w { background: #fef9c3; color: #92400e; border-bottom: 2px solid #fde68a; }
-  .sch-d { background: #ccfbf1; color: #0f766e; border-bottom: 2px solid #99f6e4; }
-  .sch-r { background: #fee2e2; color: #991b1b; border-bottom: 2px solid #fca5a5; }
-  .scnt { background: rgba(0,0,0,.1); border-radius: 99px; padding: 1px 6px; font-size: 9px; }
-  .scrum-items { display: flex; flex-direction: column; gap: 5px; padding-top: 5px; }
-  .scard { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 9px; }
-  .scard-id { font-size: 9px; font-family: 'DM Mono', monospace; color: #94a3b8; margin-bottom: 2px; }
-  .scard-title { font-size: 10px; font-weight: 500; color: #334155; line-height: 1.3; margin-bottom: 5px; }
-  .scard-foot { display: flex; align-items: center; justify-content: space-between; gap: 4px; }
-  .scard-who { font-size: 9px; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 95px; }
-  .vtag { font-size: 8px; font-weight: 700; padding: 1px 5px; border-radius: 3px; flex-shrink: 0; }
-  .vt-h { background: #fef3c7; color: #92400e; }
-  .vt-s { background: #ede9fe; color: #5b21b6; }
-  .vt-o { background: #f1f5f9; color: #475569; }
-
-  /* Sup assign table */
-  .sup-atbl { width: 100%; border-collapse: collapse; }
-  .sup-atbl th { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--gray-500); padding: 0 8px 9px; text-align: left; border-bottom: 1px solid var(--gray-100); }
-  .sup-atbl td { padding: 7px 8px; border-bottom: 1px solid var(--gray-100); font-size: 11px; }
-  .sup-atbl tr:last-child td { border-bottom: none; }
-  .sup-atbl tr:hover td { background: #ecfeff; }
-  .at-name { font-weight: 600; color: var(--gray-700); }
-  .at-bar { height: 6px; border-radius: 99px; overflow: hidden; background: #dcfce7; }
-  .at-fill { background: linear-gradient(90deg, #0891b2, #22d3ee); height: 100%; border-radius: 99px; }
-  .at-n { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 600; color: #166534; }
-
-  /* Sup donut */
-  .sup-donut-wrap { display: flex; align-items: center; gap: 16px; }
-  .sup-dcv { position: relative; width: 120px; height: 120px; flex-shrink: 0; }
-  .sup-dctr { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
-  .sup-dv { font-size: 22px; font-weight: 700; line-height: 1; color: #0e7490; font-family: 'DM Mono', monospace; }
-  .sup-dl { font-size: 9px; color: #6b7280; font-weight: 500; margin-top: 1px; }
-  .sup-dleg { display: flex; flex-direction: column; gap: 6px; flex: 1; }
-  .sup-drow { display: flex; align-items: center; gap: 6px; }
-  .sup-ddot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-  .sup-dtxt { font-size: 11px; color: #475569; flex: 1; }
-  .sup-dnum { font-size: 11px; font-weight: 600; font-family: 'DM Mono', monospace; color: #334155; }
-
-  .sup-section-title {
-    font-size: 11px; font-weight: 700; color: #0e7490; text-transform: uppercase;
-    letter-spacing: 0.6px; padding: 0 0 8px; display: flex; align-items: center; gap: 8px;
-  }
-  .sup-section-title::after { content: ''; flex: 1; height: 1px; background: #a5f3fc; }
-  .sup-kpi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 14px; }
-  .sup-charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-
-  /* Green summary header bar */
-  .sup-header-bar {
-    background: linear-gradient(135deg, #0f4c5c 0%, #0d7490 55%, #0ea5e9 100%);
-    padding: 16px 32px;
-    display: grid;
-    grid-template-columns: 56px repeat(3, 1fr);
-    grid-template-rows: auto auto;
-    gap: 8px;
-    align-items: stretch;
-  }
-  .sup-header-label {
-    grid-column: 1;
-    grid-row: 1 / 3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .sup-sscard {
-    background: rgba(255,255,255,.10);
-    border: 1px solid rgba(255,255,255,.16);
-    border-radius: 8px;
-    padding: 11px 14px;
-    backdrop-filter: blur(8px);
-    transition: background 0.2s;
-    min-width: 0;
-  }
-  .sup-sscard:hover { background: rgba(255,255,255,.16); }
-  .sup-sscard-label { font-size: 9px; font-weight: 700; color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; white-space: nowrap; }
-  .sup-sscard-value { font-size: 26px; font-weight: 700; color: #fff; font-family: 'DM Mono', monospace; line-height: 1; margin-bottom: 2px; }
-  .sup-sscard-sub { font-size: 10px; color: rgba(255,255,255,.65); margin-top: 1px; }
-  .sup-sscard-label {
-    font-size: 9px; font-weight: 700; color: rgba(255,255,255,.6);
-    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px;
-    white-space: nowrap;
-  }
-  .sup-sscard-value {
-    font-size: 26px; font-weight: 700; color: #fff;
-    font-family: 'DM Mono', monospace; line-height: 1; margin-bottom: 2px;
-  }
-  .sup-sscard-sub { font-size: 10px; color: rgba(255,255,255,.65); margin-top: 1px; }
+/* ── HERO BAR ── */
+.hero-bar {
+  background: linear-gradient(135deg, var(--b900) 0%, var(--b800) 50%, #1a3d6a 100%);
+  padding: 16px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bar::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 50% 120% at 90% 50%, rgba(15,163,191,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,.08);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  position: relative;
+}
+.hero-kpi {
+  display: flex; flex-direction: column; gap: 3px;
+  padding: 14px 18px;
+  background: rgba(255,255,255,.05);
+  position: relative;
+  transition: background .15s;
+}
+.hero-kpi:hover { background: rgba(255,255,255,.09); }
+.hero-kpi::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  opacity: 0;
+  transition: opacity .15s;
+  background: linear-gradient(90deg, var(--b400), var(--t400));
+}
+.hero-kpi:hover::after { opacity: 1; }
+.hk-val {
+  font-size: 30px; font-weight: 800; color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: -1.5px; line-height: 1;
+}
+.hk-val.accent { color: var(--t300); }
+.hk-lbl { font-size: 10px; color: rgba(255,255,255,.5); font-weight: 500; letter-spacing: .02em; }
+.hk-sub { font-size: 9.5px; color: rgba(255,255,255,.3); margin-top: 1px; }
+.hero-div { display: none; }
 
 
+/* ── FILTER BAR ── */
+.filter-bar {
+  position:sticky; top:54px; z-index:100;
+  background:var(--color-surface);
+  border-bottom:1px solid var(--color-border);
+  padding:8px 24px;
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  box-shadow:var(--sh1);
+}
+.f-label { font-size:9.5px; font-weight:700; color:var(--tx4); text-transform:uppercase; letter-spacing:.05em; }
+.f-select {
+  border:1px solid var(--color-border-2); border-radius:var(--r-sm);
+  padding:5px 9px; font-size:11.5px; font-family:'Outfit',sans-serif;
+  color:var(--tx2); background:var(--color-surface); cursor:pointer;
+  outline:none; transition:border-color .15s, box-shadow .15s;
+}
+.f-select:focus { border-color:var(--b400); box-shadow:0 0 0 3px rgba(74,146,232,.12); }
+.f-sep { width:1px; height:18px; background:var(--color-border); }
+.btn-reset {
+  padding:5px 12px; background:var(--b600); color:#fff;
+  border:none; border-radius:var(--r-sm); font-size:11.5px;
+  font-family:'Outfit',sans-serif; font-weight:600; cursor:pointer;
+  transition:background .15s;
+}
+.btn-reset:hover { background:var(--b700); }
 
-  .sup-sscard-bar { height: 3px; background: rgba(255,255,255,.15); border-radius: 2px; margin-top: 10px; overflow: hidden; }
-  .sup-sscard-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg,#06b6d4,#67e8f9); }
-  .sup-rate-badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    font-size: 11px; font-weight: 600; padding: 3px 9px;
-    border-radius: 99px; background: rgba(6,182,212,.2); color: #22d3ee;
-    border: 1px solid rgba(6,182,212,.35); margin-top: 8px;
-  }
+/* ── VIEWS ── */
+.view { display:none; animation:fadeIn .2s ease; }
+.view.active { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(3px)} to{opacity:1;transform:none} }
 
-  /* Progress bar for vuln */
-  .vuln-prog-bar { height: 8px; background: #cffafe; border-radius: 4px; overflow: hidden; }
-  .vuln-prog-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg,#06b6d4,#0891b2); }
-  .vuln-state-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 10px; background: #f0fdff; border-radius: 6px; font-size: 11px; margin-bottom: 4px; }
+/* ── MAIN GRID ── */
+.main {
+  display:grid;
+  grid-template-columns:248px 1fr;
+  gap:16px;
+  padding:16px 24px;
+  max-width:1680px;
+}
 
+/* ── CARD ── */
+.card {
+  background:var(--color-surface);
+  border-radius:var(--r-lg);
+  border:1px solid var(--color-border);
+  box-shadow:var(--sh1);
+  overflow:hidden;
+}
+.card-head {
+  padding:11px 14px 9px;
+  border-bottom:1px solid var(--color-border);
+  display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap;
+}
+.card-title { font-size:12px; font-weight:700; color:var(--tx1); letter-spacing:-.1px; }
+.card-badge {
+  font-size:9.5px; font-weight:700; padding:2px 7px; border-radius:99px;
+  background:var(--b50); color:var(--b600); border:1px solid var(--b100);
+}
+.card-body { padding:12px 14px; }
+
+/* ── LEFT PANEL ── */
+.left-panel { display:flex; flex-direction:column; gap:12px; }
+
+/* Status breakdown */
+.status-summary {
+  display:grid; grid-template-columns:1fr 1fr 1fr; gap:5px; margin-bottom:10px;
+}
+.ss-mini { border-radius:var(--r-md); padding:7px 9px; text-align:center; }
+.ss-total { background:var(--color-surface2); border:1px solid var(--color-border); }
+.ss-done  { background:var(--success-bg); border:1px solid rgba(13,145,104,.2); }
+.ss-blocked { background:var(--danger-bg); border:1px solid rgba(209,39,58,.2); }
+.ss-n { font-size:8.5px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--tx3); margin-bottom:2px; }
+.ss-v { font-size:18px; font-weight:800; font-family:'JetBrains Mono',monospace; }
+.ss-total .ss-v { color:var(--tx1); }
+.ss-done .ss-v { color:var(--success); }
+.ss-blocked .ss-v { color:var(--danger); }
+
+/* Filter chips */
+.chip-wrap {
+  display:flex; flex-wrap:wrap; gap:4px;
+  padding:8px 14px 6px; border-bottom:1px solid var(--color-border);
+}
+.chip-sep { width:100%; height:0.5px; background:var(--color-border); margin:3px 0 1px; }
+.chip-sep-lbl { font-size:8.5px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--tx4); margin-right:2px; }
+.chip {
+  display:flex; align-items:center; gap:3px;
+  padding:2px 9px; border-radius:99px; font-size:10.5px; font-weight:500;
+  cursor:pointer; border:1px solid var(--color-border-2);
+  background:var(--color-surface); color:var(--tx3);
+  transition:all .12s;
+}
+.chip:hover { border-color:var(--b300); color:var(--b600); }
+.chip.active {
+  background:var(--b600); border-color:var(--b600); color:#fff; font-weight:600;
+}
+.chip-all { font-size:10.5px; font-weight:600; padding:3px 11px; }
+
+/* Status list */
+.status-list { display:flex; flex-direction:column; gap:7px; }
+.status-row { display:flex; flex-direction:column; gap:3px; }
+.srow-top { display:flex; justify-content:space-between; align-items:center; }
+.srow-label { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--tx2); }
+.srow-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.srow-count { font-size:11px; font-weight:700; font-family:'JetBrains Mono',monospace; color:var(--tx1); }
+.srow-bar { height:3px; background:var(--color-border); border-radius:99px; overflow:hidden; }
+.srow-fill { height:100%; border-radius:99px; }
+
+/* RFR card */
+.rfr-top { display:flex; align-items:baseline; gap:6px; margin-bottom:8px; }
+.rfr-num { font-size:26px; font-weight:800; color:var(--tx1); font-family:'JetBrains Mono',monospace; }
+.rfr-lbl { font-size:11px; color:var(--tx3); }
+.rfr-sp { margin-left:auto; font-size:11px; font-weight:600; color:var(--b600); }
+.rfr-item {
+  display:flex; align-items:center; gap:7px;
+  padding:5px 0; border-bottom:1px solid var(--color-border); font-size:11px;
+}
+.rfr-item:last-child { border-bottom:none; }
+.rfr-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.rfr-title { color:var(--tx2); flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.rfr-badge { font-size:9px; font-weight:700; padding:1px 5px; border-radius:3px; }
+
+/* ── RIGHT PANEL ── */
+.right-panel { display:flex; flex-direction:column; gap:14px; }
+
+/* Section header */
+.sec-head {
+  display:flex; align-items:center; gap:8px; margin-bottom:8px;
+}
+.sec-bar { width:3px; height:13px; border-radius:2px; }
+.sb-dev { background:linear-gradient(180deg,var(--b500),var(--b300)); }
+.sb-sup { background:linear-gradient(180deg,var(--t500),var(--t300)); }
+.sec-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--tx2); }
+.sec-title::after { content:''; flex:1; height:1px; background:var(--color-border); margin-left:10px; }
+.sec-count {
+  font-size:10px; font-weight:600; color:var(--tx4);
+  font-family:'JetBrains Mono',monospace;
+  background:var(--color-surface2); padding:1px 7px;
+  border-radius:99px; border:1px solid var(--color-border);
+}
+
+/* Project health cards */
+.proj-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(145px,1fr));
+  gap:8px;
+  margin-bottom:14px;
+}
+.proj-card {
+  background:var(--color-surface);
+  border:1px solid var(--color-border);
+  border-radius:var(--r-md);
+  padding:11px 12px 9px;
+  position:relative; overflow:hidden;
+  transition:box-shadow .15s, transform .15s;
+}
+.proj-card:hover { box-shadow:var(--sh2); transform:translateY(-1px); }
+.proj-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2.5px;
+}
+.proj-badge {
+  font-size:8.5px; font-weight:800; letter-spacing:.04em;
+  padding:2px 6px; border-radius:3px; display:inline-block; margin-bottom:5px;
+}
+.proj-name { font-size:11.5px; font-weight:700; color:var(--tx1); margin-bottom:1px; }
+.proj-meta { font-size:10px; color:var(--tx4); margin-bottom:7px; }
+.proj-pct-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:3px; }
+.proj-lbl { font-size:9px; color:var(--tx4); }
+.proj-pct { font-size:11.5px; font-weight:800; font-family:'JetBrains Mono',monospace; }
+.proj-track { height:3px; border-radius:99px; overflow:hidden; background:var(--color-border); }
+.proj-track-fill { height:100%; border-radius:99px; }
+.proj-pills { display:flex; gap:4px; margin-top:6px; flex-wrap:wrap; }
+.proj-pill { font-size:8.5px; font-weight:600; padding:1px 5px; border-radius:3px; }
+
+/* Biz chart toggles */
+.biz-head { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.mode-toggle { display:flex; border-radius:var(--r-sm); overflow:hidden; border:1px solid var(--color-border-2); }
+.mode-btn {
+  padding:3px 10px; font-size:10.5px; font-weight:600; cursor:pointer;
+  border:none; background:var(--color-surface); color:var(--tx3);
+  transition:all .12s; font-family:'Outfit',sans-serif;
+}
+.mode-btn.on { background:var(--b600); color:#fff; }
+.proj-chips { display:flex; gap:4px; flex-wrap:wrap; }
+.proj-chip {
+  font-size:10px; padding:2px 8px; border-radius:99px; cursor:pointer;
+  border:1px solid var(--color-border-2); background:var(--color-surface); color:var(--tx3);
+  transition:all .12s;
+}
+.proj-chip.on { background:var(--b50); border-color:var(--b200); color:var(--b700); font-weight:600; }
+.biz-legend { display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+.bl-item { display:flex; align-items:center; gap:4px; font-size:10px; color:var(--tx3); }
+.bl-dot { width:8px; height:8px; border-radius:2px; flex-shrink:0; }
+
+/* Velocity charts */
+.vel-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.vel-sp-strip { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-bottom:10px; }
+.vel-sp-card {
+  background:var(--color-surface2); border-radius:var(--r-md);
+  padding:7px 10px; text-align:center; border:1px solid var(--color-border);
+}
+.vs-n { font-size:8.5px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--tx4); margin-bottom:2px; }
+.vs-v { font-size:17px; font-weight:800; font-family:'JetBrains Mono',monospace; color:var(--tx1); }
+.bd-tabs { display:flex; border-radius:var(--r-sm); overflow:hidden; border:1px solid var(--color-border-2); }
+.bd-btn {
+  padding:3px 10px; font-size:10.5px; font-weight:600; cursor:pointer;
+  border:none; background:var(--color-surface); color:var(--tx3);
+  transition:all .12s; font-family:'Outfit',sans-serif;
+}
+.bd-btn.on { background:var(--b600); color:#fff; }
+.bd-sel {
+  padding:3px 8px; font-size:10.5px; font-family:'Outfit',sans-serif;
+  border:1px solid var(--color-border-2); border-radius:var(--r-sm);
+  background:var(--color-surface); color:var(--tx2); cursor:pointer; outline:none;
+}
+.chart-200 { position:relative; height:200px; }
+.chart-180 { position:relative; height:180px; }
+.chart-160 { position:relative; height:160px; }
+
+/* ── SUPPORT HERO ── */
+.sup-hero {
+  background:var(--color-surface);
+  border-bottom:1px solid var(--color-border);
+  padding:14px 24px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+.shc {
+  background:var(--color-surface2);
+  border:1px solid var(--color-border);
+  border-radius:var(--r-md);
+  padding:12px 14px;
+  position:relative; overflow:hidden;
+}
+.shc::before { content:''; position:absolute; top:0; left:0; right:0; height:2.5px; }
+.shc-inc::before  { background:linear-gradient(90deg,var(--b500),var(--b400)); }
+.shc-res::before  { background:linear-gradient(90deg,var(--t600),var(--t400)); }
+.shc-wip::before  { background:linear-gradient(90deg,var(--b500),var(--t400)); }
+.shc-vuln::before { background:linear-gradient(90deg,#7c3aed,#a78bfa); }
+.shc-hlsg::before { background:linear-gradient(90deg,var(--b600),var(--b400)); }
+.shc-srs::before  { background:linear-gradient(90deg,var(--t600),var(--t400)); }
+.shc-lbl {
+  font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.08em;
+  color:var(--tx4); margin-bottom:3px;
+}
+.shc-val {
+  font-size:26px; font-weight:800; color:var(--tx1);
+  font-family:'JetBrains Mono',monospace; line-height:1; margin-bottom:2px;
+}
+.shc-sub { font-size:10px; color:var(--tx3); }
+.shc-bar-track { height:2.5px; background:var(--color-border); border-radius:99px; overflow:hidden; margin-top:7px; }
+.shc-bar-fill { height:100%; border-radius:99px; background:linear-gradient(90deg,var(--t600),var(--t400)); }
+.shc-rate {
+  display:inline-flex; align-items:center; font-size:9.5px; font-weight:700;
+  padding:2px 8px; border-radius:99px; margin-top:5px;
+  background:var(--b50); color:var(--b700); border:1px solid var(--b100);
+}
+
+/* Vertical cards */
+.vert-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:12px 24px 0; }
+.vert-card {
+  background:var(--color-surface); border:1px solid var(--color-border);
+  border-radius:var(--r-lg); padding:14px 16px; position:relative; overflow:hidden;
+}
+.vert-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2.5px; }
+.vc-hlsg::before { background:linear-gradient(90deg,var(--b600),var(--b300)); }
+.vc-srs::before  { background:linear-gradient(90deg,var(--t600),var(--t300)); }
+.vc-name {
+  font-size:13px; font-weight:700; color:var(--tx1);
+  margin-bottom:10px; display:flex; align-items:center; gap:7px;
+}
+.vc-name::before { content:''; width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.vc-hlsg .vc-name::before { background:var(--b500); }
+.vc-srs  .vc-name::before { background:var(--t500); }
+.vc-stats { display:flex; gap:20px; flex-wrap:wrap; }
+.vc-stat { display:flex; flex-direction:column; gap:2px; }
+.vc-v { font-size:20px; font-weight:800; font-family:'JetBrains Mono',monospace; }
+.vc-hlsg .vc-v { color:var(--b600); }
+.vc-srs  .vc-v { color:var(--t600); }
+.vc-k { font-size:9.5px; color:var(--tx3); font-weight:500; margin-top:1px; }
+
+/* Support main */
+.sup-main { display:grid; grid-template-columns:248px 1fr; gap:16px; padding:16px 24px; }
+.sup-left  { display:flex; flex-direction:column; gap:12px; }
+.sup-right { display:flex; flex-direction:column; gap:12px; }
+
+/* Donut */
+.donut-wrap { display:flex; align-items:center; gap:14px; }
+.donut-cv   { position:relative; width:100px; height:100px; flex-shrink:0; }
+.donut-ctr  { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none; }
+.donut-num  { font-size:19px; font-weight:800; font-family:'JetBrains Mono',monospace; color:var(--tx1); line-height:1; }
+.donut-sub  { font-size:9px; color:var(--tx4); }
+.donut-leg  { display:flex; flex-direction:column; gap:5px; flex:1; }
+.dl-row     { display:flex; align-items:center; gap:5px; }
+#incDonutLeg .dl-row { font-size:10.5px; }
+.dl-dot     { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.dl-txt     { font-size:10.5px; color:var(--tx2); flex:1; }
+.dl-val     { font-size:10.5px; font-weight:700; font-family:'JetBrains Mono',monospace; color:var(--tx1); }
+
+/* KPI strip */
+.kpi-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.kpi-tile  { background:var(--color-surface2); border-radius:var(--r-md); padding:10px 12px; border:1px solid var(--color-border); }
+.kpi-tile-lbl { font-size:8.5px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--tx4); margin-bottom:3px; }
+.kpi-tile-val { font-size:20px; font-weight:800; font-family:'JetBrains Mono',monospace; color:var(--tx1); }
+.kpi-tile-sub { font-size:9.5px; color:var(--tx3); margin-top:1px; }
+
+/* WIP table */
+.wip-table { width:100%; border-collapse:collapse; }
+.wip-table th {
+  font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.05em;
+  color:var(--tx4); padding:0 8px 7px; text-align:left;
+  border-bottom:1px solid var(--color-border);
+}
+.wip-table td { padding:6px 8px; border-bottom:1px solid var(--color-border); font-size:11px; color:var(--tx2); }
+.wip-table tr:last-child td { border-bottom:none; }
+.wip-table tr:hover td { background:var(--color-surface2); }
+.state-tag { display:inline-block; padding:1px 6px; border-radius:4px; font-size:9.5px; font-weight:700; }
+.state-dev  { background:var(--b50);         color:var(--b700); }
+.state-act  { background:var(--color-surface2); color:var(--tx2); }
+.state-blk  { background:var(--danger-bg);   color:var(--danger); }
+.state-qa   { background:var(--success-bg);  color:var(--success); }
+.state-rfq  { background:#fff7ed;            color:#c2410c; }
+.state-dc   { background:var(--success-bg);  color:var(--success); }
+
+/* Assign table */
+.assign-table { width:100%; border-collapse:collapse; }
+.assign-table th { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; color:var(--tx4); padding:0 8px 7px; text-align:left; border-bottom:1px solid var(--color-border); }
+.assign-table td { padding:6px 8px; border-bottom:1px solid var(--color-border); font-size:11px; }
+.assign-table tr:last-child td { border-bottom:none; }
+.assign-table tr:hover td { background:var(--color-surface2); }
+.abar { height:5px; border-radius:99px; overflow:hidden; background:var(--color-border); }
+.abar-fill { height:100%; border-radius:99px; background:linear-gradient(90deg,var(--t600),var(--t400)); }
+
+/* Vuln states */
+.vuln-state-row {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:4px 9px; background:var(--color-surface2);
+  border-radius:5px; font-size:11px; margin-bottom:4px;
+}
+
+/* Capacity bars (dev left panel) */
+.cap-list { display:flex; flex-direction:column; gap:8px; }
+.cap-row  { display:flex; flex-direction:column; gap:3px; }
+.cap-user { display:flex; justify-content:space-between; align-items:center; }
+.cap-name { font-size:11.5px; font-weight:500; color:var(--tx2); }
+.cap-pts  { font-size:11px; font-weight:700; color:var(--b600); font-family:'JetBrains Mono',monospace; }
+.cap-track { height:6px; background:var(--b50); border-radius:4px; overflow:hidden; }
+.cap-fill  { height:100%; border-radius:4px; background:linear-gradient(90deg,var(--b400),var(--b600)); transition:width 1s ease; }
+
+/* Responsive */
+@media (max-width:1100px) {
+  .main,.sup-main { grid-template-columns:1fr; }
+  .vel-grid { grid-template-columns:1fr; }
+  .proj-grid { grid-template-columns:repeat(auto-fill,minmax(130px,1fr)); }
+  .sup-hero  { grid-template-columns:repeat(2,1fr); }
+}
+@media (max-width:760px) {
+  .main,.sup-main { padding:12px 16px; }
+  .topbar { padding:0 16px; }
+  .hero-bar { padding:0 16px; }
+  .filter-bar { padding:6px 16px; }
+  .tb-brand-sub,.tb-chip.dates { display:none; }
+}
 </style>
 </head>
 <body>
 
-<!-- ═══════════ HEADER ═══════════ -->
-<div class="header">
-  <div class="header-top">
-    <div>
-      <h1>The Integrators Team Dashboard</h1>
-      <div class="subtitle">Sprint Performance & Incident Tracking · Azure DevOps Integration</div>
-    </div>
-    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
-      <div class="sprint-badge">Sprint 5 — Active</div>
-      <div style="font-size:11px;color:var(--blue-200);font-weight:500;letter-spacing:0.2px;">📅 Mar 30, 2026 – Apr 17, 2026</div>
-      <div style="font-size:11px;color:#a5f3fc;font-weight:600;letter-spacing:0.2px;background:rgba(255,255,255,0.12);padding:3px 10px;border-radius:20px;border:1px solid rgba(255,255,255,0.2);">🚀 Next release: Apr 21, 2026</div>
+<!-- ═══════ TOPBAR ═══════ -->
+<header class="topbar">
+  <div class="tb-logo">IT</div>
+  <div class="tb-brand">
+    <div class="tb-brand-name">The Integrators Team</div>
+    <div class="tb-brand-sub">Sprint Performance &amp; Incident Tracking · Azure DevOps</div>
+  </div>
+  <div class="tb-tabs">
+    <button class="tb-tab on-dev" id="tab-dev" onclick="switchView('dev',this)">
+      <span class="tb-pip pip-dev"></span>Development Projects
+    </button>
+    <button class="tb-tab" id="tab-sup" onclick="switchView('sup',this)">
+      <span class="tb-pip pip-sup"></span>Support Integrators
+    </button>
+  </div>
+  <div class="tb-right">
+    <div class="tb-chip"><span class="live"></span>Sprint 5 — Active</div>
+    <div class="tb-chip dates">Mar 30 – Apr 17, 2026</div>
+    <div class="tb-chip deploy">Deploy Apr 21</div>
+  </div>
+</header>
+
+<!-- ═══════ DEV VIEW ═══════ -->
+<div class="view active" id="view-dev">
+
+  <!-- Hero bar -->
+  <div class="hero-bar">
+    <div class="hero-inner">
+      <div class="hero-kpi">
+        <div class="hk-val" id="hero-us">–</div>
+        <div class="hk-lbl">User Stories</div>
+      </div>
+      <div class="hero-div"></div>
+      <div class="hero-kpi">
+        <div class="hk-val" id="hero-bugs">–</div>
+        <div class="hk-lbl">Dev Bugs</div>
+      </div>
+      <div class="hero-div"></div>
+      <div class="hero-kpi">
+        <div class="hk-val" id="hero-sp">–</div>
+        <div class="hk-lbl">Story Points</div>
+      </div>
+      <div class="hero-div"></div>
+      <div class="hero-kpi">
+        <div class="hk-val accent" id="hero-rate">70%</div>
+        <div class="hk-lbl">Sprint Completion</div>
+      </div>
+      <div class="hero-div"></div>
+      <div class="hero-kpi">
+        <div class="hk-val" id="hero-proj">17</div>
+        <div class="hk-lbl">Projects</div>
+      </div>
+
     </div>
   </div>
 
-  <!-- ── Projects Sprint Summary ── -->
-  <div class="sprint-summary-bar" style="padding-bottom:12px;">
-    <div class="sprint-summary-label" style="color:rgba(255,255,255,0.6);font-size:9px;">Projects<br>Sprint 5</div>
-
-    <!-- Completion Rate -->
-    <div class="sscard">
-      <div class="sscard-label">Completion Rate</div>
-      <div class="sscard-value" id="ss-rate">–</div>
-      <div class="sscard-sub" id="ss-rate-sub">of sprint commitment</div>
-      <div class="sscard-trend neutral" id="ss-rate-trend" style="display:none;"></div>
-      <div class="sscard-bar"><div class="sscard-bar-fill" id="ss-rate-bar" style="width:0%"></div></div>
-    </div>
-
-    <!-- Story Points -->
-    <div class="sscard">
-      <div class="sscard-label">Story Points Completed</div>
-      <div class="sscard-value">
-        <span id="ss-sp-done">–</span><span class="denom" id="ss-sp-total">/–</span>
-      </div>
-      <div class="sscard-sub" id="ss-sp-rem">pts remaining</div>
-      <div class="sscard-bar"><div class="sscard-bar-fill" id="ss-sp-bar" style="width:0%"></div></div>
-    </div>
-
-    <!-- Total User Stories (Projects only) -->
-    <div class="sscard">
-      <div class="sscard-label">User Stories</div>
-      <div class="sscard-value" id="ss-us-total">–</div>
-      <div class="sscard-sub" id="ss-us-sub">project user stories</div>
-      <div class="sscard-trend neutral" id="ss-us-trend">–</div>
-    </div>
-
-    <!-- Closed (Projects) -->
-    <div class="sscard">
-      <div class="sscard-label">Work Items Closed</div>
-      <div class="sscard-value" id="ss-proj-closed">–</div>
-      <div class="sscard-sub" id="ss-proj-closed-sub">items · sprint 5</div>
-      <div class="sscard-bar"><div class="sscard-bar-fill" id="ss-proj-closed-bar" style="width:0%"></div></div>
-    </div>
-
-    <!-- Blocked (Projects) -->
-    <div class="sscard">
-      <div class="sscard-label">Blocked</div>
-      <div class="sscard-value" id="ss-proj-blocked" style="color:#fca5a5;">–</div>
-      <div class="sscard-sub">items need attention</div>
-    </div>
+  <!-- Filters -->
+  <div class="filter-bar">
+    <span class="f-label">Filter</span>
+    <select class="f-select" id="f-sprint">
+      <option value="all">All Sprints</option>
+      <option value="5" selected>Sprint 5</option>
+    </select>
+    <select class="f-select" id="f-user"><option value="all">All Users</option></select>
+    <div class="f-sep"></div>
+    <select class="f-select" id="f-type">
+      <option value="all">All Types</option>
+      <option value="User Story">User Story</option>
+      <option value="Bug">Bug</option>
+      <option value="Task">Task</option>
+    </select>
+    <select class="f-select" id="f-status"><option value="all">All Statuses</option></select>
+    <div class="f-sep"></div>
+    <button class="btn-reset" onclick="resetFilters()">Reset</button>
   </div>
 
-  <!-- ── INC Sprint Summary ── -->
-  <div class="sprint-summary-bar" style="padding-bottom:22px;">
-    <div class="sprint-summary-label" style="color:rgba(252,165,165,0.8);font-size:9px;">INC<br>Incidents</div>
+  <!-- Main content -->
+  <div class="main">
 
-    <!-- Total INC -->
-    <div class="sscard" style="border-color:rgba(252,165,165,0.25);">
-      <div class="sscard-label">Total INC</div>
-      <div class="sscard-value" id="ss-inc-total">–</div>
-      <div class="sscard-sub" id="ss-inc-total-sub">tagged incidents</div>
-      <div class="sscard-bar"><div class="sscard-bar-fill" id="ss-inc-total-bar" style="width:0%;background:linear-gradient(90deg,#f87171,#fca5a5);"></div></div>
-    </div>
+    <!-- LEFT PANEL -->
+    <div class="left-panel">
 
-    <!-- Active INC -->
-    <div class="sscard" id="ss-inc-card" style="border-color:rgba(252,165,165,0.25);">
-      <div class="sscard-label">Active INC</div>
-      <div class="sscard-value" id="ss-inc" style="color:#fca5a5;">–</div>
-      <div class="sscard-sub">open incidents</div>
-      <div class="sscard-trend neutral" id="ss-inc-trend">–</div>
-    </div>
-
-    <!-- INC Closed -->
-    <div class="sscard" style="border-color:rgba(252,165,165,0.25);">
-      <div class="sscard-label">INC Resolved</div>
-      <div class="sscard-value" id="ss-inc-closed" style="color:#6ee7b7;">–</div>
-      <div class="sscard-sub" id="ss-inc-closed-sub">resolved this sprint</div>
-      <div class="sscard-trend neutral" id="ss-inc-trend2">–</div>
-    </div>
-
-    <!-- INC Story Points -->
-    <div class="sscard" style="border-color:rgba(252,165,165,0.25);">
-      <div class="sscard-label">INC Story Points</div>
-      <div class="sscard-value">
-        <span id="ss-inc-sp-done">–</span><span class="denom" id="ss-inc-sp-total">/–</span>
-      </div>
-      <div class="sscard-sub" id="ss-inc-sp-sub">SP closed / total</div>
-    </div>
-
-    <!-- MTTR -->
-    <div class="sscard" style="border-color:rgba(252,165,165,0.25);">
-      <div class="sscard-label">MTTR · INC Bugs</div>
-      <div class="sscard-value" id="ss-vel"><span class="unit" id="ss-mttr-val">–</span></div>
-      <div class="sscard-sub" id="ss-vel-sub">mean time to resolve</div>
-      <div class="sscard-trend neutral" id="ss-vel-trend" style="display:none"></div>
-      <div class="sscard-bar"><div class="sscard-bar-fill" id="ss-vel-bar" style="width:0%;display:none"></div></div>
-    </div>
-  </div>
-</div>
-
-
-<!-- ═══════════ VIEW TABS ═══════════ -->
-<div class="view-tabs">
-  <div class="view-tab active-dev" id="tab-dev" onclick="switchView('dev',this)">
-    <span class="view-pip pip-b"></span>Development Projects
-  </div>
-  <div class="view-tab" id="tab-sup" onclick="switchView('sup',this)">
-    <span class="view-pip pip-g"></span>Support Integrators
-  </div>
-</div>
-
-<!-- ═══ DEV VIEW WRAPPER ═══ -->
-<div class="dev-view" id="dev-view">
-<!-- ═══════════ FILTERS ═══════════ -->
-<div class="filters-wrap">
-  <label>Filters</label>
-  <select class="filter-select" id="f-sprint">
-    <option value="all">All Sprints</option>
-    <option value="5" selected>Sprint 5</option>
-  </select>
-  <select class="filter-select" id="f-user">
-    <option value="all">All Users</option>
-  </select>
-  <div class="filter-divider"></div>
-  <select class="filter-select" id="f-type">
-    <option value="all">All Types</option>
-    <option value="User Story">User Story</option>
-    <option value="Bug">Bug</option>
-    <option value="Task">Task</option>
-    <option value="Test Case">Test Case</option>
-    <option value="Test Suite">Test Suite</option>
-    <option value="Test Plan">Test Plan</option>
-  </select>
-  <select class="filter-select" id="f-status">
-    <option value="all">All Statuses</option>
-  </select>
-  <div class="filter-divider"></div>
-  <button class="btn-reset" onclick="resetFilters()">Reset Filters</button>
-</div>
-
-<!-- ═══════════ MAIN LAYOUT ═══════════ -->
-<div class="main">
-
-  <!-- ═══ LEFT PANEL ═══ -->
-  <div class="left-panel">
-    <!-- User Story Status Breakdown -->
-    <div class="card" style="overflow:visible;">
-      <!-- Header -->
-      <div style="padding:14px 16px 10px;border-bottom:1px solid #f0f0f0;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-          <span class="card-title">Status Breakdown</span>
-          <span style="background:#cffafe;color:#0e7490;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:0.4px;text-transform:uppercase;">User Stories</span>
-        </div>
-        <!-- Summary numbers row -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
-          <div style="background:#ecfeff;border:1px solid #a5f3fc;border-radius:8px;padding:7px 8px;text-align:center;">
-            <div style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:2px;">Total</div>
-            <div style="font-size:18px;font-weight:700;color:#0e7490;font-family:'DM Mono',monospace;line-height:1;" id="status-us-total">–</div>
-          </div>
-          <div style="background:#cffafe;border:1px solid #67e8f9;border-radius:8px;padding:7px 8px;text-align:center;">
-            <div style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:2px;">Completed</div>
-            <div style="font-size:18px;font-weight:700;color:#0891b2;font-family:'DM Mono',monospace;line-height:1;" id="status-us-done">–</div>
-          </div>
-          <div style="background:#fff1f2;border:1px solid #fecdd3;border-radius:8px;padding:7px 8px;text-align:center;">
-            <div style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:2px;">Blocked</div>
-            <div style="font-size:18px;font-weight:700;color:#e11d48;font-family:'DM Mono',monospace;line-height:1;" id="status-us-blocked">–</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Filter chips -->
-      <div style="padding:10px 16px;border-bottom:1px solid #f0f0f0;display:flex;flex-wrap:wrap;gap:5px;" id="status-filter-chips"></div>
-
-      <!-- Donut + list -->
-      <div style="padding:12px 16px 14px;">
-        <div style="position:relative;height:150px;margin-bottom:12px;">
-          <canvas id="statusChart"></canvas>
-        </div>
-        <div id="status-breakdown-list" style="display:flex;flex-direction:column;gap:6px;"></div>
-      </div>
-    </div>
-
-    <!-- Ready for Weekly Release card -->
-    <div class="card" style="overflow:visible;">
-      <div style="padding:12px 16px 10px;border-bottom:1px solid #e8f0fe;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-          <span class="card-title" style="color:#0e7490;">Ready for Release</span>
-          <span style="background:#0e7490;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:0.4px;text-transform:uppercase;">Apr 21</span>
-        </div>
-        <!-- Total count -->
-        <div style="display:flex;align-items:baseline;gap:6px;">
-          <span style="font-size:32px;font-weight:700;color:#1e52a8;font-family:'DM Mono',monospace;line-height:1;" id="rfr-total">–</span>
-          <span style="font-size:12px;color:#6b7280;">items ready</span>
-          <span style="margin-left:auto;font-size:11px;color:#2563eb;font-weight:600;" id="rfr-sp">– SP</span>
-        </div>
-      </div>
-      <!-- Type breakdown -->
-      <div style="padding:10px 16px;" id="rfr-list"></div>
-    </div>
-  </div>
-
-  <!-- ═══ RIGHT PANEL ═══ -->
-  <div class="right-panel">
-
-    <!-- TOP KPIs -->
-
-
-    <div class="section-title">Project Sprint Dashboard</div>
-
-    <!-- Project Health Cards Row -->
-    <div id="project-health-row" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:16px;"></div>
-
-    <!-- Business Projects chart (already exists below) - keep it -->
-    <div class="card" style="margin-bottom:14px;">
-      <div class="card-header">
-        <span class="card-title">Items by Project — Overview</span>
-        <span class="card-badge" id="proj-total-badge">–</span>
-      </div>
-      <div class="card-body">
-        <div class="chart-container"><canvas id="projectChart"></canvas></div>
-      </div>
-    </div>
-
-    <!-- Business Projects -->
-    <div class="card" style="overflow:visible;">
-      <div class="card-header" style="background:linear-gradient(135deg,#ecfeff 0%,#cffafe 100%);border-bottom:1px solid #a5f3fc;flex-wrap:wrap;gap:8px;">
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span class="card-title" style="color:#0e7490;">Business Projects Activity</span>
-          <span style="background:#0e7490;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;letter-spacing:0.3px;">SPRINT 5</span>
-        </div>
-        <div style="margin-left:auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-          <!-- SP / Count toggle -->
-          <div style="display:flex;background:#fff;border:1px solid #bfdbfe;border-radius:20px;overflow:hidden;">
-            <button id="biz-toggle-count" onclick="setBizMode('count')" style="font-size:10px;font-weight:700;padding:3px 10px;border:none;background:#0e7490;color:#fff;cursor:pointer;transition:all 0.15s;">Items</button>
-            <button id="biz-toggle-sp" onclick="setBizMode('sp')" style="font-size:10px;font-weight:600;padding:3px 10px;border:none;background:transparent;color:#0e7490;cursor:pointer;transition:all 0.15s;">Story Points</button>
-          </div>
-        </div>
-      </div>
-      <!-- Project filter chips -->
-      <div style="padding:8px 16px;border-bottom:1px solid #e8f0fe;display:flex;flex-wrap:wrap;gap:5px;align-items:center;" id="biz-project-chips">
-        <span style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.4px;margin-right:2px;">Filter</span>
-      </div>
-      <!-- Chart -->
-      <div class="card-body" style="padding:16px 18px 10px;">
-        <div style="position:relative;height:260px;">
-          <canvas id="bizProjectChart"></canvas>
-        </div>
-      </div>
-      <!-- Status legend with SP totals -->
-      <div style="padding:8px 18px 12px;border-top:1px solid #e8f0fe;display:flex;flex-wrap:wrap;gap:8px;align-items:center;" id="biz-legend"></div>
-    </div>
-
-
-
-    <!-- SECTION: TEAM VELOCITY (2 charts) -->
-    <div class="section-title">Sprint Burndown — Tasks &amp; Work Items</div>
-
-    <!-- Shared KPI strip -->
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid #e5e7eb;border-radius:var(--radius);overflow:hidden;margin-bottom:16px;background:#fff;">
-      <div class="vel-kpi-card" style="border-right:1px solid #e5e7eb;">
-        <div class="vel-kpi-label">DAYS REMAINING</div>
-        <div class="vel-kpi-value" id="vk-remaining" style="color:#0f766e;">–</div>
-        <div class="vel-kpi-sub">working days until Apr 17</div>
-      </div>
-      <div class="vel-kpi-card" style="border-right:1px solid #e5e7eb;">
-        <div class="vel-kpi-label">TASKS SP CLOSED</div>
-        <div class="vel-kpi-value" id="vk-tasks-sp" style="color:#0f766e;">–</div>
-        <div class="vel-kpi-sub" id="vk-tasks-sp-sub">story points · tasks</div>
-      </div>
-      <div class="vel-kpi-card vel-kpi-card-blue">
-        <div class="vel-kpi-label">BUG+STORY SP CLOSED</div>
-        <div class="vel-kpi-value" id="vk-wi-sp">–</div>
-        <div class="vel-kpi-sub" id="vk-wi-sp-sub">story points · bugs &amp; user stories</div>
-      </div>
-    </div>
-
-    <!-- Two charts side by side -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-
-      <!-- Chart 1: Tasks burndown -->
+      <!-- Status Breakdown -->
       <div class="card" style="overflow:visible;">
-        <div class="card-header" style="flex-wrap:wrap;gap:8px;background:linear-gradient(135deg,#f0fdf9 0%,#e6f7f4 100%);border-bottom:1px solid #c7ede6;">
+        <div class="card-head">
           <div style="display:flex;align-items:center;gap:8px;">
-            <span class="card-title" style="color:#0f766e;">Development Burndown — Tasks</span>
-            <span style="background:#0d9488;color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">TASKS</span>
-          </div>
-          <div style="margin-left:auto;font-size:10px;color:#6b7280;">Sprint 5 · Mar 30 – Apr 17</div>
-        </div>
-        <div style="background:#f0fdf9;border-bottom:1px solid #c7ede6;padding:8px 14px;display:flex;align-items:center;gap:8px;">
-          <span style="font-size:10px;font-weight:700;color:#0f766e;text-transform:uppercase;letter-spacing:0.4px;">Filter by Member</span>
-          <select class="filter-select" id="f-velocity-user" style="min-width:160px;border-color:#a7f3d0;background:#fff;" onchange="renderBothCharts()">
-            <option value="all">All Team Members</option>
-          </select>
-        </div>
-        <div class="card-body" style="padding:14px 14px 8px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <span style="font-size:10px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.4px;">Development Burndown — Tasks</span>
-            <span style="background:#e6f7f4;color:#0f766e;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;border:1px solid #a7f3d0;" id="vel-avg-badge">–</span>
-          </div>
-          <!-- SP summary strip -->
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;">
-            <div style="background:#f0fdf9;border:1px solid #c7ede6;border-radius:8px;padding:8px 10px;text-align:center;">
-              <div style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px;">Total SP</div>
-              <div style="font-size:20px;font-weight:700;color:#0f766e;font-family:'DM Mono',monospace;line-height:1;" id="t1-sp-total">–</div>
-            </div>
-            <div style="background:#f0fdf9;border:1px solid #c7ede6;border-radius:8px;padding:8px 10px;text-align:center;">
-              <div style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px;">SP Closed</div>
-              <div style="font-size:20px;font-weight:700;color:#059669;font-family:'DM Mono',monospace;line-height:1;" id="t1-sp-closed">–</div>
-            </div>
-            <div style="background:#f0fdf9;border:1px solid #c7ede6;border-radius:8px;padding:8px 10px;text-align:center;">
-              <div style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px;">SP Remaining</div>
-              <div style="font-size:20px;font-weight:700;color:#0d9488;font-family:'DM Mono',monospace;line-height:1;" id="t1-sp-rem">–</div>
-            </div>
-          </div>
-          <div style="position:relative;height:200px;">
-            <canvas id="velocityChart"></canvas>
+            <span class="card-title">Status Breakdown</span>
+            <span style="background:var(--b50);color:var(--b700);font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;border:1px solid var(--b100);letter-spacing:.03em;text-transform:uppercase;">User Stories</span>
           </div>
         </div>
-        <div style="background:#f0fdf9;border-top:1px solid #c7ede6;padding:8px 14px;font-size:10px;color:#6b7280;">
-          <span id="vel-footer-note">– SP closed · – SP/day avg · – days left</span>
+        <div class="chip-wrap" id="status-filter-chips"></div>
+        <div class="card-body">
+          <div class="status-summary">
+            <div class="ss-mini ss-total"><div class="ss-n">Total</div><div class="ss-v" id="status-us-total">–</div></div>
+            <div class="ss-mini ss-done"><div class="ss-n">Done</div><div class="ss-v" id="status-us-done">–</div></div>
+            <div class="ss-mini ss-blocked"><div class="ss-n">Blocked</div><div class="ss-v" id="status-us-blocked">–</div></div>
+          </div>
+          <div style="position:relative;height:150px;margin-bottom:10px;"><canvas id="statusChart"></canvas></div>
+          <div id="status-breakdown-list"></div>
         </div>
       </div>
 
-      <!-- Chart 2: Bugs + User Stories burndown -->
+      <!-- Ready for Release -->
       <div class="card" style="overflow:visible;">
-        <div class="card-header" style="flex-wrap:wrap;gap:8px;background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%);border-bottom:1px solid #bfdbfe;">
-          <div style="display:flex;align-items:center;gap:8px;">
-            <span class="card-title" style="color:#0e7490;">Development Burndown — Bugs &amp; User Stories</span>
-            <span style="background:#0e7490;color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">WORK ITEMS</span>
-          </div>
-          <div style="margin-left:auto;font-size:10px;color:#6b7280;">Sprint 5 · Mar 30 – Apr 17</div>
+        <div class="card-head">
+          <span class="card-title" style="color:var(--b700);">Ready for Release</span>
+          <span style="background:var(--b600);color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:99px;">Apr 21</span>
         </div>
-        <div style="background:#eff6ff;border-bottom:1px solid #bfdbfe;padding:8px 14px;display:flex;align-items:center;gap:8px;">
-          <span style="font-size:10px;font-weight:700;color:#1e52a8;text-transform:uppercase;letter-spacing:0.4px;">Filter by Member</span>
-          <select class="filter-select" id="f-velocity-user2" style="min-width:160px;border-color:#bfdbfe;background:#fff;" onchange="renderBothCharts()">
-            <option value="all">All Team Members</option>
-          </select>
-        </div>
-        <div class="card-body" style="padding:14px 14px 8px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-            <span style="font-size:10px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.4px;">Development Burndown — Bugs &amp; User Stories</span>
-            <span style="background:#cffafe;color:#0e7490;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;border:1px solid #a5f3fc;" id="vel-avg-badge2">–</span>
+        <div class="card-body">
+          <div class="rfr-top">
+            <div class="rfr-num" id="rfr-total">–</div>
+            <div class="rfr-lbl">items ready</div>
+            <div class="rfr-sp" id="rfr-sp">– SP</div>
           </div>
-          <!-- SP summary strip -->
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;">
-            <div style="background:#ecfeff;border:1px solid #a5f3fc;border-radius:8px;padding:8px 10px;text-align:center;">
-              <div style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px;">Total SP</div>
-              <div style="font-size:20px;font-weight:700;color:#1e52a8;font-family:'DM Mono',monospace;line-height:1;" id="t2-sp-total">–</div>
-            </div>
-            <div style="background:#ecfeff;border:1px solid #a5f3fc;border-radius:8px;padding:8px 10px;text-align:center;">
-              <div style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px;">SP Closed</div>
-              <div style="font-size:20px;font-weight:700;color:#2563eb;font-family:'DM Mono',monospace;line-height:1;" id="t2-sp-closed">–</div>
-            </div>
-            <div style="background:#ecfeff;border:1px solid #a5f3fc;border-radius:8px;padding:8px 10px;text-align:center;">
-              <div style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:4px;">SP Remaining</div>
-              <div style="font-size:20px;font-weight:700;color:#3b82f6;font-family:'DM Mono',monospace;line-height:1;" id="t2-sp-rem">–</div>
-            </div>
-          </div>
-          <div style="position:relative;height:200px;">
-            <canvas id="velocityChart2"></canvas>
-          </div>
-        </div>
-        <div style="background:#ecfeff;border-top:1px solid #a5f3fc;padding:8px 14px;font-size:10px;color:#6b7280;">
-          <span id="vel-footer-note2">– SP closed · – SP/day avg · – days left</span>
+          <div id="rfr-list"></div>
         </div>
       </div>
+
     </div>
 
-  </div><!-- /right panel -->
-</div><!-- /main -->
+    <!-- RIGHT PANEL -->
+    <div class="right-panel">
+
+      <!-- Project Sprint Dashboard -->
+      <div>
+        <div class="sec-head">
+          <div class="sec-bar sb-dev"></div>
+          <span class="sec-title">Project Sprint Dashboard</span>
+          <span class="sec-count" id="proj-total-badge">–</span>
+        </div>
+        <div class="proj-grid" id="project-health-row"></div>
+      </div>
+
+      <!-- Business Projects -->
+      <div class="card" style="overflow:visible;">
+        <div class="card-head">
+          <div class="biz-head">
+            <span class="card-title">Business Projects Activity</span>
+            <span style="background:var(--b600);color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:99px;">SPRINT 5</span>
+            <div class="mode-toggle" style="margin-left:4px;">
+              <button class="mode-btn on" id="biz-toggle-count" onclick="setBizMode('count')">Items</button>
+              <button class="mode-btn" id="biz-toggle-sp" onclick="setBizMode('sp')">Story Points</button>
+            </div>
+          </div>
+          <div class="proj-chips" id="biz-project-chips">
+            <span style="font-size:8.5px;font-weight:700;color:var(--tx4);text-transform:uppercase;letter-spacing:.04em;margin-right:2px;">Filter</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div style="position:relative;height:240px;"><canvas id="bizProjectChart"></canvas></div>
+        </div>
+        <div style="padding:8px 14px 10px;border-top:1px solid var(--color-border);display:flex;flex-wrap:wrap;gap:7px;align-items:center;" id="biz-legend"></div>
+      </div>
+
+      <!-- Burndown charts -->
+      <div>
+        <div class="sec-head">
+          <div class="sec-bar sb-dev"></div>
+          <span class="sec-title">Sprint Burndown — Tasks &amp; Work Items</span>
+        </div>
+        <!-- Shared KPI strip -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--color-border);border-radius:var(--r-md);overflow:hidden;margin-bottom:12px;background:var(--color-surface);">
+          <div style="padding:12px 16px;border-right:1px solid var(--color-border);">
+            <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tx4);margin-bottom:4px;">Days Remaining</div>
+            <div style="font-size:28px;font-weight:800;color:var(--success);font-family:'JetBrains Mono',monospace;line-height:1;" id="vk-remaining">–</div>
+            <div style="font-size:10px;color:var(--tx3);">working days until Apr 17</div>
+          </div>
+          <div style="padding:12px 16px;border-right:1px solid var(--color-border);">
+            <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tx4);margin-bottom:4px;">Tasks SP Closed</div>
+            <div style="font-size:28px;font-weight:800;color:var(--success);font-family:'JetBrains Mono',monospace;line-height:1;" id="vk-tasks-sp">–</div>
+            <div style="font-size:10px;color:var(--tx3);" id="vk-tasks-sp-sub">story points · tasks</div>
+          </div>
+          <div style="padding:12px 16px;">
+            <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tx4);margin-bottom:4px;">Bug+Story SP Closed</div>
+            <div style="font-size:28px;font-weight:800;color:var(--b600);font-family:'JetBrains Mono',monospace;line-height:1;" id="vk-wi-sp">–</div>
+            <div style="font-size:10px;color:var(--tx3);" id="vk-wi-sp-sub">story points · bugs &amp; stories</div>
+          </div>
+        </div>
+        <div class="vel-grid">
+          <!-- Chart 1 -->
+          <div class="card" style="overflow:visible;">
+            <div class="card-head" style="background:linear-gradient(135deg,#f0fdf9,#e8faf5);border-bottom-color:#c7ede6;flex-wrap:wrap;gap:6px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span class="card-title" style="color:#0f766e;">Development Burndown — Tasks</span>
+                <span style="background:#0d9488;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:99px;">TASKS</span>
+              </div>
+              <div style="margin-left:auto;font-size:10px;color:var(--tx3);">Sprint 5 · Mar 30–Apr 17</div>
+            </div>
+            <div style="background:#f0fdf9;border-bottom:1px solid #c7ede6;padding:7px 12px;display:flex;align-items:center;gap:8px;">
+              <span style="font-size:9.5px;font-weight:700;color:#0f766e;text-transform:uppercase;letter-spacing:.04em;">Filter by Member</span>
+              <select class="bd-sel" id="f-velocity-user" onchange="renderBothCharts()"><option value="all">All Team Members</option></select>
+              <span style="background:#e6f7f4;color:#0f766e;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;border:1px solid #a7f3d0;margin-left:auto;" id="vel-avg-badge">–</span>
+            </div>
+            <div class="card-body">
+              <div class="vel-sp-strip">
+                <div class="vel-sp-card" style="background:#f0fdf9;border-color:#c7ede6;"><div class="vs-n">Total SP</div><div class="vs-v" style="color:#0f766e;" id="t1-sp-total">–</div></div>
+                <div class="vel-sp-card" style="background:#f0fdf9;border-color:#c7ede6;"><div class="vs-n">SP Closed</div><div class="vs-v" style="color:#059669;" id="t1-sp-closed">–</div></div>
+                <div class="vel-sp-card" style="background:#f0fdf9;border-color:#c7ede6;"><div class="vs-n">Remaining</div><div class="vs-v" style="color:#0d9488;" id="t1-sp-rem">–</div></div>
+              </div>
+              <div class="chart-200"><canvas id="velocityChart"></canvas></div>
+            </div>
+            <div style="background:#f0fdf9;border-top:1px solid #c7ede6;padding:7px 12px;font-size:10px;color:var(--tx3);"><span id="vel-footer-note">–</span></div>
+          </div>
+          <!-- Chart 2 -->
+          <div class="card" style="overflow:visible;">
+            <div class="card-head" style="background:linear-gradient(135deg,var(--b50),#dbeafe);border-bottom-color:var(--b200);flex-wrap:wrap;gap:6px;">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span class="card-title" style="color:var(--b700);">Development Burndown — Bugs &amp; Stories</span>
+                <span style="background:var(--b700);color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:99px;">WORK ITEMS</span>
+              </div>
+              <div style="margin-left:auto;font-size:10px;color:var(--tx3);">Sprint 5 · Mar 30–Apr 17</div>
+            </div>
+            <div style="background:var(--b50);border-bottom:1px solid var(--b200);padding:7px 12px;display:flex;align-items:center;gap:8px;">
+              <span style="font-size:9.5px;font-weight:700;color:var(--b700);text-transform:uppercase;letter-spacing:.04em;">Filter by Member</span>
+              <select class="bd-sel" id="f-velocity-user2" onchange="renderBothCharts()"><option value="all">All Team Members</option></select>
+              <span style="background:var(--b50);color:var(--b700);font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;border:1px solid var(--b200);margin-left:auto;" id="vel-avg-badge2">–</span>
+            </div>
+            <div class="card-body">
+              <div class="vel-sp-strip">
+                <div class="vel-sp-card" style="background:var(--b50);border-color:var(--b200);"><div class="vs-n">Total SP</div><div class="vs-v" style="color:var(--b700);" id="t2-sp-total">–</div></div>
+                <div class="vel-sp-card" style="background:var(--b50);border-color:var(--b200);"><div class="vs-n">SP Closed</div><div class="vs-v" style="color:var(--b600);" id="t2-sp-closed">–</div></div>
+                <div class="vel-sp-card" style="background:var(--b50);border-color:var(--b200);"><div class="vs-n">Remaining</div><div class="vs-v" style="color:var(--b500);" id="t2-sp-rem">–</div></div>
+              </div>
+              <div class="chart-200"><canvas id="velocityChart2"></canvas></div>
+            </div>
+            <div style="background:var(--b50);border-top:1px solid var(--b200);padding:7px 12px;font-size:10px;color:var(--tx3);"><span id="vel-footer-note2">–</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ SUPPORT VIEW ═══════ -->
+<div class="view" id="view-sup">
+
+  <!-- Support hero: 2×3 grid -->
+  <div class="sup-hero">
+    <div class="shc shc-inc">
+      <div class="shc-lbl">Total INC Bugs</div>
+      <div class="shc-val">34</div>
+      <div class="shc-sub">Tagged incidents</div>
+      <div class="shc-bar-track"><div class="shc-bar-fill" style="width:100%"></div></div>
+    </div>
+    <div class="shc shc-res">
+      <div class="shc-lbl">INC Resolved</div>
+      <div class="shc-val">17</div>
+      <div class="shc-sub">Closed this sprint</div>
+      <div class="shc-bar-track"><div class="shc-bar-fill" style="width:50%"></div></div>
+      <div class="shc-rate">50% Resolution Rate</div>
+    </div>
+    <div class="shc shc-wip">
+      <div class="shc-lbl">Work In Progress</div>
+      <div class="shc-val">10</div>
+      <div class="shc-sub">Active + In Dev + In QA</div>
+    </div>
+    <div class="shc shc-vuln">
+      <div class="shc-lbl">Vulnerabilities</div>
+      <div class="shc-val">17</div>
+      <div class="shc-sub">Remediation tasks</div>
+      <div class="shc-bar-track"><div class="shc-bar-fill" style="width:41.2%;background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div></div>
+      <div class="shc-rate" style="background:var(--b50);color:var(--b600);border-color:var(--b100);">41.2% Complete</div>
+    </div>
+    <div class="shc shc-hlsg">
+      <div class="shc-lbl">HLSG Items</div>
+      <div class="shc-val">31</div>
+      <div class="shc-sub">INC + Vulnerabilities</div>
+    </div>
+    <div class="shc shc-srs">
+      <div class="shc-lbl">SRS Items</div>
+      <div class="shc-val">19</div>
+      <div class="shc-sub">INC + Vulnerabilities</div>
+    </div>
+  </div>
+
+  <!-- Vertical cards -->
+  <div class="vert-row">
+    <div class="vert-card vc-hlsg">
+      <div class="vc-name">HLSG Vertical</div>
+      <div class="vc-stats">
+        <div class="vc-stat"><div class="vc-v">31</div><div class="vc-k">Total Items</div></div>
+        <div class="vc-stat"><div class="vc-v">19</div><div class="vc-k">INC Bugs</div></div>
+        <div class="vc-stat"><div class="vc-v">12</div><div class="vc-k">Vulnerabilities</div></div>
+        <div class="vc-stat"><div class="vc-v">50%</div><div class="vc-k">INC Resolution</div></div>
+      </div>
+    </div>
+    <div class="vert-card vc-srs">
+      <div class="vc-name">SRS Vertical</div>
+      <div class="vc-stats">
+        <div class="vc-stat"><div class="vc-v">19</div><div class="vc-k">Total Items</div></div>
+        <div class="vc-stat"><div class="vc-v">14</div><div class="vc-k">INC Bugs</div></div>
+        <div class="vc-stat"><div class="vc-v">5</div><div class="vc-k">Vulnerabilities</div></div>
+        <div class="vc-stat"><div class="vc-v">50%</div><div class="vc-k">INC Resolution</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Support main -->
+  <div class="sup-main">
+    <div class="sup-left">
+
+      <!-- INC Donut -->
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">INC Bug Status</span>
+          <span style="background:var(--b50);color:var(--b700);font-size:9px;font-weight:700;padding:2px 8px;border-radius:99px;border:1px solid var(--b100);">34 Incidents</span>
+        </div>
+        <div class="card-body" style="padding:12px 14px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:14px;">
+            <div style="background:var(--b50);border:1px solid var(--b100);border-radius:7px;padding:7px 8px;text-align:center;">
+              <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:2px;">Total</div>
+              <div style="font-size:17px;font-weight:800;color:var(--b700);font-family:'JetBrains Mono',monospace;">34</div>
+            </div>
+            <div style="background:var(--success-bg);border:1px solid rgba(13,145,104,.2);border-radius:7px;padding:7px 8px;text-align:center;">
+              <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:2px;">Resolved</div>
+              <div style="font-size:17px;font-weight:800;color:var(--success);font-family:'JetBrains Mono',monospace;">17</div>
+            </div>
+            <div style="background:var(--warning-bg);border:1px solid rgba(180,83,9,.2);border-radius:7px;padding:7px 8px;text-align:center;">
+              <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:2px;">Open</div>
+              <div style="font-size:17px;font-weight:800;color:var(--warning);font-family:'JetBrains Mono',monospace;">17</div>
+            </div>
+          </div>
+          <!-- Donut centered with legend below -->
+          <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
+            <div style="position:relative;width:130px;height:130px;flex-shrink:0;">
+              <canvas id="incStatusDonut"></canvas>
+              <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;">
+                <div style="font-size:24px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--tx1);line-height:1;">34</div>
+                <div style="font-size:9px;color:var(--tx4);margin-top:1px;">INC Bugs</div>
+              </div>
+            </div>
+            <div id="incDonutLeg" style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;width:100%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vuln Donut -->
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Vulnerability Status</span>
+          <span style="background:var(--b50);color:var(--b700);font-size:9px;font-weight:700;padding:2px 8px;border-radius:99px;border:1px solid var(--b100);">17 Items</span>
+        </div>
+        <div class="card-body" style="padding:12px 14px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:12px;">
+            <div style="background:var(--color-surface2);border:1px solid var(--color-border);border-radius:7px;padding:7px 8px;text-align:center;">
+              <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:2px;">Total</div>
+              <div style="font-size:17px;font-weight:800;color:var(--tx1);font-family:'JetBrains Mono',monospace;">17</div>
+            </div>
+            <div style="background:var(--success-bg);border:1px solid rgba(13,145,104,.2);border-radius:7px;padding:7px 8px;text-align:center;">
+              <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:2px;">Closed</div>
+              <div style="font-size:17px;font-weight:800;color:var(--success);font-family:'JetBrains Mono',monospace;">7</div>
+            </div>
+            <div style="background:var(--warning-bg);border:1px solid rgba(180,83,9,.2);border-radius:7px;padding:7px 8px;text-align:center;">
+              <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:2px;">Open</div>
+              <div style="font-size:17px;font-weight:800;color:var(--warning);font-family:'JetBrains Mono',monospace;">10</div>
+            </div>
+          </div>
+          <div class="donut-wrap">
+            <div class="donut-cv"><canvas id="vulnStatusDonut"></canvas><div class="donut-ctr"><div class="donut-num">17</div><div class="donut-sub">Vulns</div></div></div>
+            <div class="donut-leg" id="vulnDonutLeg"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assign -->
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">INC Assignation</span>
+          <span style="background:var(--b50);color:var(--b700);font-size:9px;font-weight:700;padding:2px 8px;border-radius:99px;border:1px solid var(--b100);">by member</span>
+        </div>
+        <div style="padding:10px 12px;">
+          <table class="assign-table">
+            <thead><tr><th>Member</th><th>Items</th><th style="min-width:70px;">Load</th></tr></thead>
+            <tbody id="inc-assign-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="sup-right">
+
+      <!-- KPI strip -->
+      <div class="kpi-strip">
+        <div class="kpi-tile">
+          <div class="kpi-tile-lbl">Total INC</div>
+          <div class="kpi-tile-val">34</div>
+          <div class="kpi-tile-sub">Incidents</div>
+        </div>
+        <div class="kpi-tile">
+          <div class="kpi-tile-lbl">Resolution Rate</div>
+          <div class="kpi-tile-val" style="color:var(--t600);">50%</div>
+          <div class="kpi-tile-sub">17 of 34 closed</div>
+        </div>
+        <div class="kpi-tile">
+          <div class="kpi-tile-lbl">Avg MTTR</div>
+          <div class="kpi-tile-val" id="sup-mttr">–</div>
+          <div class="kpi-tile-sub">calendar days</div>
+        </div>
+      </div>
+
+      <!-- Closed vs Open -->
+      <div class="card">
+        <div class="card-head"><span class="card-title">Closed vs Open INC</span></div>
+        <div class="card-body" style="display:flex;gap:20px;align-items:center;">
+          <div style="position:relative;width:90px;height:90px;flex-shrink:0;">
+            <canvas id="incClosedOpen"></canvas>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+              <span style="font-size:16px;font-weight:800;font-family:'JetBrains Mono',monospace;color:var(--tx1);">50%</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:center;gap:8px;"><div style="width:9px;height:9px;border-radius:2px;background:var(--t600);flex-shrink:0;"></div><span style="font-size:11px;color:var(--tx2);">Closed (17)</span></div>
+            <div style="display:flex;align-items:center;gap:8px;"><div style="width:9px;height:9px;border-radius:2px;background:var(--t200);flex-shrink:0;"></div><span style="font-size:11px;color:var(--tx2);">Open (17)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WIP Table -->
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Work In Progress — INC</span>
+          <span class="card-badge" id="sup-wip-badge">open</span>
+        </div>
+        <div style="overflow-y:auto;max-height:210px;">
+          <table class="wip-table">
+            <thead><tr><th>ID</th><th>Summary</th><th>State</th><th>Assigned To</th></tr></thead>
+            <tbody id="sup-wip-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Vuln progress -->
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Remediation Progress</span>
+          <span class="card-badge">17 stories</span>
+        </div>
+        <div class="card-body">
+          <div class="kpi-strip" style="margin-bottom:10px;">
+            <div class="kpi-tile"><div class="kpi-tile-lbl">Total</div><div class="kpi-tile-val">17</div><div class="kpi-tile-sub">HLSG &amp; SRS</div></div>
+            <div class="kpi-tile"><div class="kpi-tile-lbl">Completed</div><div class="kpi-tile-val" style="color:var(--success);">7</div><div class="kpi-tile-sub">of 17</div></div>
+            <div class="kpi-tile"><div class="kpi-tile-lbl">Progress</div><div class="kpi-tile-val" style="color:var(--t600);">41.2%</div><div class="kpi-tile-sub">completion rate</div></div>
+          </div>
+          <div style="margin-bottom:12px;">
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tx3);margin-bottom:4px;"><span>Remediation Progress</span><span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--tx2);">7 / 17</span></div>
+            <div style="height:4px;background:var(--color-border);border-radius:99px;overflow:hidden;"><div style="height:100%;width:41.2%;background:linear-gradient(90deg,var(--t600),var(--t400));border-radius:99px;"></div></div>
+          </div>
+          <div id="vuln-states-list"></div>
+        </div>
+      </div>
+
+      <!-- Vuln Assignation -->
+      <div class="card">
+        <div class="card-head">
+          <span class="card-title">Vuln Assignation</span>
+          <span class="card-badge">by member</span>
+        </div>
+        <div style="padding:10px 12px;">
+          <table class="assign-table">
+            <thead><tr><th>Member</th><th>Items</th><th style="min-width:70px;">Load</th></tr></thead>
+            <tbody id="vuln-assign-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 <script>
+
 // ═══════════════════════════════════════════
 // DATA
 // ═══════════════════════════════════════════
@@ -1116,6 +1104,22 @@ function renderKPIs(data) {
 
   // Blocked (projects)
   safeSet('ss-proj-blocked', blocked);
+
+  // ── Hero bar values ──────────────────────────────────────────────────────
+  const heroUS   = projData.filter(d => d.type === 'User Story').length;
+  const heroBugs = projData.filter(d => d.type === 'Bug').length;
+  // SP: only User Stories + Bugs (not Tasks/Test Cases etc.)
+  const heroSP   = projData.filter(d => d.type === 'User Story' || d.type === 'Bug')
+                            .reduce((s, d) => s + d.sp, 0);
+  const heroClosedUS   = projData.filter(d => d.type === 'User Story' && d.state === 'Closed').length;
+  const heroClosedBugs = projData.filter(d => d.type === 'Bug'         && d.state === 'Closed').length;
+  safeSet('hero-us',       heroUS);
+  safeSet('hero-us-sub',   `${heroClosedUS} closed`);
+  safeSet('hero-bugs',     heroBugs);
+  safeSet('hero-bugs-sub', `${heroClosedBugs} closed`);
+  safeSet('hero-sp',       heroSP);
+  safeSet('hero-rate',     '70%');
+  safeSet('hero-rate-sub', `${SPRINT5_DONE} of ${SPRINT5_PLANNED} items`);
 
   // ── INC Sprint Summary ────────────────────────────────────────────────────
   const incTotal      = incData.length;
@@ -1541,14 +1545,14 @@ function renderProjectHealthCards(data) {
     'Quotes':'QT','Chili':'CH','Procard':'PC','ProReferral':'PRL','Bruno':'BRN'
   };
   const PROJ_COLORS = {
-    'Quickbooks':      ['#0e7490','#cffafe'],
-    'ProjectMapIt':    ['#0891b2','#e0f7fa'],
+    'Quickbooks':      ['#2563eb','#dbeafe'],
+    'ProjectMapIt':    ['#0891b2','#cffafe'],
     'PropertyReports': ['#0369a1','#e0f2fe'],
     'Quotes':          ['#1d4ed8','#dbeafe'],
     'Chili':           ['#0f766e','#ccfbf1'],
-    'Procard':         ['#2563eb','#eff6ff'],
-    'ProReferral':     ['#0284c7','#e0f2fe'],
-    'Bruno':           ['#0d9488','#f0fdfa']
+    'Procard':         ['#0891b2','#cffafe'],
+    'ProReferral':     ['#7c3aed','#ede9fe'],
+    'Bruno':           ['#0891b2','#cffafe']
   };
 
   container.innerHTML = '';
@@ -1558,7 +1562,7 @@ function renderProjectHealthCards(data) {
     const [fg, bg] = PROJ_COLORS[p] || ['#374151','#f3f4f6'];
     const healthColor = pct >= 70 ? '#0e7490' : pct >= 40 ? '#0891b2' : '#e11d48';
     const card = document.createElement('div');
-    card.style.cssText = `background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:14px 14px 10px;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06);cursor:default;`;
+    card.style.cssText = `background:var(--color-bg);border-radius:var(--r-md);border:0.5px solid var(--color-border-2);padding:12px 13px 10px;position:relative;overflow:hidden;cursor:default;`;
     card.innerHTML = `
       <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,${fg},${bg});"></div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
@@ -2199,287 +2203,20 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }, 150);
 });
+
 </script>
-
-</div><!-- /dev-view -->
-
-<!-- ═══════════════════════════════════════════════ -->
-<!-- SUPPORT INTEGRATORS VIEW                         -->
-<!-- ═══════════════════════════════════════════════ -->
-<div class="sup-view" id="sup-view">
-
-  <!-- Support Summary Header Bar -->
-  <div class="sup-header-bar">
-    <!-- Label spans both rows -->
-    <div class="sup-header-label">
-      <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:0.6px;white-space:nowrap;text-align:center;line-height:1.6;">Support<br>Sprint 5</div>
-    </div>
-    <!-- Row 1: INC metrics -->
-    <div class="sup-sscard">
-      <div class="sup-sscard-label">Total INC Bugs</div>
-      <div class="sup-sscard-value">34</div>
-      <div class="sup-sscard-sub">Tagged incidents</div>
-      <div class="sup-sscard-bar"><div class="sup-sscard-bar-fill" style="width:100%"></div></div>
-    </div>
-    <div class="sup-sscard">
-      <div class="sup-sscard-label">INC Resolved</div>
-      <div class="sup-sscard-value">17</div>
-      <div class="sup-sscard-sub">Closed this sprint</div>
-      <div class="sup-sscard-bar"><div class="sup-sscard-bar-fill" style="width:50%"></div></div>
-      <div class="sup-rate-badge">50% Resolution Rate</div>
-    </div>
-    <div class="sup-sscard">
-      <div class="sup-sscard-label">Work In Progress</div>
-      <div class="sup-sscard-value">10</div>
-      <div class="sup-sscard-sub">Active + In Dev + In QA</div>
-    </div>
-    <!-- Row 2: Vulnerabilities + Verticals -->
-    <div class="sup-sscard">
-      <div class="sup-sscard-label">Vulnerabilities</div>
-      <div class="sup-sscard-value">17</div>
-      <div class="sup-sscard-sub">Remediation tasks</div>
-      <div class="sup-sscard-bar"><div class="sup-sscard-bar-fill" style="width:41.2%"></div></div>
-      <div class="sup-rate-badge">41.2% Complete</div>
-    </div>
-    <div class="sup-sscard">
-      <div class="sup-sscard-label">HLSG Items</div>
-      <div class="sup-sscard-value">31</div>
-      <div class="sup-sscard-sub">INC + Vulnerabilities</div>
-    </div>
-    <div class="sup-sscard">
-      <div class="sup-sscard-label">SRS Items</div>
-      <div class="sup-sscard-value">19</div>
-      <div class="sup-sscard-sub">INC + Vulnerabilities</div>
-    </div>
-  </div>
-
-  <!-- Vertical Summary -->
-  <div class="vert-row">
-    <div class="vert-card vc-h">
-      <div class="vc-name">HLSG Vertical</div>
-      <div class="vc-stats">
-        <div class="vc-stat"><div class="vc-v">31</div><div class="vc-k">Total Support Items</div></div>
-        <div class="vc-stat"><div class="vc-v">19</div><div class="vc-k">INC Bugs</div></div>
-        <div class="vc-stat"><div class="vc-v">12</div><div class="vc-k">Vulnerabilities</div></div>
-        <div class="vc-stat"><div class="vc-v">50%</div><div class="vc-k">INC Resolution</div></div>
-      </div>
-    </div>
-    <div class="vert-card vc-s">
-      <div class="vc-name">SRS Vertical</div>
-      <div class="vc-stats">
-        <div class="vc-stat"><div class="vc-v">19</div><div class="vc-k">Total Support Items</div></div>
-        <div class="vc-stat"><div class="vc-v">14</div><div class="vc-k">INC Bugs</div></div>
-        <div class="vc-stat"><div class="vc-v">5</div><div class="vc-k">Vulnerabilities</div></div>
-        <div class="vc-stat"><div class="vc-v">50%</div><div class="vc-k">INC Resolution</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="sup-main">
-    <!-- LEFT -->
-    <div class="sup-left">
-
-      <!-- INC Status Donut -->
-      <div class="card" style="overflow:visible;">
-        <div style="padding:14px 16px 10px;border-bottom:1px solid #f0fdf4;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-            <span class="card-title">INC Bug Status</span>
-            <span style="background:#cffafe;color:#155e75;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;text-transform:uppercase;">34 Incidents</span>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
-            <div style="background:#ecfeff;border:1px solid #a5f3fc;border-radius:8px;padding:7px 8px;text-align:center;">
-              <div style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:2px;">Total</div>
-              <div style="font-size:18px;font-weight:700;color:#0891b2;font-family:'DM Mono',monospace;line-height:1;">34</div>
-            </div>
-            <div style="background:#cffafe;border:1px solid #a5f3fc;border-radius:8px;padding:7px 8px;text-align:center;">
-              <div style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:2px;">Resolved</div>
-              <div style="font-size:18px;font-weight:700;color:#155e75;font-family:'DM Mono',monospace;line-height:1;">17</div>
-            </div>
-            <div style="background:#fef9c3;border:1px solid #fde68a;border-radius:8px;padding:7px 8px;text-align:center;">
-              <div style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:2px;">Open</div>
-              <div style="font-size:18px;font-weight:700;color:#b45309;font-family:'DM Mono',monospace;line-height:1;">17</div>
-            </div>
-          </div>
-        </div>
-        <div style="padding:14px 16px;">
-          <div class="sup-donut-wrap">
-            <div class="sup-dcv">
-              <canvas id="incStatusDonut"></canvas>
-              <div class="sup-dctr"><div class="sup-dv">34</div><div class="sup-dl">INC Bugs</div></div>
-            </div>
-            <div class="sup-dleg" id="incDonutLeg"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Vuln Status Donut -->
-      <div class="card" style="overflow:visible;">
-        <div style="padding:14px 16px 10px;border-bottom:1px solid #f0fdf4;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-            <span class="card-title">Vulnerability Status</span>
-            <span style="background:#cffafe;color:#155e75;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;text-transform:uppercase;">17 Items</span>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
-            <div style="background:#ecfeff;border:1px solid #a5f3fc;border-radius:8px;padding:7px 8px;text-align:center;">
-              <div style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:2px;">Total</div>
-              <div style="font-size:18px;font-weight:700;color:#0891b2;font-family:'DM Mono',monospace;line-height:1;">17</div>
-            </div>
-            <div style="background:#cffafe;border:1px solid #a5f3fc;border-radius:8px;padding:7px 8px;text-align:center;">
-              <div style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:2px;">Closed</div>
-              <div style="font-size:18px;font-weight:700;color:#155e75;font-family:'DM Mono',monospace;line-height:1;">7</div>
-            </div>
-            <div style="background:#fef9c3;border:1px solid #fde68a;border-radius:8px;padding:7px 8px;text-align:center;">
-              <div style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:2px;">Open</div>
-              <div style="font-size:18px;font-weight:700;color:#b45309;font-family:'DM Mono',monospace;line-height:1;">10</div>
-            </div>
-          </div>
-        </div>
-        <div style="padding:14px 16px;">
-          <div class="sup-donut-wrap">
-            <div class="sup-dcv">
-              <canvas id="vulnStatusDonut"></canvas>
-              <div class="sup-dctr"><div class="sup-dv">17</div><div class="sup-dl">Vulns</div></div>
-            </div>
-            <div class="sup-dleg" id="vulnDonutLeg"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Assignation -->
-      <div class="card">
-        <div class="card-header"><span class="card-title">INC Assignation</span><span style="background:#cffafe;color:#155e75;font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;">by Member</span></div>
-        <div class="card-body">
-          <table class="sup-atbl">
-            <thead><tr><th>Member</th><th>Items</th><th>Load</th></tr></thead>
-            <tbody id="inc-assign-body"></tbody>
-          </table>
-        </div>
-      </div>
-
-    </div><!-- /sup-left -->
-
-    <!-- RIGHT -->
-    <div class="sup-right">
-
-      <!-- INC KPIs -->
-      <div class="sup-section-title">Incident (INC) Metrics</div>
-      <div class="sup-kpi-grid">
-        <div class="inc-kpi-green"><div class="label">Total INC Bugs</div><div class="value">34</div><div class="sub">Tagged incidents</div></div>
-        <div class="inc-kpi-green"><div class="label">Resolution Rate</div><div class="value">50%</div><div class="sub">17 of 34 closed</div></div>
-        <div class="inc-kpi-green"><div class="label">Avg MTTR</div><div class="value" id="sup-mttr">–</div><div class="sub">calendar days avg</div></div>
-      </div>
-
-      <!-- INC Charts row -->
-      <div class="sup-charts-2col">
-        <div class="card">
-          <div class="card-header"><span class="card-title">Closed vs Open INC</span></div>
-          <div class="card-body">
-            <div class="chart-container"><canvas id="incClosedOpen"></canvas></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Work In Progress — INC</span>
-            <span class="card-badge" id="sup-wip-badge" style="background:#cffafe;color:#155e75;">Open</span>
-          </div>
-          <div class="card-body" style="padding:8px 0 0;">
-            <div style="overflow-x:auto;max-height:200px;overflow-y:auto;">
-              <table class="wip-table" id="sup-wip-table">
-                <thead><tr><th>ID</th><th>Summary</th><th>State</th><th>Assigned To</th></tr></thead>
-                <tbody id="sup-wip-body"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- INC Scrumban -->
-      <div class="card" style="overflow:visible;">
-                <div class="card-body">
-          <div class="scrumban" id="inc-scrumban"></div>
-        </div>
-      </div>
-
-      <!-- VULNERABILITIES -->
-      <div class="sup-section-title" style="margin-top:8px;">Serverless Security Vulnerabilities</div>
-
-      <div class="sup-charts-2col">
-        <!-- Remediation progress -->
-        <div class="card" style="overflow:visible;">
-          <div class="card-header">
-            <span class="card-title">Remediation Progress</span>
-            <span style="background:#cffafe;color:#155e75;font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;">17 Stories</span>
-          </div>
-          <div class="card-body" style="padding:0;">
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--gray-100);">
-              <div style="padding:14px 16px;border-right:1px solid var(--gray-100);">
-                <div style="font-size:9px;font-weight:700;color:var(--gray-500);text-transform:uppercase;margin-bottom:5px;">Total</div>
-                <div style="font-size:26px;font-weight:700;color:#0891b2;font-family:'DM Mono',monospace;line-height:1;">17</div>
-                <div style="font-size:10px;color:var(--gray-500);margin-top:3px;">HLSG &amp; SRS</div>
-              </div>
-              <div style="padding:14px 16px;border-right:1px solid var(--gray-100);">
-                <div style="font-size:9px;font-weight:700;color:var(--gray-500);text-transform:uppercase;margin-bottom:5px;">Completed</div>
-                <div style="font-size:26px;font-weight:700;color:#0e9aae;font-family:'DM Mono',monospace;line-height:1;">7</div>
-                <div style="font-size:10px;color:var(--gray-500);margin-top:3px;">of 17 stories</div>
-              </div>
-              <div style="padding:14px 16px;">
-                <div style="font-size:9px;font-weight:700;color:var(--gray-500);text-transform:uppercase;margin-bottom:5px;">Progress</div>
-                <div style="font-size:26px;font-weight:700;color:#0891b2;font-family:'DM Mono',monospace;line-height:1;">41.2%</div>
-                <div style="font-size:10px;color:var(--gray-500);margin-top:3px;">completion rate</div>
-              </div>
-            </div>
-            <div style="padding:14px 18px 6px;">
-              <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
-                <span style="font-size:10px;font-weight:600;color:var(--gray-500);">Remediation Progress</span>
-                <span style="font-size:10px;font-weight:700;color:#0891b2;font-family:'DM Mono',monospace;">7 / 17</span>
-              </div>
-              <div class="vuln-prog-bar" style="margin-bottom:14px;">
-                <div class="vuln-prog-fill" style="width:41.2%"></div>
-              </div>
-              <div id="vuln-states-list"></div>
-            </div>
-          </div>
-        </div>
-        <!-- Vuln assignation -->
-        <div class="card">
-          <div class="card-header"><span class="card-title">Vuln Assignation</span><span style="background:#cffafe;color:#155e75;font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;">by Member</span></div>
-          <div class="card-body">
-            <table class="sup-atbl">
-              <thead><tr><th>Member</th><th>Items</th><th>Load</th></tr></thead>
-              <tbody id="vuln-assign-body"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Vuln Scrumban -->
-      <div class="card" style="overflow:visible;">
-                <div class="card-body">
-          <div class="scrumban" id="vuln-scrumban"></div>
-        </div>
-      </div>
-
-    </div><!-- /sup-right -->
-  </div><!-- /sup-main -->
-</div><!-- /sup-view -->
-
 <script>
+
 
 // ═══════════════════════════════════════════
 // VIEW SWITCHING
 // ═══════════════════════════════════════════
 function switchView(view, el) {
-  document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active-dev','active-sup'));
-  if (view === 'dev') {
-    document.getElementById('dev-view').classList.remove('hidden');
-    document.getElementById('sup-view').classList.remove('on');
-    el.classList.add('active-dev');
-  } else {
-    document.getElementById('dev-view').classList.add('hidden');
-    document.getElementById('sup-view').classList.add('on');
-    el.classList.add('active-sup');
-    initSupportView();
-  }
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.tb-tab').forEach(t => t.classList.remove('on-dev','on-sup'));
+  document.getElementById('view-' + view).classList.add('active');
+  el.classList.add('on-' + view);
+  if (view === 'sup') initSupportView();
 }
 
 // ═══════════════════════════════════════════
@@ -2712,6 +2449,21 @@ function buildScrumban(boardId, items, theme) {
   });
 }
 
+
+// ── Boot ──
+window.addEventListener('DOMContentLoaded', () => {
+  initFilters();
+  render();
+  // Animate progress bar
+  setTimeout(() => {
+    document.querySelectorAll('.progress-fill,.sscard-bar-fill,.cap-bar-fill').forEach(el => {
+      const w = el.style.width; el.style.width='0%';
+      setTimeout(()=>el.style.width=w, 120);
+    });
+  }, 150);
+});
 </script>
 </body>
 </html>
+
+
