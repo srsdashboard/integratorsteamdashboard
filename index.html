@@ -557,11 +557,11 @@
   /* Green summary header bar */
   .sup-header-bar {
     background: linear-gradient(135deg, #0f4c5c 0%, #0d7490 55%, #0ea5e9 100%);
-    padding: 20px 32px;
+    padding: 16px 32px;
     display: grid;
-    grid-template-columns: auto repeat(3, 1fr);
-    grid-template-rows: 1fr 1fr;
-    gap: 10px;
+    grid-template-columns: 56px repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 8px;
     align-items: stretch;
   }
   .sup-header-label {
@@ -570,20 +570,33 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-right: 8px;
   }
   .sup-sscard {
     background: rgba(255,255,255,.10);
-    border: 1px solid rgba(255,255,255,.18);
-    border-radius: 10px;
-    padding: 14px 18px;
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 8px;
+    padding: 11px 14px;
     backdrop-filter: blur(8px);
     transition: background 0.2s;
+    min-width: 0;
   }
   .sup-sscard:hover { background: rgba(255,255,255,.16); }
-  .sup-sscard-label { font-size: 10px; font-weight: 600; color: #a5f3fc; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-  .sup-sscard-value { font-size: 30px; font-weight: 700; color: #fff; font-family: 'DM Mono', monospace; line-height: 1; margin-bottom: 4px; }
-  .sup-sscard-sub { font-size: 11px; color: #cffafe; }
+  .sup-sscard-label { font-size: 9px; font-weight: 700; color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; white-space: nowrap; }
+  .sup-sscard-value { font-size: 26px; font-weight: 700; color: #fff; font-family: 'DM Mono', monospace; line-height: 1; margin-bottom: 2px; }
+  .sup-sscard-sub { font-size: 10px; color: rgba(255,255,255,.65); margin-top: 1px; }
+  .sup-sscard-label {
+    font-size: 9px; font-weight: 700; color: rgba(255,255,255,.6);
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px;
+    white-space: nowrap;
+  }
+  .sup-sscard-value {
+    font-size: 26px; font-weight: 700; color: #fff;
+    font-family: 'DM Mono', monospace; line-height: 1; margin-bottom: 2px;
+  }
+  .sup-sscard-sub { font-size: 10px; color: rgba(255,255,255,.65); margin-top: 1px; }
+
+
+
   .sup-sscard-bar { height: 3px; background: rgba(255,255,255,.15); border-radius: 2px; margin-top: 10px; overflow: hidden; }
   .sup-sscard-bar-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg,#06b6d4,#67e8f9); }
   .sup-rate-badge {
@@ -2382,11 +2395,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
       <!-- INC Scrumban -->
       <div class="card" style="overflow:visible;">
-        <div class="card-header" style="background:linear-gradient(135deg,#f0fdff 0%,#cffafe 100%);border-bottom:1px solid #a5f3fc;">
-          <span class="card-title" style="color:#0891b2;">INC Bugs — Scrumban Board</span>
-          <span style="background:#0891b2;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;">34 items</span>
-        </div>
-        <div class="card-body">
+                <div class="card-body">
           <div class="scrumban" id="inc-scrumban"></div>
         </div>
       </div>
@@ -2445,11 +2454,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
       <!-- Vuln Scrumban -->
       <div class="card" style="overflow:visible;">
-        <div class="card-header" style="background:linear-gradient(135deg,#f0fdff 0%,#cffafe 100%);border-bottom:1px solid #a5f3fc;">
-          <span class="card-title" style="color:#0891b2;">Vulnerabilities — Scrumban Board</span>
-          <span style="background:#0891b2;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:20px;">17 items</span>
-        </div>
-        <div class="card-body">
+                <div class="card-body">
           <div class="scrumban" id="vuln-scrumban"></div>
         </div>
       </div>
@@ -2582,8 +2587,7 @@ function initSupportView() {
     'Chandra Eega':7,'Jagadeesh Junjur':2,'Jaime Torner':4,'Srilekha Donadula':3,'Vinay Ageer':1
   });
   buildVulnStatesList();
-  buildScrumban('inc-scrumban', INC_ITEMS, 'g');
-  buildScrumban('vuln-scrumban', VULN_ITEMS, 'g');
+
 }
 
 function buildSupDonut(cid, legId, states, total) {
