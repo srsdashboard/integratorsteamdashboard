@@ -135,7 +135,7 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
 .sec-count{font-size:10px;font-weight:600;color:var(--tx4);font-family:'JetBrains Mono',monospace;background:var(--color-surface2);padding:1px 7px;border-radius:99px;border:1px solid var(--color-border);}
 
 /* PROJECT CARDS */
-.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:8px;margin-bottom:14px;}
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-bottom:14px;}
 .proj-card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--r-md);padding:11px 12px 9px;position:relative;overflow:hidden;transition:box-shadow .15s,transform .15s;}
 .proj-card:hover{box-shadow:var(--sh2);transform:translateY(-1px);}
 .proj-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;}
@@ -249,7 +249,7 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
 @media(max-width:1100px){
   .main,.sup-main{grid-template-columns:1fr;}
   .vel-grid{grid-template-columns:1fr;}
-  .proj-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));}
+  .proj-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
   .sup-hero{grid-template-columns:repeat(2,1fr);}
 }
 @media(max-width:760px){
@@ -1181,53 +1181,124 @@ function renderProjectHealthCards(data) {
   const active = KNOWN.filter(p => projMap[p].total > 0);
   if (badge) badge.textContent = active.length + ' Projects';
 
-  const PROJ_ICONS = {
-    'Quickbooks':'QB','ProjectMapIt':'PMI','PropertyReports':'PR',
-    'Quotes':'QT','Chili':'CH','Procard':'PC','ProReferral':'PRL','Bruno':'BRN'
+  // Abbreviated labels for the badge chip
+  const PROJ_ABBR = {
+    'Quickbooks HLSG':'QUI','Quickbooks SRS':'QUI','ProjectMapIt':'PMI',
+    'Quotes':'QT','Procard':'PC','Performance Migration':'PER',
+    'Heritage HIPS':'HER','.NET 10 Upgrade':'.NE',
+    'SRS Support':'SRS','Infrastructure':'INF','HLSG Support':'HLS',
+    'Quickbooks':'QB','PropertyReports':'PR','Chili':'CH','Bruno':'BRN'
   };
-  const PROJ_COLORS = {
-    'Quickbooks':            ['#2563eb','#dbeafe'],
-    'Quickbooks HLSG':       ['#1d4ed8','#dbeafe'],
-    'Quickbooks SRS':        ['#0891b2','#cffafe'],
-    'ProjectMapIt':          ['#7c3aed','#ede9fe'],
-    'PropertyReports':       ['#0369a1','#e0f2fe'],
-    'Quotes':                ['#0e7490','#cffafe'],
-    'Chili':                 ['#0f766e','#ccfbf1'],
-    'Procard':               ['#0284c7','#e0f2fe'],
-    'Performance Migration': ['#6d28d9','#ede9fe'],
-    'Heritage HIPS':         ['#0891b2','#cffafe'],
-    '.NET 10 Upgrade':       ['#0f766e','#ccfbf1'],
-    'SRS Support':           ['#2563eb','#dbeafe'],
-    'Infrastructure':        ['#334155','#f1f5f9'],
-    'HLSG Support':          ['#1d4ed8','#dbeafe']
+
+  // Each project gets a unique gradient pair from the blue-teal palette
+  const PROJ_THEME = {
+    'Quickbooks HLSG':       {a:'#1d4ed8', b:'#3b82f6', bg:'#eff6ff', text:'#1d4ed8'},
+    'Quickbooks SRS':        {a:'#0e7490', b:'#22c4db', bg:'#ecfeff', text:'#0e7490'},
+    'ProjectMapIt':          {a:'#1756a9', b:'#4a92e8', bg:'#eef6ff', text:'#1756a9'},
+    'Quotes':                {a:'#0d6375', b:'#0fa3bf', bg:'#ecfeff', text:'#0d6375'},
+    'Procard':               {a:'#0284c7', b:'#38bdf8', bg:'#f0f9ff', text:'#0369a1'},
+    'Performance Migration': {a:'#133c72', b:'#2272d4', bg:'#eef6ff', text:'#133c72'},
+    'Heritage HIPS':         {a:'#0e7d95', b:'#22c4db', bg:'#ecfeff', text:'#0e7d95'},
+    '.NET 10 Upgrade':       {a:'#0f766e', b:'#14b8a6', bg:'#f0fdfa', text:'#0f766e'},
+    'SRS Support':           {a:'#2563eb', b:'#60a5fa', bg:'#eff6ff', text:'#1d4ed8'},
+    'Infrastructure':        {a:'#344966', b:'#647999', bg:'#f0f4f8', text:'#344966'},
+    'HLSG Support':          {a:'#1756a9', b:'#2272d4', bg:'#eef6ff', text:'#1756a9'},
+    'Quickbooks':            {a:'#1d4ed8', b:'#3b82f6', bg:'#eff6ff', text:'#1d4ed8'},
+    'PropertyReports':       {a:'#0369a1', b:'#38bdf8', bg:'#f0f9ff', text:'#0369a1'},
+    'Chili':                 {a:'#0f766e', b:'#14b8a6', bg:'#f0fdfa', text:'#0f766e'},
+    'Bruno':                 {a:'#334155', b:'#647999', bg:'#f1f5f9', text:'#334155'},
   };
 
   container.innerHTML = '';
   active.forEach(p => {
     const d = projMap[p];
-    const pct = d.total > 0 ? Math.round(d.closed/d.total*100) : 0;
-    const [fg, bg] = PROJ_COLORS[p] || ['#374151','#f3f4f6'];
-    const healthColor = pct >= 70 ? '#0e7490' : pct >= 40 ? '#0891b2' : '#e11d48';
+    const pct = d.total > 0 ? Math.round(d.closed / d.total * 100) : 0;
+    const th = PROJ_THEME[p] || {a:'#1756a9',b:'#4a92e8',bg:'#eef6ff',text:'#1756a9'};
+    const abbr = PROJ_ABBR[p] || p.slice(0,3).toUpperCase();
+
+    // Status breakdown: how many in each meaningful bucket
+    const done    = d.closed;
+    const inprog  = d.inprog;
+    const blocked = d.blocked;
+    const other   = d.total - done - inprog - blocked;
+
+    // Progress arc — SVG circle for a cleaner visual
+    const r = 18, circ = 2 * Math.PI * r;
+    const dash = (pct / 100) * circ;
+    const progressArc = pct > 0
+      ? `<svg width="44" height="44" viewBox="0 0 44 44" style="transform:rotate(-90deg);">
+          <circle cx="22" cy="22" r="${r}" fill="none" stroke="#e4eaf2" stroke-width="4"/>
+          <circle cx="22" cy="22" r="${r}" fill="none" stroke="url(#pg-${p.replace(/\s/g,'_')})" stroke-width="4"
+            stroke-dasharray="${dash.toFixed(1)} ${circ.toFixed(1)}" stroke-linecap="round"/>
+          <defs><linearGradient id="pg-${p.replace(/\s/g,'_')}" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="${th.a}"/><stop offset="100%" stop-color="${th.b}"/>
+          </linearGradient></defs>
+        </svg>`
+      : `<svg width="44" height="44" viewBox="0 0 44 44">
+          <circle cx="22" cy="22" r="${r}" fill="none" stroke="#e4eaf2" stroke-width="4"/>
+        </svg>`;
+
     const card = document.createElement('div');
-    card.style.cssText = `background:var(--color-surface,#fff);border-radius:9px;border:1px solid var(--color-border,#e4eaf2);padding:12px 13px 10px;position:relative;overflow:hidden;cursor:default;`;
+    card.style.cssText = `
+      background:#fff;border-radius:11px;border:1px solid #e4eaf2;
+      padding:0;position:relative;overflow:hidden;
+      transition:box-shadow .18s,transform .18s;cursor:default;
+      display:flex;flex-direction:column;
+    `;
+    card.onmouseenter = () => { card.style.boxShadow = '0 6px 20px rgba(13,27,46,.10)'; card.style.transform = 'translateY(-2px)'; };
+    card.onmouseleave = () => { card.style.boxShadow = ''; card.style.transform = ''; };
+
     card.innerHTML = `
-      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,${fg},${bg});"></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-        <span style="background:${bg};color:${fg};font-size:9px;font-weight:800;padding:2px 7px;border-radius:4px;letter-spacing:.4px;">${PROJ_ICONS[p]||p.slice(0,3).toUpperCase()}</span>
-        ${d.blocked>0 ? '<span style="background:#fff1f2;color:#e11d48;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;">'+d.blocked+' BLOCKED</span>' : ''}
-      </div>
-      <div style="font-size:12px;font-weight:700;color:#1e293b;margin-bottom:2px;">${p}</div>
-      <div style="font-size:11px;color:#64748b;margin-bottom:8px;">${d.total} items · ${d.sp} SP</div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-        <span style="font-size:10px;color:#6b7280;">Progress</span>
-        <span style="font-size:12px;font-weight:700;color:${healthColor};font-family:'DM Mono',monospace;">${pct}%</span>
-      </div>
-      <div style="height:5px;background:#f1f5f9;border-radius:3px;overflow:hidden;">
-        <div style="height:100%;width:${pct}%;background:linear-gradient(90deg,${fg},${PROJ_COLORS[p]?.[0]||fg});border-radius:3px;transition:width .8s ease;"></div>
-      </div>
-      <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
-        <span style="font-size:9px;font-weight:600;color:#059669;background:#dcfce7;padding:1px 6px;border-radius:10px;">${d.closed} done</span>
-        <span style="font-size:9px;font-weight:600;color:#2563eb;background:#dbeafe;padding:1px 6px;border-radius:10px;">${d.inprog} in progress</span>
+      <!-- Gradient top bar -->
+      <div style="height:3px;background:linear-gradient(90deg,${th.a},${th.b});border-radius:11px 11px 0 0;"></div>
+
+      <!-- Card body -->
+      <div style="padding:12px 13px 11px;flex:1;display:flex;flex-direction:column;gap:0;">
+
+        <!-- Row 1: abbr chip + blocked badge -->
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+          <span style="background:${th.bg};color:${th.text};font-size:8.5px;font-weight:800;
+            padding:2px 7px;border-radius:4px;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;">${abbr}</span>
+          ${blocked > 0
+            ? `<span style="display:flex;align-items:center;gap:3px;background:#fef2f2;color:#dc2626;
+                font-size:8.5px;font-weight:700;padding:2px 6px;border-radius:4px;">
+                <svg width="7" height="7" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3.5" fill="#dc2626"/><rect x="3.3" y="1.5" width="1.4" height="3" rx=".5" fill="#fff"/><rect x="3.3" y="5.5" width="1.4" height="1.2" rx=".4" fill="#fff"/></svg>
+                ${blocked} BLOCKED</span>`
+            : ''}
+        </div>
+
+        <!-- Row 2: Project name + arc -->
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:6px;margin-bottom:6px;">
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:12px;font-weight:700;color:#0d1b2e;line-height:1.3;margin-bottom:3px;
+              white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${p}">${p}</div>
+            <div style="font-size:10px;color:#97afc6;">${d.total} item${d.total!==1?'s':''} · ${d.sp} SP</div>
+          </div>
+          <!-- Progress arc + pct -->
+          <div style="flex-shrink:0;position:relative;width:44px;height:44px;display:flex;align-items:center;justify-content:center;">
+            ${progressArc}
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+              justify-content:center;line-height:1;">
+              <span style="font-size:10px;font-weight:800;color:${th.text};font-family:'JetBrains Mono',monospace;">${pct}%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 3: Status pills -->
+        <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:auto;padding-top:6px;border-top:1px solid #f0f4f8;">
+          <span style="display:flex;align-items:center;gap:3px;font-size:9px;font-weight:600;
+            color:#0d9168;background:#dcfce7;padding:2px 7px;border-radius:10px;">
+            <svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="2.5" fill="#0d9168"/></svg>
+            ${done} done</span>
+          <span style="display:flex;align-items:center;gap:3px;font-size:9px;font-weight:600;
+            color:${th.text};background:${th.bg};padding:2px 7px;border-radius:10px;">
+            <svg width="6" height="6" viewBox="0 0 6 6"><circle cx="3" cy="3" r="2.5" fill="${th.a}"/></svg>
+            ${inprog} active</span>
+          ${other > 0
+            ? `<span style="font-size:9px;font-weight:600;color:#647999;background:#f0f4f8;
+                padding:2px 7px;border-radius:10px;">${other} planned</span>`
+            : ''}
+        </div>
       </div>
     `;
     container.appendChild(card);
