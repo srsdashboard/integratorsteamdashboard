@@ -510,7 +510,7 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
             <div style="background:var(--color-surface2);border:1px solid rgba(99,102,241,.2);border-radius:7px;padding:7px 8px;text-align:center;"><div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:2px;">Open</div><div id="inc-stat-open" style="font-size:17px;font-weight:800;color:var(--b600);font-family:'JetBrains Mono',monospace;">–</div></div>
           </div>
           <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
-            <div class="donut-cv" style="width:130px;height:130px;"><canvas id="incStatusDonut"></canvas><div class="donut-ctr"><div class="donut-num" id="inc-donut-num">–</div><div class="donut-sub">INC Bugs</div></div></div>
+            <div style="width:100%;height:160px;position:relative;"><canvas id="incStatusDonut"></canvas></div>
             <div id="incDonutLeg" style="display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;width:100%;"></div>
           </div>
         </div>
@@ -524,7 +524,7 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
             <div style="background:var(--b50);border:1px solid rgba(99,102,241,.2);border-radius:7px;padding:7px 8px;text-align:center;"><div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--tx3);margin-bottom:2px;">Open</div><div id="vuln-stat-open" style="font-size:17px;font-weight:800;color:var(--b600);font-family:'JetBrains Mono',monospace;">–</div></div>
           </div>
           <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
-            <div class="donut-cv" style="width:130px;height:130px;"><canvas id="vulnStatusDonut"></canvas><div class="donut-ctr"><div class="donut-num" id="vuln-donut-num">–</div><div class="donut-sub">Vulns</div></div></div>
+            <div style="width:100%;height:160px;position:relative;"><canvas id="vulnStatusDonut"></canvas></div>
             <div id="vulnDonutLeg" style="display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;width:100%;"></div>
           </div>
         </div>
@@ -757,7 +757,7 @@ function renderKPIs(data) {
   safeSet('hero-bugs-sub', heroClosedBugs + ' closed');
   safeSet('hero-sp',       heroSP);
   const activeSp = window._activeSprint || 6;
-  if(activeSp===5){safeSet('hero-rate','103%');safeSet('hero-rate-sub','43 closed · 15 UAT · 5 RFR');}else{safeSet('hero-rate','5%');safeSet('hero-rate-sub','3 work items completed out of 70 planned');}
+  if(activeSp===5){safeSet('hero-rate','103%');safeSet('hero-rate-sub','43 closed · 15 UAT · 5 RFR');}else{safeSet('hero-rate','4%');safeSet('hero-rate-sub','3 work items completed out of 81 total');}
   const namedProjs = new Set(projData.filter(d => d.project && d.project !== 'Other').map(d => d.project));
   safeSet('hero-proj', namedProjs.size || 7);
 
@@ -2096,10 +2096,10 @@ function renderSupport(){
   s('co-closed-val',ic);s('co-open-val',it-ic);s('co-pct-label',ir+'%');
   // INC stat mini-tiles
   s('inc-stat-total',it);s('inc-stat-res',ic);s('inc-stat-open',it-ic);
-  s('inc-donut-num',it);s('inc-badge-total',it+' Incidents');
+  s('inc-badge-total',it+' Incidents');
   // Vuln stat mini-tiles
   s('vuln-stat-total',vt);s('vuln-stat-closed',vc);s('vuln-stat-open',vt-vc);
-  s('vuln-donut-num',vt);s('vuln-badge-total',vt+' Items');
+  s('vuln-badge-total',vt+' Items');
   s('vuln-rem-badge',vt+' stories');s('vuln-prog-label2',vc+' / '+vt);
   const raw=(window._lastFilteredData||[]).filter(d=>d.sprint===sp);
   const res=raw.filter(d=>d.is_inc&&d.res_days!==null&&d.res_days>=0);
@@ -2112,7 +2112,6 @@ function renderSupport(){
     options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.label+': '+c.parsed}}}}}); }
   const im={};inc.forEach(i=>{im[i.state]=(im[i.state]||0)+1;});
   const vm={};vuln.forEach(v=>{vm[v.state]=(vm[v.state]||0)+1;});
-  ['incStatusDonut','vulnStatusDonut'].forEach(id=>{const c=Chart.getChart(id);if(c)c.destroy();});
   const il=document.getElementById('incDonutLeg');if(il)il.innerHTML='';
   const vl=document.getElementById('vulnDonutLeg');if(vl)vl.innerHTML='';
   if(it>0)buildSupDonut('incStatusDonut','incDonutLeg',im,it);
@@ -2163,16 +2162,23 @@ function buildSupDonut(cid,legId,states,total){
   const labels=Object.keys(states),vals=Object.values(states);
   const colors=labels.map(l=>SUP_STATUS_COLORS[l]||'#94a3b8');
   const ctx=document.getElementById(cid);if(!ctx)return;
+  // Dynamically size canvas height based on number of status categories
+  const barH = Math.max(140, labels.length * 22 + 30);
+  const wrapper = ctx.parentElement;
+  if(wrapper) wrapper.style.height = barH + 'px';
+  const ex = Chart.getChart(cid); if(ex) ex.destroy();
   new Chart(ctx.getContext('2d'),{type:'bar',
-    data:{labels,datasets:[{data:vals,backgroundColor:colors,borderRadius:5,borderSkipped:false,barThickness:16}]},
+    data:{labels,datasets:[{data:vals,backgroundColor:colors,borderRadius:5,borderSkipped:false,barThickness:14}]},
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      layout:{padding:{top:4,bottom:4,left:2,right:16}},
       plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.parsed.x+' ('+Math.round(c.parsed.x/total*100)+'%)'},
         backgroundColor:'rgba(13,27,46,.88)',padding:8,cornerRadius:6,
-        titleFont:{size:11},bodyFont:{size:11}}},
+        titleFont:{size:11},bodyFont:{size:11}},
+        datalabels:{display:false}},
       scales:{x:{grid:{color:'rgba(228,234,242,.6)',drawTicks:false},border:{dash:[3,3],display:false},
           ticks:{font:{size:10},color:'#97afc6',stepSize:2}},
         y:{grid:{display:false},border:{display:false},
-          ticks:{font:{size:10.5,weight:'500'},color:'#344966'}}}}});
+          ticks:{font:{size:10.5,weight:'500'},color:'#344966',padding:4}}}}});
   const leg=document.getElementById(legId);if(!leg)return;
   leg.innerHTML='';
   labels.map((l,i)=>({l,v:vals[i],c:colors[i]})).sort((a,b)=>b.v-a.v).forEach(obj=>{
@@ -2215,4 +2221,3 @@ function updateSprintChip() {
 </script>
 </body>
 </html>
-
