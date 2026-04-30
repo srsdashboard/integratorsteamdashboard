@@ -315,11 +315,11 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
 .rpt-kpi{background:var(--color-surface2);border:1px solid var(--color-border);border-radius:var(--r-md);padding:12px 16px;text-align:center;flex:1;min-width:80px;}
 .rpt-kpi.accent{background:var(--b50);border-color:var(--b100);}
 .rpt-kpi.success{background:var(--success-bg);border-color:rgba(13,145,104,.2);}
-.rpt-kpi.warn{background:#fef2f3;border-color:rgba(209,39,58,.15);}
+.rpt-kpi.warn{background:var(--b50);border-color:var(--b100);}
 .rpt-kpi-val{font-size:24px;font-weight:800;color:var(--tx1);font-family:'JetBrains Mono',monospace;line-height:1;}
 .rpt-kpi.accent .rpt-kpi-val{color:var(--b700);}
 .rpt-kpi.success .rpt-kpi-val{color:var(--success);}
-.rpt-kpi.warn .rpt-kpi-val{color:var(--danger);}
+.rpt-kpi.warn .rpt-kpi-val{color:var(--b600);}
 .rpt-kpi-lbl{font-size:9.5px;color:var(--tx4);text-transform:uppercase;letter-spacing:.04em;margin-top:4px;}
 
 /* Deploy cards */
@@ -2043,7 +2043,7 @@ const SUP_DATA = {
   ]
   }
 };
-const SUP_STATUS_COLORS = {'Closed':'#0e7490','Ready for Release':'#0891b2','Active':'#38bdf8','In Development':'#2563eb','In QA':'#0d9488','Ready for QA':'#06b6d4','Dev Complete':'#0f766e','UAT':'#1d4ed8','Blocked':'#e11d48','New':'#94a3b8','Ideation':'#cbd5e1','Ready for Code Review':'#22d3ee'};
+const SUP_STATUS_COLORS = {'Closed':'#0e7490','Ready for Release':'#0891b2','Active':'#38bdf8','In Development':'#2563eb','In QA':'#0d9488','Ready for QA':'#06b6d4','Dev Complete':'#0f766e','UAT':'#1d4ed8','Blocked':'#0369a1','New':'#94a3b8','Ideation':'#cbd5e1','Ready for Code Review':'#22d3ee'};
 let supInitialized=false;
 function initSupportView(){renderSupport();}
 function renderSupHero(){renderSupport();}
@@ -2095,7 +2095,7 @@ function renderSupport(){
   // WIP table removed
   const ve=document.getElementById('vuln-states-list');
   if(ve){ve.innerHTML='';
-    const VC={'Closed':'#0e7490','In Development':'#2563eb','Ideation':'#94a3b8','Ready for QA':'#06b6d4','New':'#97afc6','Blocked':'#e11d48'};
+    const VC={'Closed':'#0e7490','In Development':'#2563eb','Ideation':'#94a3b8','Ready for QA':'#06b6d4','New':'#97afc6','Blocked':'#0369a1'};
     Object.entries(vm).sort((a,b)=>b[1]-a[1]).forEach(([st,n])=>{
       const pct=Math.round(n/vt*100);
       const r=document.createElement('div');r.className='vuln-state-row';
@@ -2420,7 +2420,9 @@ function buildReportContext(from, to) {
     totals: {
       workItems: inRange.length,
       userStories: userStories.length,
+      usCompleted: userStories.filter(d=>d.state==='Closed').length,
       bugs: bugs.length,
+      bugsCompleted: bugs.filter(d=>d.state==='Closed').length,
       tasks: tasks.length,
       uniqueReleases: releaseDates.length,
       releaseDates,
@@ -2463,8 +2465,8 @@ function renderVisualReport(ctx, from, to) {
 
   const DONE    = new Set(['Closed','Ready for Release']);
   const WIP     = new Set(['In Development','Active','Dev Complete','Ready for QA','In QA','UAT','Ready for Code Review']);
-  const STATE_C = {'Closed':'#0d9168','Ready for Release':'#0891b2','Dev Complete':'#0f766e','In Development':'#2563eb','Active':'#38bdf8','Ready for QA':'#06b6d4','UAT':'#1d4ed8','New':'#94a3b8','Ideation':'#cbd5e1','Blocked':'#e11d48','In QA':'#0d9488'};
-  const VULN_C  = {'Closed':'#0d9168','Ready for Release':'#0891b2','Dev Complete':'#0f766e','In Development':'#2563eb','Ready for QA':'#06b6d4','Active':'#38bdf8','Ideation':'#94a3b8','Blocked':'#e11d48'};
+  const STATE_C = {'Closed':'#0d9168','Ready for Release':'#0891b2','Dev Complete':'#0f766e','In Development':'#2563eb','Active':'#38bdf8','Ready for QA':'#06b6d4','UAT':'#1d4ed8','New':'#94a3b8','Ideation':'#cbd5e1','Blocked':'#0369a1','In QA':'#0d9488'};
+  const VULN_C  = {'Closed':'#0d9168','Ready for Release':'#0891b2','Dev Complete':'#0f766e','In Development':'#2563eb','Ready for QA':'#06b6d4','Active':'#38bdf8','Ideation':'#94a3b8','Blocked':'#0369a1'};
 
   let out = '';
 
@@ -2488,9 +2490,10 @@ function renderVisualReport(ctx, from, to) {
     <!-- KPI tiles -->
     <div class="rpt-kpi-row" style="margin-bottom:16px;">
       <div class="rpt-kpi accent"><div class="rpt-kpi-val">${ctx.totals.projects}</div><div class="rpt-kpi-lbl">Active Projects</div></div>
-      <div class="rpt-kpi accent"><div class="rpt-kpi-val">${ctx.totals.userStories}</div><div class="rpt-kpi-lbl">User Stories</div></div>
+      <div class="rpt-kpi success"><div class="rpt-kpi-val">${ctx.totals.usCompleted}</div><div class="rpt-kpi-lbl">US Completed</div></div>
+      <div class="rpt-kpi success"><div class="rpt-kpi-val">${ctx.totals.bugsCompleted}</div><div class="rpt-kpi-lbl">Bugs Completed</div></div>
       <div class="rpt-kpi accent"><div class="rpt-kpi-val">${ctx.totals.uniqueReleases}</div><div class="rpt-kpi-lbl">Deployments</div></div>
-      <div class="rpt-kpi ${ctx.totals.p1p2>0?'warn':'success'}"><div class="rpt-kpi-val">${ctx.totals.p1p2}</div><div class="rpt-kpi-lbl">P1 / P2</div></div>
+      <div class="rpt-kpi accent"><div class="rpt-kpi-val">${ctx.totals.p1p2}</div><div class="rpt-kpi-lbl">P1 / P2</div></div>
     </div>
 
     <!-- Detail rows -->
@@ -2530,14 +2533,14 @@ function renderVisualReport(ctx, from, to) {
   if (ctx.vulnerabilities.total > 0) {
     const vp = ctx.vulnerabilities;
     out += `<div class="rpt-section">
-      <div class="rpt-section-header"><div class="rpt-section-bar" style="background:linear-gradient(180deg,#7c3aed,#a78bfa)"></div><span class="rpt-section-title">SERVERLESS Vulnerability Remediation</span></div>
+      <div class="rpt-section-header"><div class="rpt-section-bar" style="background:linear-gradient(180deg,var(--b500),var(--t400))"></div><span class="rpt-section-title">SERVERLESS Vulnerability Remediation</span></div>
 
       <div class="rpt-kpi-row" style="margin-bottom:14px;">
         <div class="rpt-kpi accent"><div class="rpt-kpi-val">${vp.total}</div><div class="rpt-kpi-lbl">Total Patches</div></div>
         <div class="rpt-kpi success"><div class="rpt-kpi-val">${vp.closed}</div><div class="rpt-kpi-lbl">Completed</div></div>
-        <div class="rpt-kpi" style="background:#f5f3ff;border-color:#ddd6fe;"><div class="rpt-kpi-val" style="color:#7c3aed;">${vp.inProgress}</div><div class="rpt-kpi-lbl">In Progress</div></div>
+        <div class="rpt-kpi" style="background:var(--b50);border-color:var(--b100);"><div class="rpt-kpi-val" style="color:var(--b600);">${vp.inProgress}</div><div class="rpt-kpi-lbl">In Progress</div></div>
         <div class="rpt-kpi"><div class="rpt-kpi-val" style="color:var(--tx3);">${vp.ideation}</div><div class="rpt-kpi-lbl">Planned</div></div>
-        <div class="rpt-kpi" style="background:#f5f3ff;border-color:#ddd6fe;"><div class="rpt-kpi-val" style="color:#7c3aed;">${vp.rate}%</div><div class="rpt-kpi-lbl">Patch Rate</div></div>
+        <div class="rpt-kpi" style="background:var(--t50, #ecfeff);border-color:var(--t200);"><div class="rpt-kpi-val" style="color:var(--t700);">${vp.rate}%</div><div class="rpt-kpi-lbl">Patch Rate</div></div>
       </div>
 
       <!-- Progress bar -->
@@ -2547,7 +2550,7 @@ function renderVisualReport(ctx, from, to) {
           <span style="font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--tx1);">${vp.closed} / ${vp.total} patched</span>
         </div>
         <div style="height:7px;background:var(--color-border);border-radius:99px;overflow:hidden;">
-          <div style="height:100%;width:${vp.rate}%;background:linear-gradient(90deg,#7c3aed,#a78bfa);border-radius:99px;"></div>
+          <div style="height:100%;width:${vp.rate}%;background:linear-gradient(90deg,var(--b500),var(--t400));border-radius:99px;"></div>
         </div>
       </div>
 
@@ -2602,7 +2605,7 @@ function renderVisualReport(ctx, from, to) {
     <div class="rpt-section-header"><div class="rpt-section-bar" style="background:linear-gradient(180deg,var(--b300),var(--t300))"></div><span class="rpt-section-title">Key Improvements & Enhancements</span></div>
     <div style="display:flex;align-items:center;gap:10px;padding:20px;color:var(--tx3);font-size:12px;">
       <div class="rpt-spinner" style="width:20px;height:20px;border-width:2px;"></div>
-      Generating AI analysis…
+      Loading…
     </div>
   </div>`;
 
@@ -2661,7 +2664,7 @@ Format as clean HTML using only <h2>, <ul>, <li>, <strong>, <p> tags. No emojis.
       aiSection.innerHTML = `<div class="rpt-section-header"><div class="rpt-section-bar" style="background:linear-gradient(180deg,var(--b300),var(--t300))"></div><span class="rpt-section-title">Key Improvements & Observations</span></div><div class="rpt-ai-section">${clean}</div>`;
     }
   } catch (err) {
-    if (aiSection) aiSection.innerHTML = `<div style="padding:12px;font-size:11px;color:var(--danger);">AI analysis unavailable: ${err.message}</div>`;
+    if (aiSection) aiSection.innerHTML = `<div style="padding:12px;font-size:11px;color:var(--b600);">Could not generate analysis: ${err.message}</div>`;
   }
 }
 
