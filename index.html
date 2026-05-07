@@ -526,72 +526,70 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
         <div style="padding:8px 14px 10px;border-top:1px solid var(--color-border);display:flex;flex-wrap:wrap;gap:7px;align-items:center;" id="biz-legend"></div>
       </div>
       <div>
-        <div class="sec-head">
+        <div class="sec-head" style="margin-bottom:0;">
           <div class="sec-bar sb-dev"></div>
-          <span class="sec-title">Sprint Burndown — Tasks &amp; Work Items</span>
+          <span class="sec-title">Sprint Velocity &amp; Daily Burnup</span>
+          <span style="background:var(--t100);color:var(--t700);font-size:9px;font-weight:700;padding:2px 10px;border-radius:99px;letter-spacing:.04em;margin-left:8px;">DELIVERY</span>
+          <span style="margin-left:auto;font-size:10px;color:var(--tx3);" id="burnup-sprint-label">–</span>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--color-border);border-radius:var(--r-md);overflow:hidden;margin-bottom:12px;background:var(--color-surface);">
-          <div style="padding:12px 16px;border-right:1px solid var(--color-border);">
+
+        <!-- KPI strip -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0;">
+          <div style="background:var(--color-surface2);border:1px solid var(--color-border);border-radius:var(--r-md);padding:12px 16px;">
+            <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tx4);margin-bottom:4px;">Days Elapsed</div>
+            <div style="font-size:28px;font-weight:800;color:var(--t600);font-family:'JetBrains Mono',monospace;line-height:1;" id="bu-elapsed">–</div>
+            <div style="font-size:10px;color:var(--tx3);" id="bu-elapsed-sub">of – working days</div>
+          </div>
+          <div style="background:var(--color-surface2);border:1px solid var(--color-border);border-radius:var(--r-md);padding:12px 16px;">
             <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tx4);margin-bottom:4px;">Days Remaining</div>
-            <div style="font-size:28px;font-weight:800;color:var(--success);font-family:'JetBrains Mono',monospace;line-height:1;" id="vk-remaining">–</div>
-            <div style="font-size:10px;color:var(--tx3);">working days left</div>
+            <div style="font-size:28px;font-weight:800;color:var(--success);font-family:'JetBrains Mono',monospace;line-height:1;" id="bu-remaining">–</div>
+            <div style="font-size:10px;color:var(--tx3);" id="bu-remaining-sub">until May 12</div>
           </div>
-          <div style="padding:12px 16px;border-right:1px solid var(--color-border);">
-            <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tx4);margin-bottom:4px;">Tasks SP Closed</div>
-            <div style="font-size:28px;font-weight:800;color:var(--success);font-family:'JetBrains Mono',monospace;line-height:1;" id="vk-tasks-sp">–</div>
-            <div style="font-size:10px;color:var(--tx3);" id="vk-tasks-sp-sub">tasks</div>
+          <div style="background:var(--color-surface2);border:1px solid var(--color-border);border-radius:var(--r-md);padding:12px 16px;">
+            <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tx4);margin-bottom:4px;">Avg SP / Day</div>
+            <div style="font-size:28px;font-weight:800;color:var(--b600);font-family:'JetBrains Mono',monospace;line-height:1;" id="bu-avg-sp">–</div>
+            <div style="font-size:10px;color:var(--tx3);" id="bu-avg-sp-sub">SP · – days</div>
           </div>
-          <div style="padding:12px 16px;">
-            <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tx4);margin-bottom:4px;">Bug+Story SP Closed</div>
-            <div style="font-size:28px;font-weight:800;color:var(--b600);font-family:'JetBrains Mono',monospace;line-height:1;" id="vk-wi-sp">–</div>
-            <div style="font-size:10px;color:var(--tx3);" id="vk-wi-sp-sub">bugs &amp; stories</div>
+          <div style="background:var(--color-surface2);border:1px solid var(--color-border);border-radius:var(--r-md);padding:12px 16px;">
+            <div style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--tx4);margin-bottom:4px;">SP Remaining</div>
+            <div style="font-size:28px;font-weight:800;color:var(--tx1);font-family:'JetBrains Mono',monospace;line-height:1;" id="bu-sp-rem">–</div>
+            <div style="font-size:10px;color:var(--tx3);" id="bu-sp-rem-sub">projected finish: – SP</div>
           </div>
         </div>
-        <div class="vel-grid">
-          <div class="card" style="overflow:visible;">
-            <div class="card-head" style="background:linear-gradient(135deg,#f0fdf9,#e8faf5);border-bottom-color:#c7ede6;flex-wrap:wrap;gap:6px;">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <span class="card-title" style="color:#0f766e;">Burndown — Tasks</span>
-                <span style="background:#0d9488;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:99px;">TASKS</span>
-              </div>
+
+        <!-- Main chart card -->
+        <div class="card" style="overflow:visible;">
+          <div class="card-head" style="background:linear-gradient(135deg,var(--t50),#e8faf5);border-bottom-color:var(--t200);flex-wrap:wrap;gap:8px;">
+            <div>
+              <div style="font-size:11px;font-weight:700;color:var(--t700);" id="bu-chart-title">Daily SP Burnup — Sprint 6</div>
             </div>
-            <div style="background:#f0fdf9;border-bottom:1px solid #c7ede6;padding:7px 12px;display:flex;align-items:center;gap:8px;">
-              <span style="font-size:9.5px;font-weight:700;color:#0f766e;text-transform:uppercase;letter-spacing:.04em;">Member</span>
-              <select class="bd-sel" id="f-velocity-user" onchange="renderBothCharts()"><option value="all">All Members</option></select>
-              <span style="background:#e6f7f4;color:#0f766e;font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;border:1px solid #a7f3d0;margin-left:auto;" id="vel-avg-badge">–</span>
+            <div style="margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span style="font-size:9.5px;font-weight:700;color:var(--t700);text-transform:uppercase;letter-spacing:.04em;">Filter by Member</span>
+              <select class="bd-sel" id="f-velocity-user" onchange="renderBothCharts()" style="font-size:11px;padding:4px 8px;border-radius:var(--r-sm);border:1px solid var(--t200);background:var(--color-surface);color:var(--tx1);outline:none;">
+                <option value="all">All Team Members</option>
+              </select>
+              <span style="background:var(--t50);color:var(--t700);font-size:10px;font-weight:700;padding:3px 12px;border-radius:99px;border:1px solid var(--t200);" id="vel-avg-badge">–</span>
             </div>
-            <div class="card-body">
-              <div class="vel-sp-strip">
-                <div class="vel-sp-card" style="background:#f0fdf9;border-color:#c7ede6;"><div class="vs-n">Total SP</div><div class="vs-v" style="color:#0f766e;" id="t1-sp-total">–</div></div>
-                <div class="vel-sp-card" style="background:#f0fdf9;border-color:#c7ede6;"><div class="vs-n">Closed</div><div class="vs-v" style="color:#059669;" id="t1-sp-closed">–</div></div>
-                <div class="vel-sp-card" style="background:#f0fdf9;border-color:#c7ede6;"><div class="vs-n">Remaining</div><div class="vs-v" style="color:#0d9488;" id="t1-sp-rem">–</div></div>
-              </div>
-              <div style="position:relative;height:200px;"><canvas id="velocityChart"></canvas></div>
-            </div>
-            <div style="background:#f0fdf9;border-top:1px solid #c7ede6;padding:7px 12px;font-size:10px;color:var(--tx3);"><span id="vel-footer-note">–</span></div>
           </div>
-          <div class="card" style="overflow:visible;">
-            <div class="card-head" style="background:linear-gradient(135deg,var(--b50),#dbeafe);border-bottom-color:var(--b200);flex-wrap:wrap;gap:6px;">
-              <div style="display:flex;align-items:center;gap:8px;">
-                <span class="card-title" style="color:var(--b700);">Burndown — Bugs &amp; Stories</span>
-                <span style="background:var(--b700);color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:99px;">WORK ITEMS</span>
+          <div class="card-body" style="padding:16px;">
+            <div style="position:relative;height:280px;"><canvas id="velocityChart"></canvas></div>
+            <!-- Legend -->
+            <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:10px;">
+              <div style="display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--tx3);">
+                <div style="width:18px;height:2px;border-bottom:2px dashed #93c5fd;"></div>Average Velocity
+              </div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--tx3);">
+                <div style="width:8px;height:8px;border-radius:50%;background:var(--t600);border:2px solid #fff;box-shadow:0 0 0 2px var(--t600);"></div>Cumulative SP (Actual)
+              </div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--tx3);">
+                <div style="width:18px;height:2px;background:#bfdbfe;"></div>Ideal Burnup
+              </div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--tx3);">
+                <div style="width:14px;height:10px;background:rgba(167,243,208,0.7);border-radius:2px;border:1px solid #34d399;"></div>Daily SP Earned
               </div>
             </div>
-            <div style="background:var(--b50);border-bottom:1px solid var(--b200);padding:7px 12px;display:flex;align-items:center;gap:8px;">
-              <span style="font-size:9.5px;font-weight:700;color:var(--b700);text-transform:uppercase;letter-spacing:.04em;">Member</span>
-              <select class="bd-sel" id="f-velocity-user2" onchange="renderBothCharts()"><option value="all">All Members</option></select>
-              <span style="background:var(--b50);color:var(--b700);font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;border:1px solid var(--b200);margin-left:auto;" id="vel-avg-badge2">–</span>
-            </div>
-            <div class="card-body">
-              <div class="vel-sp-strip">
-                <div class="vel-sp-card" style="background:var(--b50);border-color:var(--b200);"><div class="vs-n">Total SP</div><div class="vs-v" style="color:var(--b700);" id="t2-sp-total">–</div></div>
-                <div class="vel-sp-card" style="background:var(--b50);border-color:var(--b200);"><div class="vs-n">Closed</div><div class="vs-v" style="color:var(--b600);" id="t2-sp-closed">–</div></div>
-                <div class="vel-sp-card" style="background:var(--b50);border-color:var(--b200);"><div class="vs-n">Remaining</div><div class="vs-v" style="color:var(--b500);" id="t2-sp-rem">–</div></div>
-              </div>
-              <div style="position:relative;height:200px;"><canvas id="velocityChart2"></canvas></div>
-            </div>
-            <div style="background:var(--b50);border-top:1px solid var(--b200);padding:7px 12px;font-size:10px;color:var(--tx3);"><span id="vel-footer-note2">–</span></div>
           </div>
+
         </div>
       </div>
     </div>
@@ -898,16 +896,20 @@ const RAW_DATA = [
 {"id": 113091, "title": "Unit test | Functions.Deliveries | HLSG | Index was outside the bounds of the array for ShipmentUpdate", "state": "Active", "user": "Olonyl Rocha", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-04-15", "closed": null, "res_days": null, "task_cat": "Testing Task"},
 {"id": 111860, "title": "Update buildtemplate to support .net10", "state": "Closed", "user": "Santosh Kasam", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-04-03", "closed": "2026-04-10", "res_days": 6, "task_cat": "General Task"},
 {"id": 112602, "title": "Update Domain and Agility libraries", "state": "Closed", "user": "Santosh Kasam", "sp": 0.0, "tags": "", "is_inc": false, "project": "Other", "type": "Task", "sprint": 5, "created": "2026-04-09", "closed": "2026-04-10", "res_days": 0, "task_cat": "General Task"},
+{"id": 113645, "title": "Functions.Quickbooks | SRS | Delay Initial QuickBooks Sync Until Vendor Selection", "state": "UAT", "user": "Sanjay Sahu <SS112698@mmhfgb.com>", "sp": 0, "tags": "Building Products; Dev Testing; SRS Quickbooks; UAT testing", "is_inc": false, "is_vuln": false, "project": "Quickbooks SRS", "type": "User Story", "sprint": 6, "created": "2026-04-20", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 113591, "title": "Functions.Quickbooks | SRS | Improve logging and healthcheck coverage for Quickbooks endpoints", "state": "Ready for QA", "user": "Sanjay Sahu <SS112698@mmhfgb.com>", "sp": 0, "tags": "Building Products; Dev Testing; SRS Quickbooks", "is_inc": false, "is_vuln": false, "project": "Quickbooks SRS", "type": "User Story", "sprint": 6, "created": "2026-04-20", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 114915, "title": "Functions.Products | HLSG | Heritage Pool Plus Incident - Products missing for Heritage Pool+customers", "state": "Closed", "user": "Juan Raygoza <JR115173@mmhfgb.com>", "sp": 1, "tags": "Heritage; INC0936186; INC0936293; INC0936387", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-28", "closed": "2026-04-30", "res_days": 2, "task_cat": "General Task"},
+{"id": 114594, "title": "Functions.Susbscriptions | HLSG | observed SubscriptionUpdate - Unexpected error for SubscriberId: 2302 for Subscription", "state": "In QA", "user": "Navya Bhargavi Yerapothina <NY113446@mmhfgb.com>", "sp": 2, "tags": "Heritage; INC0937444", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-27", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 114418, "title": "Infrastructure | Functions.PropertyReports | SRS | Decommission of unused assets", "state": "Closed", "user": "Jagadeesh Junjur <JJ101219@mmhfgb.com>", "sp": 1, "tags": "Building Products", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-04-24", "closed": "2026-04-27", "res_days": 3, "task_cat": "General Task"},
 {"id": 114208, "title": "Functions.Orders | SRS | Delivery charges coming with 0 value and", "state": "Closed", "user": "Umesh Reddy <UR109634@mmhfgb.com>", "sp": 2, "tags": "Building Products", "is_inc": false, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-23", "closed": "2026-04-27", "res_days": 4, "task_cat": "General Task"},
 {"id": 114144, "title": "Functions.Products | HLSG | products/availability/branchlist perfromance issue", "state": "Closed", "user": "Santosh Kasam <SK103737@mmhfgb.com>", "sp": 2, "tags": "Heritage; INC0935293", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-22", "closed": "2026-04-29", "res_days": 7, "task_cat": "General Task"},
-{"id": 112750, "title": "Functions.Products | HLSG | Infrastructure Setup and Test Suite Modernization for Functions.Products", "state": "Blocked", "user": "Juan Raygoza <JR115173@mmhfgb.com>", "sp": 0, "tags": "Heritage; Heritage HIPS", "is_inc": false, "is_vuln": false, "project": "Heritage HIPS", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 112750, "title": "Functions.Products | HLSG | Infrastructure Setup and Test Suite Modernization for Functions.Products", "state": "Active", "user": "Juan Raygoza <JR115173@mmhfgb.com>", "sp": 0, "tags": "Heritage; Heritage HIPS", "is_inc": false, "is_vuln": false, "project": "Heritage HIPS", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 114317, "title": "Functions.Products | HLSG | Align Build Templates with Global Integration Test Standards", "state": "Dev Complete", "user": "Juan Raygoza <JR115173@mmhfgb.com>", "sp": 0, "tags": "Heritage; Heritage HIPS", "is_inc": false, "is_vuln": false, "project": "Heritage HIPS", "type": "User Story", "sprint": 6, "created": "2026-04-23", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 113655, "title": "Functions.Products | HLSG | Re-adapt ItemBranchInventory to Bulk Upsert Webhook", "state": "Dev Complete", "user": "Santosh Kasam <SK103737@mmhfgb.com>", "sp": 1, "tags": "Heritage; HLSG Support", "is_inc": false, "is_vuln": false, "project": "HLSG Support", "type": "User Story", "sprint": 6, "created": "2026-04-20", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 112821, "title": "Functions.ProjectMapIt | SRS | Add srsRef to PMI project creation", "state": "Ready for Release", "user": "Jagadeesh Junjur <JJ101219@mmhfgb.com>", "sp": 0, "tags": "Building Products; Project Map It", "is_inc": false, "is_vuln": false, "project": "ProjectMapIt", "type": "User Story", "sprint": 6, "created": "2026-04-13", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 110976, "title": "IntegrationHub.EventsProcessor | HLSG | legacy branch logos in Emails", "state": "UAT", "user": "Jagadeesh Junjur <JJ101219@mmhfgb.com>", "sp": 2, "tags": "Building Products; INC0912609; UAT testing", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-20", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 111933, "title": "Functions.Quotes | SRS | Improve procs performance", "state": "In Development", "user": "Vinoth Venkatesan <VV106970@mmhfgb.com>", "sp": 3, "tags": "Building Products", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-06-04", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 112171, "title": "Functions.Quotes | SRS | Refactor SRS Quotes list and detail endpoints for performance and maintainability", "state": "UAT", "user": "Umesh Reddy <UR109634@mmhfgb.com>", "sp": 0, "tags": "Building Products; Quotes; UAT testing", "is_inc": false, "is_vuln": false, "project": "Quotes", "type": "User Story", "sprint": 6, "created": "2026-07-04", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 112821, "title": "Functions.ProjectMapIt | SRS | Add srsRef to PMI project creation", "state": "Closed", "user": "Jagadeesh Junjur <JJ101219@mmhfgb.com>", "sp": 0, "tags": "Building Products; Deployed 05/05/2026; Project Map It", "is_inc": false, "is_vuln": false, "project": "ProjectMapIt", "type": "User Story", "sprint": 6, "created": "2026-04-13", "closed": "2026-06-05", "res_days": 53, "task_cat": "General Task"},
+{"id": 110976, "title": "IntegrationHub.EventsProcessor | HLSG | legacy branch logos in Emails", "state": "Ready for Release", "user": "Jagadeesh Junjur <JJ101219@mmhfgb.com>", "sp": 2, "tags": "Building Products; INC0912609; UAT testing", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-20", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 111933, "title": "Functions.Quotes | SRS | Improve procs performance", "state": "Closed", "user": "Vinoth Venkatesan <VV106970@mmhfgb.com>", "sp": 3, "tags": "Building Products", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-06-04", "closed": "2026-06-05", "res_days": 1, "task_cat": "General Task"},
+{"id": 112171, "title": "Functions.Quotes | SRS | Refactor SRS Quotes list and detail endpoints for performance and maintainability", "state": "Closed", "user": "Umesh Reddy <UR109634@mmhfgb.com>", "sp": 0, "tags": "Building Products; Deployed 05/05/2026; Quotes; UAT testing", "is_inc": false, "is_vuln": false, "project": "Quotes", "type": "User Story", "sprint": 6, "created": "2026-07-04", "closed": "2026-06-05", "res_days": -29, "task_cat": "General Task"},
 {"id": 114370, "title": "Functions.Quickbooks | SRS | Connect API endpoint should not update default vendor to DB", "state": "UAT", "user": "Sanjay Sahu <SS112698@mmhfgb.com>", "sp": 3, "tags": "Dev Testing; UAT testing", "is_inc": false, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-24", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 111861, "title": "Functions.Quotes | HLSG | Investigate client connection failure in HLSG Create Quote", "state": "Closed", "user": "Navya Bhargavi Yerapothina <NY113446@mmhfgb.com>", "sp": 2, "tags": "Heritage; HLSG Support", "is_inc": false, "is_vuln": false, "project": "HLSG Support", "type": "User Story", "sprint": 6, "created": "2026-03-04", "closed": "2026-04-27", "res_days": 54, "task_cat": "General Task"},
 {"id": 113316, "title": "Functions.Pricing | SRS | INTHUB: Data discrepancy between Agility and Platte for Pricing output", "state": "New", "user": "Vinoth Venkatesan <VV106970@mmhfgb.com>", "sp": 0, "tags": "", "is_inc": false, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-16", "closed": "", "res_days": null, "task_cat": "General Task"},
@@ -921,19 +923,19 @@ const RAW_DATA = [
 {"id": 114202, "title": "Functions.Subscriptions | HLSG | The INSERT statement conflicted with the FOREIGN KEY constraint \"FK_SubscriberCustomerS", "state": "New", "user": "Jagadeesh Junjur <JJ101219@mmhfgb.com>", "sp": 0, "tags": "Heritage; INC0929347", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-23", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 114203, "title": "Functions.Products | HLSG | Pricing API - Production - RCA requested", "state": "Closed", "user": "Navya Bhargavi Yerapothina <NY113446@mmhfgb.com>", "sp": 3, "tags": "Heritage; INC0927073", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-23", "closed": "2026-04-29", "res_days": 6, "task_cat": "General Task"},
 {"id": 115045, "title": "Functions.Deliveries | HLSG | System.OutOfMemoryExceptions for Deliveries", "state": "New", "user": "Navya Bhargavi Yerapothina <NY113446@mmhfgb.com>", "sp": 0, "tags": "Heritage; INC0938828", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-29", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 115053, "title": "Functions.Invoices | HLSG | Client connection was unexpectedly closed. issue for invoices;rev=1 - search", "state": "New", "user": "Sanjay Sahu <SS112698@mmhfgb.com>", "sp": 0, "tags": "Heritage; INC0938817", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-29", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 115053, "title": "Functions.Invoices | HLSG | Client connection was unexpectedly closed. issue for invoices;rev=1 - search", "state": "New", "user": "Olonyl Rocha <OR114653@mmhfgb.com>", "sp": 0, "tags": "Heritage; INC0938817", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-29", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 115056, "title": "Functions.Orders | HLSG | Violation of PRIMARY KEY constraint 'PK_tbl_API_SODetailAll'. Cannot insert duplicate key in o", "state": "New", "user": "Sanjay Sahu <SS112698@mmhfgb.com>", "sp": 0, "tags": "Heritage; INC0938834", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-29", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 115057, "title": "IntegrationHub.EnterpriseEvents | HLSG | The timeout period elapsed prior to completion of the operation or the server i", "state": "New", "user": "Sanjay Sahu <SS112698@mmhfgb.com>", "sp": 0, "tags": "Heritage; INC0938822", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-29", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 115061, "title": "Functions.Customers | SRS | INTHUB-Failed to call csp_API_CustItemHist customer code: SHE4 for PurchaseHistory", "state": "New", "user": "Sanjay Sahu <SS112698@mmhfgb.com>", "sp": 0, "tags": "Building Products; INC0939726", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-29", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 115057, "title": "IntegrationHub.EnterpriseEvents | HLSG | The timeout period elapsed prior to completion of the operation or the server i", "state": "Active", "user": "Sanjay Sahu <SS112698@mmhfgb.com>", "sp": 0, "tags": "Heritage; INC0938822", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-29", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 115061, "title": "Functions.Customers | SRS | INTHUB-Failed to call csp_API_CustItemHist customer code: SHE4 for PurchaseHistory", "state": "Active", "user": "Sanjay Sahu <SS112698@mmhfgb.com>", "sp": 0, "tags": "Building Products; INC0939726", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-29", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 110178, "title": "Data task | Functions.Invoices | HLSG | Fix Duplicate and Incorrect Split Invoice Amounts", "state": "In Development", "user": "Vinoth Venkatesan <VV106970@mmhfgb.com>", "sp": 3, "tags": "Heritage", "is_inc": false, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-03-23", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 106261, "title": "DevOps | Create Integration Test Pipeline - HLSG (Post-Build & On-Demand)", "state": "Ideation", "user": "Navya Bhargavi Yerapothina <NY113446@mmhfgb.com>", "sp": 2, "tags": "", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-02-19", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 107547, "title": "Research | HLSG | Order & Shipment API Field Mapping and Behavior Clarification", "state": "Active", "user": "Devi Kotaru <DK100477@mmhfgb.com>", "sp": 3, "tags": "Heritage", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-02-27", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 106164, "title": "Functions.Marketing | SRS | Database 'plattesql' on server '10d91d9d15.tr13828.southcentralus1-a.worker.database.windows", "state": "In Development", "user": "Nagraj Arya <NA098238@mmhfgb.com>", "sp": 2, "tags": "Building Products; INC; INC0884689", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-20", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 110516, "title": "Functions.Documents | HLSG | Invalid URI: The format of the URI could not be determined for RetrieveDocument", "state": "In QA", "user": "Umesh Reddy <UR109634@mmhfgb.com>", "sp": 2, "tags": "Heritage; INC0908327", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-20", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 108999, "title": "Functions.Products | HLSG | Authentication failed - remote party has closed the transport stream issues for most of the ", "state": "Ready for Release", "user": "Olonyl Rocha <OR114653@mmhfgb.com>", "sp": 3, "tags": "Dev Testing; Heritage; INC; INC0892914", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-20", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 108999, "title": "Functions.Products | HLSG | Authentication failed - remote party has closed the transport stream issues for most of the ", "state": "Closed", "user": "Olonyl Rocha <OR114653@mmhfgb.com>", "sp": 3, "tags": "Deployed 05/05/2026; Dev Testing; Heritage; INC; INC0892914", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-20", "closed": "2026-06-05", "res_days": 46, "task_cat": "General Task"},
 {"id": 110514, "title": "Functions.Products | SRS | bserved Failed to ProductSearch between 3AM and 3:30 AM CST everyday for the last 30 days for", "state": "Ready for Release", "user": "Olonyl Rocha <OR114653@mmhfgb.com>", "sp": 0, "tags": "Building Products; INC0910693", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-20", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 105660, "title": "Functions.Products | HLSG | ClientConnectionFailure for endpoint products;rev=1 - itembranchinventory", "state": "Ready for Release", "user": "Olonyl Rocha <OR114653@mmhfgb.com>", "sp": 3, "tags": "Dev Testing; Heritage; INC0881445", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-20", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 106178, "title": "Functions.Products | HLSG | ClientConnectionFailure for endpoint products;rev=1 - post-iteminventoryv2", "state": "Ready for Release", "user": "Olonyl Rocha <OR114653@mmhfgb.com>", "sp": 2, "tags": "Dev Testing; Heritage; INC0881445", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-20", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 105660, "title": "Functions.Products | HLSG | ClientConnectionFailure for endpoint products;rev=1 - itembranchinventory", "state": "Closed", "user": "Olonyl Rocha <OR114653@mmhfgb.com>", "sp": 3, "tags": "Deployed 05/05/2026; Dev Testing; Heritage; INC0881445", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-20", "closed": "2026-06-05", "res_days": 46, "task_cat": "General Task"},
+{"id": 106178, "title": "Functions.Products | HLSG | ClientConnectionFailure for endpoint products;rev=1 - post-iteminventoryv2", "state": "Closed", "user": "Olonyl Rocha <OR114653@mmhfgb.com>", "sp": 2, "tags": "Deployed 05/05/2026; Dev Testing; Heritage; INC0881445", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-20", "closed": "2026-06-05", "res_days": 46, "task_cat": "General Task"},
 {"id": 110522, "title": "Functions.Orders | HLSG | Unexpected character encountered while parsing value: <. Path '', line 0, position 0. for Subm", "state": "Closed", "user": "Sanjay Sahu <SS112698@mmhfgb.com>", "sp": 3, "tags": "Deployed 04/29/2026; Heritage; INC0909027", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-20", "closed": "2026-04-30", "res_days": 10, "task_cat": "General Task"},
 {"id": 110530, "title": "Functions.InvoiceBlobImporter | SRS | INTHUB- Authorization header is formed correctly including the signature for Uploa", "state": "In Development", "user": "Chandra Eega <CE110649@mmhfgb.com>", "sp": 0, "tags": "Building Products; INC0909125", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-20", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 109993, "title": "Functions.Products | HLSG | Products Missing in ItemInventory API Response for Specific Category", "state": "Closed", "user": "Vinoth Venkatesan <VV106970@mmhfgb.com>", "sp": 1, "tags": "Heritage; INC0903348", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-20", "closed": "2026-04-29", "res_days": 9, "task_cat": "General Task"},
@@ -944,21 +946,21 @@ const RAW_DATA = [
 {"id": 111579, "title": "Functions.QuoteCenter | SRS | Remediate critical SERVERLESS vulnerabilities across all envs", "state": "Closed", "user": "Chandra Eega <CE110649@mmhfgb.com>", "sp": 3, "tags": "Building Products; Deployed 04/29/2026", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-01-04", "closed": "2026-04-30", "res_days": 116, "task_cat": "General Task"},
 {"id": 111864, "title": "Functions.Branches | HLSG | Update terragrunt settings to use .NET 10 for Functions.Branches", "state": "Ideation", "user": "Navya Bhargavi Yerapothina <NY113446@mmhfgb.com>", "sp": 1, "tags": ".NET 10 Upagrade; Heritage", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-03-04", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 111979, "title": "Functions.Credit | SRS | Implement Distributed Tracing for Procard Creation", "state": "UAT", "user": "Santosh Kasam <SK103737@mmhfgb.com>", "sp": 3, "tags": "Dev Testing; Procard", "is_inc": false, "is_vuln": false, "project": "Procard", "type": "User Story", "sprint": 6, "created": "2026-06-04", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 112029, "title": "Functions.Credit | SRS | Concurrency and Duplicate Prevention for CreateCustomer", "state": "Dev Complete", "user": "Navya Bhargavi Yerapothina <NY113446@mmhfgb.com>", "sp": 2, "tags": "Procard", "is_inc": false, "is_vuln": false, "project": "Procard", "type": "User Story", "sprint": 6, "created": "2026-06-04", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 112030, "title": "Functions.Credit | HLSG | Concurrency and Duplicate Prevention for CreateCustomer", "state": "Ready for Release", "user": "Navya Bhargavi Yerapothina <NY113446@mmhfgb.com>", "sp": 2, "tags": "Dev Testing; Procard", "is_inc": false, "is_vuln": false, "project": "Procard", "type": "User Story", "sprint": 6, "created": "2026-06-04", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 112029, "title": "Functions.Credit | SRS | Concurrency and Duplicate Prevention for CreateCustomer", "state": "In QA", "user": "Navya Bhargavi Yerapothina <NY113446@mmhfgb.com>", "sp": 2, "tags": "Dev Testing; Procard", "is_inc": false, "is_vuln": false, "project": "Procard", "type": "User Story", "sprint": 6, "created": "2026-06-04", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 112030, "title": "Functions.Credit | HLSG | Concurrency and Duplicate Prevention for CreateCustomer", "state": "Closed", "user": "Navya Bhargavi Yerapothina <NY113446@mmhfgb.com>", "sp": 2, "tags": "Deployed 05/05/2026; Dev Testing; Procard", "is_inc": false, "is_vuln": false, "project": "Procard", "type": "User Story", "sprint": 6, "created": "2026-06-04", "closed": "2026-06-05", "res_days": 1, "task_cat": "General Task"},
 {"id": 112691, "title": "Admin UI | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "In Development", "user": "Chandra Eega <CE110649@mmhfgb.com>", "sp": 5, "tags": "Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 112692, "title": "Functions.Chili | SRS&HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Ready for Release", "user": "Jaime Torner <JT113380@mmhfgb.com>", "sp": 5, "tags": "Building Products; Dev Testing; Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 112692, "title": "Functions.Chili | SRS&HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Blocked", "user": "Jaime Torner <JT113380@mmhfgb.com>", "sp": 5, "tags": "Building Products; Dev Testing; Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 112693, "title": "Functions.Auth | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Ready for Release", "user": "Chandra Eega <CE110649@mmhfgb.com>", "sp": 5, "tags": "Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 112694, "title": "Functions.Branches | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Closed", "user": "Chandra Eega <CE110649@mmhfgb.com>", "sp": 5, "tags": "Deployed 04/29/2026; Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "2026-04-30", "res_days": -157, "task_cat": "General Task"},
-{"id": 112695, "title": "Functions.Customers | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Ready for Release", "user": "Jaime Torner <JT113380@mmhfgb.com>", "sp": 3, "tags": "Dev Testing; Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 112696, "title": "Functions.Deliveries | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Ready for Release", "user": "Jaime Torner <JT113380@mmhfgb.com>", "sp": 3, "tags": "Dev Testing; Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 112695, "title": "Functions.Customers | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Closed", "user": "Jaime Torner <JT113380@mmhfgb.com>", "sp": 3, "tags": "Deployed 05/05/2026; Dev Testing; Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "2026-06-05", "res_days": -121, "task_cat": "General Task"},
+{"id": 112696, "title": "Functions.Deliveries | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Blocked", "user": "Jaime Torner <JT113380@mmhfgb.com>", "sp": 3, "tags": "Dev Testing; Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 108913, "title": "Functions.Invoices | HLSG | Document current services involved in invoice document availability flow and design alternat", "state": "Closed", "user": "Jaime Torner <JT113380@mmhfgb.com>", "sp": 2, "tags": "Heritage", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-03", "closed": "2026-01-05", "res_days": -271, "task_cat": "General Task"},
-{"id": 112726, "title": "Functions.ChiliSea | SRS&HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "In Development", "user": "Sanjay Sahu <SS112698@mmhfgb.com>", "sp": 0, "tags": "Building Products", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 112726, "title": "Functions.ChiliSea | SRS&HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Blocked", "user": "Sanjay Sahu <SS112698@mmhfgb.com>", "sp": 0, "tags": "Building Products", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 112697, "title": "IntegrationHub.EnterpriseEvents | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Ready for QA", "user": "Sanjay Sahu <SS112698@mmhfgb.com>", "sp": 2, "tags": "Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 112700, "title": "IntegrationHub.EventsProcessor | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Active", "user": "Olonyl Rocha <OR114653@mmhfgb.com>", "sp": 3, "tags": "Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 112702, "title": "Functions.Invoices | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Dev Complete", "user": "Jaime Torner <JT113380@mmhfgb.com>", "sp": 3, "tags": "Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 112703, "title": "Functions.Notifications | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "In Development", "user": "Jaime Torner <JT113380@mmhfgb.com>", "sp": 3, "tags": "Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 112718, "title": "Functions.PriceOptimization | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Ready for Release", "user": "Umesh Reddy <UR109634@mmhfgb.com>", "sp": 2, "tags": "Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 112702, "title": "Functions.Invoices | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Ready for Code Review", "user": "Jaime Torner <JT113380@mmhfgb.com>", "sp": 3, "tags": "Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 112703, "title": "IntegrationHub.NotificationProcessor | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Ready for Code Review", "user": "Jaime Torner <JT113380@mmhfgb.com>", "sp": 3, "tags": "Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 112718, "title": "Functions.PriceOptimization | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Closed", "user": "Umesh Reddy <UR109634@mmhfgb.com>", "sp": 2, "tags": "Deployed 05/05/2026; Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "2026-06-05", "res_days": -121, "task_cat": "General Task"},
 {"id": 112721, "title": "Functions.Quotes | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Ready for Code Review", "user": "Chandra Eega <CE110649@mmhfgb.com>", "sp": 2, "tags": "Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 112722, "title": "Functions.Shipments | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Ready for Code Review", "user": "Chandra Eega <CE110649@mmhfgb.com>", "sp": 2, "tags": "Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 112723, "title": "IntegrationHub.SMSProcessor | HLSG | Remediate high SERVERLESS vulnerabilities across all envs", "state": "Ready for Code Review", "user": "Chandra Eega <CE110649@mmhfgb.com>", "sp": 2, "tags": "Heritage", "is_inc": false, "is_vuln": true, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
@@ -971,22 +973,26 @@ const RAW_DATA = [
 {"id": 106227, "title": "Data task | HLSG | Replicate QuickBooks invoice sync database objects for HLSG vertical", "state": "Ideation", "user": "Nagraj Arya <NA098238@mmhfgb.com>", "sp": 2, "tags": "Heritage; Quickbooks HLSG; UAT testing", "is_inc": false, "is_vuln": false, "project": "Quickbooks HLSG", "type": "User Story", "sprint": 6, "created": "2026-02-19", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 112277, "title": "Functions.Quickbooks | HLSG | Implement Sync Status Monitoring", "state": "Blocked", "user": "Jagadeesh Junjur <JJ101219@mmhfgb.com>", "sp": 3, "tags": "Heritage; Quickbooks HLSG", "is_inc": false, "is_vuln": false, "project": "Quickbooks HLSG", "type": "User Story", "sprint": 6, "created": "2026-07-04", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 113608, "title": "Functions.Customers | HLSG | Update Functions.Customers ImportCustomers to consume delta customer data", "state": "In Development", "user": "Navya Bhargavi Yerapothina <NY113446@mmhfgb.com>", "sp": 0, "tags": "Heritage; HLSG Support", "is_inc": false, "is_vuln": false, "project": "HLSG Support", "type": "User Story", "sprint": 6, "created": "2026-04-20", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 113103, "title": "Functions.Products | HLSG | Implement Cache for ItemInventoryV2", "state": "Ready for Release", "user": "Umesh Reddy <UR109634@mmhfgb.com>", "sp": 3, "tags": "Heritage; Heritage HIPS", "is_inc": false, "is_vuln": false, "project": "Heritage HIPS", "type": "User Story", "sprint": 6, "created": "2026-04-15", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 113103, "title": "Functions.Products | HLSG | Implement Cache for ItemInventoryV2", "state": "Closed", "user": "Umesh Reddy <UR109634@mmhfgb.com>", "sp": 3, "tags": "Deployed 05/05/2026; Heritage; Heritage HIPS", "is_inc": false, "is_vuln": false, "project": "Heritage HIPS", "type": "User Story", "sprint": 6, "created": "2026-04-15", "closed": "2026-06-05", "res_days": 51, "task_cat": "General Task"},
 {"id": 112748, "title": "Functions.Products | HLSG | Create API Endpoint for Supplier List Retrieval", "state": "In Development", "user": "Umesh Reddy <UR109634@mmhfgb.com>", "sp": 0, "tags": "Heritage; Heritage HIPS", "is_inc": false, "is_vuln": false, "project": "Heritage HIPS", "type": "User Story", "sprint": 6, "created": "2026-10-04", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 112902, "title": "Functions.Shipments | HLSG | Implement Dispatch Integration Endpoint", "state": "In Development", "user": "Juan Raygoza <JR115173@mmhfgb.com>", "sp": 0, "tags": "[Performance] Migration of Legacy Proxy Endpoints to SQL MI; Heritage", "is_inc": false, "is_vuln": false, "project": "Performance Migration", "type": "User Story", "sprint": 6, "created": "2026-04-13", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 112904, "title": "Functions.Orders | HLSG | Enhance OrderList Function & Decommission Proxy", "state": "Ideation", "user": "Umesh Reddy <UR109634@mmhfgb.com>", "sp": 0, "tags": "[Performance] Migration of Legacy Proxy Endpoints to SQL MI; Heritage", "is_inc": false, "is_vuln": false, "project": "Performance Migration", "type": "User Story", "sprint": 6, "created": "2026-04-13", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 112906, "title": "Functions.Invoices | HLSG | Refactor InvoiceList Function for SQL MI", "state": "Blocked", "user": "Jagadeesh Junjur <JJ101219@mmhfgb.com>", "sp": 0, "tags": "[Performance] Migration of Legacy Proxy Endpoints to SQL MI; Heritage", "is_inc": false, "is_vuln": false, "project": "Performance Migration", "type": "User Story", "sprint": 6, "created": "2026-04-13", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 113376, "title": "Function.Orders | HLSG | Technical Analysis for OpenTelemetry SQL Instrumentation", "state": "Dev Complete", "user": "Jagadeesh Junjur <JJ101219@mmhfgb.com>", "sp": 0, "tags": "", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-04-16", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 114218, "title": "Functions.Products | HLSG | Technical Analysis for OpenTelemetry SQL Instrumentation", "state": "Dev Complete", "user": "Jagadeesh Junjur <JJ101219@mmhfgb.com>", "sp": 0, "tags": "", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-04-23", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 113376, "title": "Function.Orders | HLSG | Technical Analysis for OpenTelemetry SQL Instrumentation", "state": "Dev Complete", "user": "Jagadeesh Junjur <JJ101219@mmhfgb.com>", "sp": 0, "tags": "Dev Testing", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-04-16", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 114218, "title": "Functions.Products | HLSG | Technical Analysis for OpenTelemetry SQL Instrumentation", "state": "Dev Complete", "user": "Jagadeesh Junjur <JJ101219@mmhfgb.com>", "sp": 0, "tags": "Dev Testing", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-04-23", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 113465, "title": "API Modernization | SRS | Technical Mapping of API Endpoints and Database Dependencies", "state": "Closed", "user": "Olonyl Rocha <OR114653@mmhfgb.com>", "sp": 0, "tags": "Building Products; Infrastructure", "is_inc": false, "is_vuln": false, "project": "Infrastructure", "type": "User Story", "sprint": 6, "created": "2026-04-17", "closed": "2026-04-05", "res_days": -12, "task_cat": "General Task"},
 {"id": 113620, "title": "Functions.Customers | SRS | Update Functions.Customers ImportCustomers to consume delta customer data", "state": "Ideation", "user": "Navya Bhargavi Yerapothina <NY113446@mmhfgb.com>", "sp": 3, "tags": "Building Products; Dev Testing; SRS support", "is_inc": false, "is_vuln": false, "project": "SRS Support", "type": "User Story", "sprint": 6, "created": "2026-04-20", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 113621, "title": "Functions.Marketing | SRS | Update Functions.Marketing RunSyncProfiles to consume delta customer data", "state": "Ideation", "user": "Navya Bhargavi Yerapothina <NY113446@mmhfgb.com>", "sp": 0, "tags": "Building Products; Dev Testing; SRS support", "is_inc": false, "is_vuln": false, "project": "SRS Support", "type": "User Story", "sprint": 6, "created": "2026-04-20", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 113621, "title": "Functions.Marketing | SRS | Update Functions.Marketing RunSyncProfiles to consume delta customer data", "state": "Ideation", "user": "Navya Bhargavi Yerapothina <NY113446@mmhfgb.com>", "sp": 3, "tags": "Building Products; Dev Testing; SRS support", "is_inc": false, "is_vuln": false, "project": "SRS Support", "type": "User Story", "sprint": 6, "created": "2026-04-20", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 100611, "title": "IntegrationHub.EventsProcessor | HLSG | SQL PROCESS DEADLOCK on the below endpoints-(GetChangesFromCdcShipments- HLSG", "state": "Closed", "user": "Vinoth Venkatesan <VV106970@mmhfgb.com>", "sp": 3, "tags": "Heritage; INC; INC0856943", "is_inc": true, "is_vuln": false, "project": "Other", "type": "Bug", "sprint": 6, "created": "2026-04-20", "closed": "2026-04-22", "res_days": 2, "task_cat": "General Task"},
 {"id": 108415, "title": "Functions.Quotes | SRS | Pair Programming: Quote Ready Notifications for RoofHub", "state": "Closed", "user": "Navya Bhargavi Yerapothina <NY113446@mmhfgb.com>", "sp": 3, "tags": "Building Products", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-05-03", "closed": "2026-03-18", "res_days": -46, "task_cat": "General Task"},
-{"id": 113035, "title": "Functions.Orders | SRS | Update Shipment Endpoint to Route PO/CM Updates based on SO Header Area Path: HLSG\\Engineering\\", "state": "Ready for QA", "user": "Santosh Kasam <SK103737@mmhfgb.com>", "sp": 5, "tags": "SRS", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-04-14", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 113036, "title": "Functions.Deliveries | HLSG | Enhance Shipment Update Endpoint with Conditional DMSi Routing", "state": "In Development", "user": "Santosh Kasam <SK103737@mmhfgb.com>", "sp": 5, "tags": "Heritage HIPS", "is_inc": false, "is_vuln": false, "project": "Heritage HIPS", "type": "User Story", "sprint": 6, "created": "2026-04-14", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 113035, "title": "Functions.Orders | SRS | Update Shipment Endpoint to Route PO/CM Updates based on SO Header Area Path: HLSG\\Engineering\\", "state": "UAT", "user": "Santosh Kasam <SK103737@mmhfgb.com>", "sp": 5, "tags": "Dev Testing; SRS; UAT testing", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-04-14", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 113036, "title": "Functions.Deliveries | HLSG | Enhance Shipment Update Endpoint with Conditional DMSi Routing", "state": "In Development", "user": "Santosh Kasam <SK103737@mmhfgb.com>", "sp": 5, "tags": "Dev Testing; Heritage HIPS; UAT testing", "is_inc": false, "is_vuln": false, "project": "Heritage HIPS", "type": "User Story", "sprint": 6, "created": "2026-04-14", "closed": "", "res_days": null, "task_cat": "General Task"},
 {"id": 114455, "title": "Function.Branches | SRS | Performance Optimization for ActiveBranchProducts API", "state": "Dev Complete", "user": "Jagadeesh Junjur <JJ101219@mmhfgb.com>", "sp": 0, "tags": "Building Products", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-04-24", "closed": "", "res_days": null, "task_cat": "General Task"},
-{"id": 115213, "title": "Functions.Orders | SRS | Feature Flag Implementation for Dynamic PO/CM Shipment Routing", "state": "Ready for QA", "user": "Santosh Kasam <SK103737@mmhfgb.com>", "sp": 5, "tags": "SRS", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-04-30", "closed": "", "res_days": null, "task_cat": "General Task"}
+{"id": 115213, "title": "Functions.Orders | SRS | Feature Flag Implementation for Dynamic PO/CM Shipment Routing", "state": "Ready for QA", "user": "Santosh Kasam <SK103737@mmhfgb.com>", "sp": 5, "tags": "SRS", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-04-30", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 115852, "title": "Functions.Invoices | HLSG | Add GrossPrice and NetPrice to Invoice List", "state": "Ready for Code Review", "user": "Umesh Reddy <UR109634@mmhfgb.com>", "sp": 0, "tags": "Heritage", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-05-05", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 115855, "title": "Functions.Orders | HSLG | Credential Configuration for Magento Order Submission", "state": "Closed", "user": "Umesh Reddy <UR109634@mmhfgb.com>", "sp": 0, "tags": "Heritage; Heritage HIPS", "is_inc": false, "is_vuln": false, "project": "Heritage HIPS", "type": "User Story", "sprint": 6, "created": "2026-05-05", "closed": "2026-07-05", "res_days": 61, "task_cat": "General Task"},
+{"id": 115985, "title": "SRS | Audit and Classify Bulk vs. Transactional Endpoints", "state": "Ideation", "user": "Santosh Kasam <SK103737@mmhfgb.com>", "sp": 0, "tags": "Building Products; SRS", "is_inc": false, "is_vuln": false, "project": "Other", "type": "User Story", "sprint": 6, "created": "2026-06-05", "closed": "", "res_days": null, "task_cat": "General Task"},
+{"id": 115987, "title": "HSLG | Audit and Classify Bulk vs. Transactional Endpoints", "state": "Ideation", "user": "Santosh Kasam <SK103737@mmhfgb.com>", "sp": 0, "tags": "Heritage; Heritage HIPS", "is_inc": false, "is_vuln": false, "project": "Heritage HIPS", "type": "User Story", "sprint": 6, "created": "2026-06-05", "closed": "", "res_days": null, "task_cat": "General Task"}
 ];
 
 // ═══════════════════════════════════════════
@@ -1070,9 +1076,9 @@ function renderKPIs(data) {
   const SPRINT5_RATE    = 70;
   const SPRINT5_PLANNED = 55;
   const SPRINT5_DONE    = 38;
-  const SPRINT6_RATE    = 40;
+  const SPRINT6_RATE    = 50;
   const SPRINT6_PLANNED = 70;
-  const SPRINT6_DONE    = 27;
+  const SPRINT6_DONE    = 30;
 
   // Completion rate (hardcoded per requirement)
   const curRate    = window._activeSprint === 6 ? SPRINT6_RATE    : SPRINT5_RATE;
@@ -1125,7 +1131,7 @@ function renderKPIs(data) {
   safeSet('hero-bugs',     heroBugs);
   safeSet('hero-bugs-sub', heroClosedBugs + ' closed');
   safeSet('hero-sp',       heroSP);
-  if(window._activeSprint===5){safeSet('hero-rate','103%');safeSet('hero-rate-sub','43 closed · 15 UAT · 5 RFR');}else if(window._activeSprint===6){safeSet('hero-rate','40%');safeSet('hero-rate-sub','27 closed · sprint in progress');}
+  if(window._activeSprint===5){safeSet('hero-rate','103%');safeSet('hero-rate-sub','43 closed · 15 UAT · 5 RFR');}else if(window._activeSprint===6){safeSet('hero-rate','50%');safeSet('hero-rate-sub','30 closed · 4 in UAT · sprint in progress');}
   // rate-sub already set above
   const namedProjs = new Set(projData.filter(d => d.project && d.project !== 'Other').map(d => d.project));
   safeSet('hero-proj', namedProjs.size || 7);
@@ -2014,7 +2020,7 @@ function makeBurnupData(items, sprintDates, todayStr, avgSpDay, lastActualIdx) {
   return { totalSP, actualData, dailyEarned, projData, ideal, closedSP: cum };
 }
 
-function buildBurnupChart(canvasId, datasets, labels, totalSP, avgSpDay, accentColor, fillColor, barColor) {
+function buildBurnupChart(canvasId, datasets, labels, totalSP, avgSpDay, accentColor, fillColor, barColor, todayIdx) {
   destroyChart(canvasId);
   const el = document.getElementById(canvasId);
   if (!el) return;
@@ -2056,87 +2062,165 @@ function buildBurnupChart(canvasId, datasets, labels, totalSP, avgSpDay, accentC
 }
 
 function renderBothCharts() {
-  const userFilter1 = (document.getElementById('f-velocity-user') || {}).value || 'all';
-  const userFilter2 = (document.getElementById('f-velocity-user2') || {}).value || 'all';
-
+  const userFilter = (document.getElementById('f-velocity-user') || {}).value || 'all';
   if (!SPRINT_DATES || SPRINT_DATES.length === 0) return;
-  const todayStr  = new Date().toISOString().slice(0, 10);
 
-  // Count remaining business days from today to sprint end (Apr 17)
+  const sp = window._activeSprint || 6;
+  const todayStr = new Date().toISOString().slice(0, 10);
+
   function countRemainingBizDays() {
     const today = new Date(); today.setHours(0,0,0,0);
     const end   = new Date(SPRINT_END_DATE + 'T23:59:59');
     let count = 0;
     for (let d = new Date(today); d <= end; d.setDate(d.getDate()+1)) {
-      const dow = d.getDay();
-      if (dow !== 0 && dow !== 6) count++;
+      if (d.getDay() !== 0 && d.getDay() !== 6) count++;
     }
     return count;
   }
 
   const elapsed   = countElapsedBizDays();
   const remaining = countRemainingBizDays();
+  const total_biz = SPRINT_BIZ_TOTAL;
 
-  const safeSet = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-  safeSet('vk-remaining', remaining);
+  const safeSet = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
 
-  const labels = SPRINT_DATES.map(d => { const m = d.getMonth()+1, day = d.getDate(); return `${m}/${day}`; });
+  // Sprint label
+  const spMeta = SPRINT_DATES_MAP && SPRINT_DATES_MAP[sp];
+  const spLabel = spMeta
+    ? `Sprint ${sp} · ${spMeta.label} · ${total_biz} business days · ${elapsed} elapsed`
+    : `Sprint ${sp} · ${total_biz} business days`;
+  safeSet('burnup-sprint-label', spLabel);
+  safeSet('bu-chart-title', `Daily SP Burnup — Sprint ${sp} (${spMeta ? spMeta.label : ''})`);
+  safeSet('bu-elapsed', elapsed);
+  safeSet('bu-elapsed-sub', `of ${total_biz} working days`);
+  safeSet('bu-remaining', remaining);
 
-  // ── Chart 1: Tasks ──────────────────────────────────────────────────────
-  const EXCLUDED_USERS = new Set(["Vinoth Venkatesan","Vinay Ageer","Srilekha Donadula","Nagraj Arya","Jyothi Pesingi","Sathish Kotha"]);
-  const tasks1 = RAW_DATA.filter(d =>
-    d.type === 'Task' &&
+  const endDateFmt = new Date(SPRINT_END_DATE + 'T00:00:00')
+    .toLocaleDateString('en-US', {month:'short', day:'numeric'});
+  safeSet('bu-remaining-sub', `until ${endDateFmt}`);
+
+  const EXCLUDED = new Set(['Vinoth Venkatesan','Vinay Ageer','Srilekha Donadula',
+                             'Nagraj Arya','Jyothi Pesingi','Sathish Kotha']);
+
+  // Combined: all work items (User Story + Bug + Task), non-INC
+  const items = RAW_DATA.filter(d =>
+    d.sprint === sp &&
     !d.is_inc &&
-    !EXCLUDED_USERS.has(d.user) &&
-    (userFilter1 === 'all' || d.user === userFilter1)
+    !EXCLUDED.has(d.user) &&
+    (userFilter === 'all' || d.user === userFilter)
   );
-  const avgT    = elapsed > 0 ? tasks1.filter(d => d.state==='Closed'&&d.closed).reduce((s,d)=>s+d.sp,0) / elapsed : 0;
-  const d1      = makeBurnupData(tasks1, SPRINT_DATES, todayStr, avgT, 0);
 
-  safeSet('vk-tasks-sp',     d1.closedSP);
-  safeSet('vk-tasks-sp-sub', `${tasks1.filter(d=>d.state==='Closed'&&d.closed).length} tasks closed`);
-  safeSet('vel-avg-badge',   `Avg: ${avgT.toFixed(2)} SP/day`);
-  safeSet('vel-footer-note', `${d1.closedSP} SP closed · ${avgT.toFixed(2)} SP/day · ${remaining} days left`);
-  safeSet('t1-sp-total',  d1.totalSP);
-  safeSet('t1-sp-closed', d1.closedSP);
-  safeSet('t1-sp-rem',    Math.max(0, d1.totalSP - d1.closedSP));
+  const closedItems = items.filter(d => d.state === 'Closed' && d.closed);
+  const totalSP     = items.reduce((s, d) => s + (d.sp || 0), 0);
+  const closedSP    = closedItems.reduce((s, d) => s + (d.sp || 0), 0);
+  const avgSPday    = elapsed > 0 ? closedSP / elapsed : 0;
+  const projFinish  = totalSP + (avgSPday * remaining);
+  const spRem       = Math.max(0, totalSP - closedSP);
+
+  safeSet('bu-avg-sp',      avgSPday.toFixed(2));
+  safeSet('bu-avg-sp-sub',  `${closedSP} SP · ${elapsed} days`);
+  safeSet('bu-sp-rem',      spRem);
+  safeSet('bu-sp-rem-sub',  `projected finish: ${projFinish.toFixed(1)} SP`);
+  safeSet('vel-avg-badge',  `Average Velocity: ${avgSPday.toFixed(2)} SP / day`);
+  safeSet('vel-footer-note',`Team: ${closedSP} SP closed · ${avgSPday.toFixed(2)} SP/day avg · ${remaining} days left`);
+
+  // Populate member filter
+  const uf = document.getElementById('f-velocity-user');
+  if (uf && uf.options.length === 1) {
+    const users = [...new Set(items.map(d => d.user).filter(Boolean))].sort();
+    users.forEach(u => {
+      const o = document.createElement('option');
+      o.value = u; o.textContent = u.split(' ').slice(0,2).join(' ');
+      uf.appendChild(o);
+    });
+  }
+
+  // Build burnup data per day
+  const labels = SPRINT_DATES.map(d => `${d.getMonth()+1}/${d.getDate()}`);
+  const cumActual   = [];
+  const dailyEarned = [];
+  const idealLine   = [];
+  const avgVelLine  = [];
+
+  // Build cumulative closed SP per day from closed dates
+  const spByDay = {};
+  closedItems.forEach(d => {
+    const key = d.closed.slice(0, 10);
+    spByDay[key] = (spByDay[key] || 0) + (d.sp || 0);
+  });
+
+  let cumSP = 0;
+  SPRINT_DATES.forEach((dateObj, i) => {
+    const key = dateObj.toISOString().slice(0, 10);
+    const earned = spByDay[key] || 0;
+    dailyEarned.push(earned);
+    // Only show actual up to today
+    if (key <= todayStr) {
+      cumSP += earned;
+      cumActual.push(cumSP);
+    } else {
+      cumActual.push(null);
+    }
+    // Ideal: linear from 0 to totalSP
+    idealLine.push(totalSP > 0 ? Math.round(totalSP / (total_biz - 1) * i * 10) / 10 : 0);
+    // Avg velocity projection
+    avgVelLine.push(Math.round(avgSPday * (i + 1) * 10) / 10);
+  });
+
+  // Build "today" annotation x position
+  const todayIdx = SPRINT_DATES.findIndex(d => d.toISOString().slice(0, 10) > todayStr) - 1;
 
   buildBurnupChart('velocityChart', [
-    { label: `Projected (${avgT.toFixed(2)} SP/day)`, data: d1.projData, borderColor: '#5eead4', backgroundColor: 'transparent', borderWidth: 2, borderDash: [6,4], pointRadius: 0, tension: 0, order: 4 },
-    { label: 'Actual', data: d1.actualData, borderColor: '#0f766e', backgroundColor: 'rgba(15,118,110,0.07)', borderWidth: 2.5, pointRadius: 4, pointBackgroundColor: '#0f766e', pointBorderColor: '#fff', pointBorderWidth: 2, tension: 0.15, fill: true, order: 1 },
-    { label: `Ideal (${d1.totalSP} SP)`, data: d1.ideal, borderColor: '#93c5fd', backgroundColor: 'transparent', borderWidth: 1.5, borderDash: [4,4], pointRadius: 0, tension: 0, order: 3 },
-    { label: 'Daily', data: d1.dailyEarned, type: 'bar', backgroundColor: 'rgba(167,243,208,0.55)', borderColor: '#34d399', borderWidth: 1, borderRadius: 4, order: 2 }
-  ], labels, d1.totalSP, avgT, '#0f766e', 'rgba(15,118,110,0.07)', '#34d399');
-
-  // ── Chart 2: Bugs + User Stories ────────────────────────────────────────
-  const wi2    = RAW_DATA.filter(d =>
-    (d.type === 'Bug' || d.type === 'User Story') &&
-    !d.is_inc &&
-    !EXCLUDED_USERS.has(d.user) &&
-    (userFilter2 === 'all' || d.user === userFilter2)
-  );
-  const avgW   = elapsed > 0 ? wi2.filter(d=>d.state==='Closed'&&d.closed).reduce((s,d)=>s+d.sp,0) / elapsed : 0;
-  const d2     = makeBurnupData(wi2, SPRINT_DATES, todayStr, avgW, 0);
-
-  safeSet('vk-wi-sp',        d2.closedSP);
-  safeSet('vk-wi-sp-sub',    `${wi2.filter(d=>d.state==='Closed'&&d.closed).length} bugs+stories closed`);
-  safeSet('vel-avg-badge2',  `Avg: ${avgW.toFixed(2)} SP/day`);
-  safeSet('vel-footer-note2',`${d2.closedSP} SP closed · ${avgW.toFixed(2)} SP/day · ${remaining} days left`);
-  safeSet('t2-sp-total',  d2.totalSP);
-  safeSet('t2-sp-closed', d2.closedSP);
-  safeSet('t2-sp-rem',    Math.max(0, d2.totalSP - d2.closedSP));
-
-  buildBurnupChart('velocityChart2', [
-    { label: `Projected (${avgW.toFixed(2)} SP/day)`, data: d2.projData, borderColor: '#818cf8', backgroundColor: 'transparent', borderWidth: 2, borderDash: [6,4], pointRadius: 0, tension: 0, order: 4 },
-    { label: 'Actual', data: d2.actualData, borderColor: '#0891b2', backgroundColor: 'rgba(8,145,178,0.07)', borderWidth: 2.5, pointRadius: 4, pointBackgroundColor: '#0891b2', pointBorderColor: '#fff', pointBorderWidth: 2, tension: 0.15, fill: true, order: 1 },
-    { label: `Ideal (${d2.totalSP} SP)`, data: d2.ideal, borderColor: '#93c5fd', backgroundColor: 'transparent', borderWidth: 1.5, borderDash: [4,4], pointRadius: 0, tension: 0, order: 3 },
-    { label: 'Daily', data: d2.dailyEarned, type: 'bar', backgroundColor: 'rgba(147,197,253,0.45)', borderColor: '#60a5fa', borderWidth: 1, borderRadius: 4, order: 2 }
-  ], labels, d2.totalSP, avgW, '#1e52a8', 'rgba(30,82,168,0.07)', '#60a5fa');
+    {
+      label: `Average Velocity (${avgSPday.toFixed(2)} SP/day)`,
+      data: avgVelLine,
+      borderColor: 'rgba(94,234,212,0.8)',
+      backgroundColor: 'transparent',
+      borderWidth: 2,
+      borderDash: [5, 4],
+      pointRadius: 0,
+      tension: 0,
+      order: 4
+    },
+    {
+      label: 'Cumulative SP (Actual)',
+      data: cumActual,
+      borderColor: '#0f766e',
+      backgroundColor: 'rgba(15,118,110,0.08)',
+      borderWidth: 2.5,
+      pointRadius: 4,
+      pointBackgroundColor: '#0d9488',
+      pointBorderColor: '#fff',
+      pointBorderWidth: 2,
+      tension: 0.2,
+      fill: true,
+      order: 1
+    },
+    {
+      label: `Ideal Burnup`,
+      data: idealLine,
+      borderColor: '#bfdbfe',
+      backgroundColor: 'transparent',
+      borderWidth: 1.5,
+      borderDash: [3, 3],
+      pointRadius: 0,
+      tension: 0,
+      order: 3
+    },
+    {
+      label: 'Daily SP Earned',
+      data: dailyEarned,
+      type: 'bar',
+      backgroundColor: 'rgba(167,243,208,0.55)',
+      borderColor: '#34d399',
+      borderWidth: 1,
+      borderRadius: 4,
+      order: 2
+    }
+  ], labels, totalSP, avgSPday, '#0f766e', 'rgba(15,118,110,0.08)', '#34d399', todayIdx);
 }
 
-// Keep old name as alias for compatibility
-function renderVelocityChart() { renderBothCharts(); }
-
+// Compatibility alias
 // ═══════════════════════════════════════════
 // INIT FILTERS
 // ═══════════════════════════════════════════
@@ -2250,8 +2334,10 @@ const SUP_DATA = {
   },
   6: {
     inc: [
+  {id:114915,title:'Functions.Products | HLSG | Heritage Pool Plus Incident - Products mis',user:'Juan',state:'Closed',v:'HLSG'},
+  {id:114594,title:'Functions.Susbscriptions | HLSG | observed SubscriptionUpdate - Unexpe',user:'Navya',state:'In QA',v:'HLSG'},
   {id:114144,title:'Functions.Products | HLSG | products/availability/branchlist perfroman',user:'Santosh',state:'Closed',v:'HLSG'},
-  {id:110976,title:'IntegrationHub.EventsProcessor | HLSG | legacy branch logos in Emails',user:'Jagadeesh',state:'UAT',v:'SRS'},
+  {id:110976,title:'IntegrationHub.EventsProcessor | HLSG | legacy branch logos in Emails',user:'Jagadeesh',state:'Ready for Release',v:'SRS'},
   {id:111344,title:'Functions.Branches | HLSG | An error occurred while writing to logger(',user:'Navya',state:'New',v:'HLSG'},
   {id:111360,title:'Functions.Branches | SRS | observed higher number of HTTP exeptions in',user:'Umesh',state:'Closed',v:'SRS'},
   {id:111375,title:'Functions.MarketingProcessor | HLSG | MarketingProcessor failure while',user:'Navya',state:'In Development',v:'HLSG'},
@@ -2262,16 +2348,16 @@ const SUP_DATA = {
   {id:114202,title:'Functions.Subscriptions | HLSG | The INSERT statement conflicted with ',user:'Jagadeesh',state:'New',v:'HLSG'},
   {id:114203,title:'Functions.Products | HLSG | Pricing API - Production - RCA requested',user:'Navya',state:'Closed',v:'HLSG'},
   {id:115045,title:'Functions.Deliveries | HLSG | System.OutOfMemoryExceptions for Deliver',user:'Navya',state:'New',v:'HLSG'},
-  {id:115053,title:'Functions.Invoices | HLSG | Client connection was unexpectedly closed.',user:'Sanjay',state:'New',v:'HLSG'},
+  {id:115053,title:'Functions.Invoices | HLSG | Client connection was unexpectedly closed.',user:'Olonyl',state:'New',v:'HLSG'},
   {id:115056,title:'Functions.Orders | HLSG | Violation of PRIMARY KEY constraint  PK_tbl_',user:'Sanjay',state:'New',v:'HLSG'},
-  {id:115057,title:'IntegrationHub.EnterpriseEvents | HLSG | The timeout period elapsed pr',user:'Sanjay',state:'New',v:'HLSG'},
-  {id:115061,title:'Functions.Customers | SRS | INTHUB-Failed to call csp_API_CustItemHist',user:'Sanjay',state:'New',v:'SRS'},
+  {id:115057,title:'IntegrationHub.EnterpriseEvents | HLSG | The timeout period elapsed pr',user:'Sanjay',state:'Active',v:'HLSG'},
+  {id:115061,title:'Functions.Customers | SRS | INTHUB-Failed to call csp_API_CustItemHist',user:'Sanjay',state:'Active',v:'SRS'},
   {id:106164,title:'Functions.Marketing | SRS | Database  plattesql  on server  10d91d9d15',user:'Nagraj',state:'In Development',v:'SRS'},
   {id:110516,title:'Functions.Documents | HLSG | Invalid URI: The format of the URI could ',user:'Umesh',state:'In QA',v:'HLSG'},
-  {id:108999,title:'Functions.Products | HLSG | Authentication failed - remote party has c',user:'Olonyl',state:'Ready for Release',v:'HLSG'},
+  {id:108999,title:'Functions.Products | HLSG | Authentication failed - remote party has c',user:'Olonyl',state:'Closed',v:'HLSG'},
   {id:110514,title:'Functions.Products | SRS | bserved Failed to ProductSearch between 3AM',user:'Olonyl',state:'Ready for Release',v:'SRS'},
-  {id:105660,title:'Functions.Products | HLSG | ClientConnectionFailure for endpoint produ',user:'Olonyl',state:'Ready for Release',v:'HLSG'},
-  {id:106178,title:'Functions.Products | HLSG | ClientConnectionFailure for endpoint produ',user:'Olonyl',state:'Ready for Release',v:'HLSG'},
+  {id:105660,title:'Functions.Products | HLSG | ClientConnectionFailure for endpoint produ',user:'Olonyl',state:'Closed',v:'HLSG'},
+  {id:106178,title:'Functions.Products | HLSG | ClientConnectionFailure for endpoint produ',user:'Olonyl',state:'Closed',v:'HLSG'},
   {id:110522,title:'Functions.Orders | HLSG | Unexpected character encountered while parsi',user:'Sanjay',state:'Closed',v:'HLSG'},
   {id:110530,title:'Functions.InvoiceBlobImporter | SRS | INTHUB- Authorization header is ',user:'Chandra',state:'In Development',v:'SRS'},
   {id:109993,title:'Functions.Products | HLSG | Products Missing in ItemInventory API Resp',user:'Vinoth',state:'Closed',v:'HLSG'},
@@ -2283,17 +2369,17 @@ const SUP_DATA = {
   {id:111567,title:'Functions.PropertyReports | SRS | Remediate critical SERVERLESS vulner',state:'Closed',v:'SRS'},
   {id:111579,title:'Functions.QuoteCenter | SRS | Remediate critical SERVERLESS vulnerabil',state:'Closed',v:'SRS'},
   {id:112691,title:'Admin UI | HLSG | Remediate high SERVERLESS vulnerabilities across all',state:'In Development',v:'HLSG'},
-  {id:112692,title:'Functions.Chili | SRS&HLSG | Remediate high SERVERLESS vulnerabilities',state:'Ready for Release',v:'HLSG'},
+  {id:112692,title:'Functions.Chili | SRS&HLSG | Remediate high SERVERLESS vulnerabilities',state:'Blocked',v:'HLSG'},
   {id:112693,title:'Functions.Auth | HLSG | Remediate high SERVERLESS vulnerabilities acro',state:'Ready for Release',v:'HLSG'},
   {id:112694,title:'Functions.Branches | HLSG | Remediate high SERVERLESS vulnerabilities ',state:'Closed',v:'HLSG'},
-  {id:112695,title:'Functions.Customers | HLSG | Remediate high SERVERLESS vulnerabilities',state:'Ready for Release',v:'HLSG'},
-  {id:112696,title:'Functions.Deliveries | HLSG | Remediate high SERVERLESS vulnerabilitie',state:'Ready for Release',v:'HLSG'},
-  {id:112726,title:'Functions.ChiliSea | SRS&HLSG | Remediate high SERVERLESS vulnerabilit',state:'In Development',v:'SRS'},
+  {id:112695,title:'Functions.Customers | HLSG | Remediate high SERVERLESS vulnerabilities',state:'Closed',v:'HLSG'},
+  {id:112696,title:'Functions.Deliveries | HLSG | Remediate high SERVERLESS vulnerabilitie',state:'Blocked',v:'HLSG'},
+  {id:112726,title:'Functions.ChiliSea | SRS&HLSG | Remediate high SERVERLESS vulnerabilit',state:'Blocked',v:'SRS'},
   {id:112697,title:'IntegrationHub.EnterpriseEvents | HLSG | Remediate high SERVERLESS vul',state:'Ready for QA',v:'HLSG'},
   {id:112700,title:'IntegrationHub.EventsProcessor | HLSG | Remediate high SERVERLESS vuln',state:'Active',v:'HLSG'},
-  {id:112702,title:'Functions.Invoices | HLSG | Remediate high SERVERLESS vulnerabilities ',state:'Dev Complete',v:'HLSG'},
-  {id:112703,title:'Functions.Notifications | HLSG | Remediate high SERVERLESS vulnerabili',state:'In Development',v:'HLSG'},
-  {id:112718,title:'Functions.PriceOptimization | HLSG | Remediate high SERVERLESS vulnera',state:'Ready for Release',v:'HLSG'},
+  {id:112702,title:'Functions.Invoices | HLSG | Remediate high SERVERLESS vulnerabilities ',state:'Ready for Code Review',v:'HLSG'},
+  {id:112703,title:'IntegrationHub.NotificationProcessor | HLSG | Remediate high SERVERLES',state:'Ready for Code Review',v:'HLSG'},
+  {id:112718,title:'Functions.PriceOptimization | HLSG | Remediate high SERVERLESS vulnera',state:'Closed',v:'HLSG'},
   {id:112721,title:'Functions.Quotes | HLSG | Remediate high SERVERLESS vulnerabilities ac',state:'Ready for Code Review',v:'HLSG'},
   {id:112722,title:'Functions.Shipments | HLSG | Remediate high SERVERLESS vulnerabilities',state:'Ready for Code Review',v:'HLSG'},
   {id:112723,title:'IntegrationHub.SMSProcessor | HLSG | Remediate high SERVERLESS vulnera',state:'Ready for Code Review',v:'HLSG'},
