@@ -1193,9 +1193,9 @@ function renderKPIs(data) {
   const SPRINT6_RATE    = 88;
   const SPRINT6_PLANNED = 24;
   const SPRINT6_DONE    = 21;
-  const SPRINT7_RATE    = 68;
-  const SPRINT7_PLANNED = 55;
-  const SPRINT7_DONE    = 37;
+  const SPRINT7_RATE    = 61;
+  const SPRINT7_PLANNED = 72;
+  const SPRINT7_DONE    = 41;
 
   // Completion rate (hardcoded per requirement)
   const curRate    = window._activeSprint === 7 ? SPRINT7_RATE    : window._activeSprint === 6 ? SPRINT6_RATE    : SPRINT5_RATE;
@@ -1248,7 +1248,7 @@ function renderKPIs(data) {
   safeSet('hero-bugs',     heroBugs);
   safeSet('hero-bugs-sub', heroClosedBugs + ' closed');
   safeSet('hero-sp',       heroSP);
-  if(window._activeSprint===5){safeSet('hero-rate','103%');safeSet('hero-rate-sub','43 closed · 15 UAT · 5 RFR');}else if(window._activeSprint===6){safeSet('hero-rate','88%');safeSet('hero-rate-sub','Sprint 6 — Closed ✓');}else if(window._activeSprint===7){safeSet('hero-rate','68%');safeSet('hero-rate-sub','37 closed + UAT · sprint in progress');}
+  if(window._activeSprint===5){safeSet('hero-rate','103%');safeSet('hero-rate-sub','43 closed · 15 UAT · 5 RFR');}else if(window._activeSprint===6){safeSet('hero-rate','88%');safeSet('hero-rate-sub','Sprint 6 — Closed ✓');}else if(window._activeSprint===7){safeSet('hero-rate','61%');safeSet('hero-rate-sub','41 closed · sprint in progress');}
   // rate-sub already set above
   const namedProjs = new Set(projData.filter(d => d.project && d.project !== 'Other').map(d => d.project));
   safeSet('hero-proj', namedProjs.size || 7);
