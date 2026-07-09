@@ -440,6 +440,27 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
 .cmp-legend-dot{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:600;color:var(--tx2);}
 .cmp-legend-dot::before{content:'';width:10px;height:10px;border-radius:3px;background:currentColor;flex-shrink:0;}
 
+
+/* ── Delivery Summary ───────────────────────────────────────── */
+.delivery-summary{display:flex;flex-direction:column;gap:0;padding:18px 22px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:12px;position:relative;overflow:hidden;}
+.ds-left{display:flex;flex-direction:column;gap:4px;}
+.ds-label{font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.15);border-radius:4px;padding:2px 7px;display:inline-block;width:fit-content;margin-bottom:4px;}
+.ds-metrics{display:flex;gap:24px;align-items:flex-end;}
+.ds-metric{display:flex;flex-direction:column;gap:2px;}
+.ds-metric-tag{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.4);}
+.ds-metric-val{display:flex;align-items:baseline;gap:2px;}
+.ds-metric-val .big{font-size:34px;font-weight:800;color:var(--t300);font-family:'JetBrains Mono',monospace;line-height:1;letter-spacing:-1px;}
+.ds-metric-val .unit{font-size:14px;font-weight:700;color:var(--t300);margin-bottom:2px;}
+.ds-metric-sub{font-size:9px;color:rgba(255,255,255,.35);margin-top:2px;}
+.ds-right{display:flex;flex-direction:column;gap:8px;align-items:flex-end;}
+.ds-date-row{display:flex;align-items:center;gap:8px;}
+.ds-date-input{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:6px;padding:5px 10px;font-size:11px;color:rgba(255,255,255,.8);outline:none;font-family:'JetBrains Mono',monospace;width:120px;cursor:pointer;}
+.ds-date-input:focus{border-color:var(--t400);background:rgba(13,148,136,.15);}
+.ds-date-input::-webkit-calendar-picker-indicator{filter:invert(.6);}
+.ds-arrow{color:rgba(255,255,255,.35);font-size:14px;}
+.ds-reset{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:5px 12px;font-size:10.5px;color:rgba(255,255,255,.7);cursor:pointer;font-family:'Outfit',sans-serif;font-weight:600;transition:all .15s;}
+.ds-reset:hover{background:rgba(255,255,255,.18);color:#fff;}
+
 </style>
 </head>
 <body>
@@ -449,7 +470,7 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
   <div class="tb-logo">IT</div>
   <div class="tb-brand">
     <div class="tb-brand-name">The Integrators Team</div>
-    <div class="tb-brand-sub">Sprint 7 · Development &amp; Support Dashboard</div>
+    
   </div>
   <div class="tb-tabs">
     <button class="tb-tab on-dev" onclick="switchView('dev',this)">
@@ -462,7 +483,7 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
   <div class="tb-right">
     <div class="tb-chip" id="sprint-active-chip"><span class="live"></span>Sprint 9 — Active</div>
     <div class="tb-chip dates" id="sprint-dates-chip">Jun 22 – Jul 10, 2026</div>
-    <div class="tb-chip deploy"><span id="deploy-chip-text">Deploy Jun 30</span></div>
+    <div class="tb-chip deploy"><span id="deploy-chip-text">Deploy Jul 14</span></div>
     <button class="btn-report" onclick="openReportModal()">
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1.5" y="1.5" width="10" height="10" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 5h5M4 7h5M4 9h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
       Generate Report
@@ -479,10 +500,13 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
 
   <!-- Hero bar -->
   <div class="hero-bar">
+
+    <!-- Row 1: 3 KPI cards -->
     <div class="hero-inner">
-      <!-- Card 1: Sprint info + Story Points -->
+
+      <!-- Card 1: Sprint + Story Points -->
       <div class="hero-kpi">
-        <div class="hk-tag" id="hero-sprint-label">Sprint 9 · Jun 22 – Jul 10, 2026 ✓ Completed</div>
+        <div class="hk-tag" id="hero-sprint-label">Sprint 9 · Jun 22 – Jul 10, 2026</div>
         <div class="hk-val white" id="hero-sp">–</div>
         <div class="hk-sub">Story Points Completed</div>
         <div class="hk-sub-row">
@@ -500,6 +524,7 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
           </div>
         </div>
       </div>
+
       <!-- Card 2: Sprint Completion -->
       <div class="hero-kpi hero-kpi-accent">
         <div class="hk-tag" style="color:var(--t300);opacity:.9;">Sprint Completion</div>
@@ -524,21 +549,45 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
           </div>
         </div>
       </div>
-      <!-- Card 3: Active Projects -->
+
+      <!-- Card 3: Projects in Sprint -->
       <div class="hero-kpi">
         <div class="hk-tag">Projects in Sprint</div>
         <div class="hk-val white" id="hero-proj">–</div>
         <div class="hk-sub">Active Business Projects</div>
+      </div>
 
+    </div>
+
+    <!-- Row 2: Delivery Summary — full width strip -->
+    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:24px;flex-wrap:wrap;" id="delivery-summary-card">
+      <span style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.15);border-radius:4px;padding:2px 8px;white-space:nowrap;">Delivery Summary</span>
+      <div style="display:flex;gap:28px;align-items:flex-end;">
+        <div>
+          <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.38);margin-bottom:3px;">Sprint Avg</div>
+          <div style="display:flex;align-items:baseline;gap:2px;">
+            <span style="font-size:30px;font-weight:800;color:var(--t300);font-family:'JetBrains Mono',monospace;line-height:1;letter-spacing:-1px;" id="ds-sprint-avg">–</span>
+            <span style="font-size:14px;font-weight:700;color:var(--t300);">d</span>
+          </div>
+          <div style="font-size:9px;color:rgba(255,255,255,.32);margin-top:2px;" id="ds-sprint-median">median –d</div>
+        </div>
+        <div>
+          <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.38);margin-bottom:3px;">Range Avg</div>
+          <div style="display:flex;align-items:baseline;gap:2px;">
+            <span style="font-size:30px;font-weight:800;color:rgba(255,255,255,.85);font-family:'JetBrains Mono',monospace;line-height:1;letter-spacing:-1px;" id="ds-range-avg">–</span>
+            <span style="font-size:14px;font-weight:700;color:rgba(255,255,255,.55);">d</span>
+          </div>
+          <div style="font-size:9px;color:rgba(255,255,255,.32);margin-top:2px;" id="ds-range-median">median –d · Full sprint</div>
+        </div>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+        <input type="date" class="ds-date-input" id="ds-from" onchange="renderDeliverySummary()" style="font-size:10.5px;padding:5px 10px;width:136px;">
+        <span style="color:rgba(255,255,255,.35);font-size:14px;">→</span>
+        <input type="date" class="ds-date-input" id="ds-to" onchange="renderDeliverySummary()" style="font-size:10.5px;padding:5px 10px;width:136px;">
+        <button class="ds-reset" onclick="resetDeliverySummary()">Reset</button>
       </div>
     </div>
-    <div class="hero-deploy">
-      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(15,163,191,.15);border:1px solid rgba(15,163,191,.3);border-radius:99px;padding:5px 14px;">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2" width="10" height="9" rx="1.5" stroke="rgba(109,220,233,.8)" stroke-width="1.2"/><path d="M1 5h10" stroke="rgba(109,220,233,.8)" stroke-width="1.2"/><path d="M4 1v2M8 1v2" stroke="rgba(109,220,233,.8)" stroke-width="1.2" stroke-linecap="round"/></svg>
-        <span style="font-size:11px;font-weight:600;color:var(--t300);">Next Release &amp; Deploy</span>
-        <span style="font-size:11px;font-weight:800;color:#fff;font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.1);padding:2px 10px;border-radius:99px;" id="hero-deploy-date">Jun 30, 2026</span>
-      </div>
-    </div>
+
   </div>
 
   <!-- Filter bar -->
@@ -595,7 +644,7 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
       <div class="card" style="overflow:visible;">
         <div class="card-head">
           <span class="card-title" style="color:var(--b700);">Ready for Release</span>
-          <span style="background:var(--b600);color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:99px;" id="rfr-date-badge">Jun 30</span>
+          <span style="background:var(--b600);color:#fff;font-size:9px;font-weight:700;padding:2px 8px;border-radius:99px;" id="rfr-date-badge">Jul 14</span>
         </div>
         <div class="card-body">
           <div class="rfr-top">
@@ -670,6 +719,7 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
             <div style="font-size:10px;color:var(--tx3);" id="bu-sp-rem-sub">projected finish: – SP</div>
           </div>
         </div>
+
 
         <!-- Main chart card -->
         <div class="card" style="overflow:visible;">
@@ -2143,6 +2193,7 @@ function renderBothCharts() {
       order: 2
     }
   ], labels, totalSP, avgSPday, '#0f766e', 'rgba(15,118,110,0.08)', '#34d399', todayIdx);
+  renderDeliverySummary();
 }
 
 // Compatibility alias
@@ -2487,6 +2538,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initFilters();
   render();
   updateSprintChip();
+  renderDeliverySummary();
   setTimeout(() => {
     document.querySelectorAll('.progress-fill, .sscard-bar-fill, .cap-bar-fill').forEach(el => {
       const w = el.style.width;
@@ -2505,10 +2557,10 @@ function updateSprintChip() {
   if (c)   c.innerHTML = '<span class="live"></span>Sprint ' + sp + (sp===9 ? ' — Active' : ' — Closed ✓');
   const sl = document.getElementById('hero-sprint-label');
   if (sl) sl.textContent = 'Sprint ' + sp + ' · ' + (sp===9 ? 'Jun 22 – Jul 10, 2026' : sp===8 ? 'Jun 1 – Jun 19, 2026' : sp===7 ? 'May 11 – May 29, 2026' : sp===6 ? 'Apr 21 – May 12, 2026' : 'Mar 30 – Apr 17, 2026') + (sp===9 ? '' : ' ✓ Closed');
-  if (d)   d.textContent  = sp===9 ? 'Deploy Jun 30' : sp===8 ? 'Deploy Jun 23' : sp===7 ? 'Deploy May 29' : sp===6 ? 'Deployed May 12' : 'Deployed Apr 17';
+  if (d)   d.textContent  = sp===9 ? 'Deploy Jul 14' : sp===8 ? 'Deploy Jun 23' : sp===7 ? 'Deploy May 29' : sp===6 ? 'Deployed May 12' : 'Deployed Apr 17';
   if (dt)  dt.textContent = sp===9 ? 'Jun 22 – Jul 10, 2026' : sp===8 ? 'Jun 1 – Jun 19, 2026' : sp===7 ? 'May 11 – May 29, 2026' : sp===6 ? 'Apr 21 – May 12, 2026' : 'Mar 30 – Apr 17, 2026';
-  if (hd)  hd.textContent = sp===9 ? 'Jun 30, 2026' : sp===8 ? 'Jun 23, 2026' : sp===7 ? 'May 29, 2026' : sp===6 ? 'May 12, 2026' : 'Apr 17, 2026';
-  if (rfr) rfr.textContent = sp===9 ? 'Jun 30' : sp===8 ? 'Jun 23' : sp===7 ? 'May 29' : sp===6 ? 'May 12' : 'Apr 17';
+  if (hd)  hd.textContent = sp===9 ? 'Jul 14, 2026' : sp===8 ? 'Jun 23, 2026' : sp===7 ? 'May 29, 2026' : sp===6 ? 'May 12, 2026' : 'Apr 17, 2026';
+  if (rfr) rfr.textContent = sp===9 ? 'Jul 14' : sp===8 ? 'Jun 23' : sp===7 ? 'May 29' : sp===6 ? 'May 12' : 'Apr 17';
   const n1 = document.getElementById('vel-footer-note');
   const n2 = document.getElementById('vel-footer-note2');
   const lb = sp===9 ? 'Sprint 9 · Jun 22 – Jul 10, 2026' : sp===8 ? 'Sprint 8 · Jun 1 – Jun 19, 2026' : sp===7 ? 'Sprint 7 · May 11 – May 29, 2026' : sp===6 ? 'Sprint 6 · Apr 21 – May 12, 2026' : 'Sprint 5 · Mar 30 – Apr 17, 2026';
@@ -3327,6 +3379,99 @@ function generateComparison() {
   outEl.style.display = '';
   document.getElementById('btn-cmp-reset').style.display = '';
   document.getElementById('cmp-info').textContent = selectedSprints.map(sp=>SPRINT_META[sp]?.name||'Sprint '+sp).join(' vs ') + ' — completed items';
+}
+
+
+// ════════════════════════════════════════════════════════════════
+// DELIVERY SUMMARY
+// Work delivered during sprint. Cycle time = creation date to
+// close date, but if item was created BEFORE sprint start, use
+// sprint start date as effective start.
+// ════════════════════════════════════════════════════════════════
+
+function calcDeliveryMetrics(items, sprintStart) {
+  const startDt = new Date(sprintStart);
+  const times = [];
+  items.forEach(d => {
+    if (!d.closed || d.closed === '') return;
+    const closedDt = new Date(d.closed);
+    const createdDt = d.created ? new Date(d.created) : startDt;
+    // Use sprint start if item was created before sprint
+    const effectiveStart = createdDt < startDt ? startDt : createdDt;
+    const days = Math.round((closedDt - effectiveStart) / (1000*60*60*24));
+    if (days >= 0) times.push(days);
+  });
+  if (!times.length) return { avg: null, median: null, count: 0 };
+  const avg = (times.reduce((s,v)=>s+v,0)/times.length).toFixed(1);
+  const sorted = [...times].sort((a,b)=>a-b);
+  const mid = Math.floor(sorted.length/2);
+  const median = sorted.length%2===0 ? ((sorted[mid-1]+sorted[mid])/2).toFixed(1) : sorted[mid].toFixed(1);
+  return { avg, median, count: times.length };
+}
+
+function renderDeliverySummary() {
+  const sp = window._activeSprint || 9;
+  const sprintMeta = {
+    5:{start:'2026-03-30',end:'2026-04-17'},
+    6:{start:'2026-04-21',end:'2026-05-12'},
+    7:{start:'2026-05-11',end:'2026-05-29'},
+    8:{start:'2026-06-01',end:'2026-06-19'},
+    9:{start:'2026-06-22',end:'2026-07-10'},
+  };
+  const meta = sprintMeta[sp] || sprintMeta[9];
+  const sprintStart = meta.start;
+  const sprintEnd   = meta.end;
+
+  // Sprint avg: all closed items in this sprint
+  const sprintItems = RAW_DATA.filter(d => d.sprint === sp && d.state === 'Closed');
+  const sprintMetrics = calcDeliveryMetrics(sprintItems, sprintStart);
+
+  // Range: from date pickers (default = sprint range)
+  const fromInput = document.getElementById('ds-from');
+  const toInput   = document.getElementById('ds-to');
+  const fromVal = fromInput?.value || sprintStart;
+  const toVal   = toInput?.value   || sprintEnd;
+
+  // Set defaults if empty
+  if (fromInput && !fromInput.value) fromInput.value = sprintStart;
+  if (toInput   && !toInput.value)   toInput.value   = sprintEnd;
+
+  const fromDt = new Date(fromVal);
+  const toDt   = new Date(toVal + 'T23:59:59');
+
+  const rangeItems = RAW_DATA.filter(d => {
+    if (d.state !== 'Closed' || !d.closed) return false;
+    const cl = new Date(d.closed);
+    return cl >= fromDt && cl <= toDt;
+  });
+  const rangeMetrics = calcDeliveryMetrics(rangeItems, sprintStart);
+
+  const s = v => v !== null ? v : '–';
+  const isFullSprint = fromVal === sprintStart && toVal === sprintEnd;
+
+  document.getElementById('ds-sprint-avg').textContent    = s(sprintMetrics.avg);
+  document.getElementById('ds-sprint-median').textContent = sprintMetrics.median !== null ? `median ${sprintMetrics.median}d` : 'no data';
+  document.getElementById('ds-range-avg').textContent     = s(rangeMetrics.avg);
+  document.getElementById('ds-range-median').textContent  = rangeMetrics.median !== null
+    ? `median ${rangeMetrics.median}d · ${isFullSprint ? 'Full sprint' : rangeItems.length + ' items'}`
+    : 'no data';
+}
+
+function resetDeliverySummary() {
+  const sp = window._activeSprint || 9;
+  const sprintMeta = {
+    5:{start:'2026-03-30',end:'2026-04-17'},
+    6:{start:'2026-04-21',end:'2026-05-12'},
+    7:{start:'2026-05-11',end:'2026-05-29'},
+    8:{start:'2026-06-01',end:'2026-06-19'},
+    9:{start:'2026-06-22',end:'2026-07-10'},
+  };
+  const meta = sprintMeta[sp] || sprintMeta[9];
+  const fi = document.getElementById('ds-from');
+  const ti = document.getElementById('ds-to');
+  if (fi) fi.value = meta.start;
+  if (ti) ti.value = meta.end;
+  renderDeliverySummary();
 }
 
 </script>ice-width,initial-scale=1.0">
