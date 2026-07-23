@@ -501,12 +501,12 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
   <!-- Hero bar -->
   <div class="hero-bar">
 
-    <!-- Row 1: 3 KPI cards -->
-    <div class="hero-inner">
+    <!-- 4-card hero row matching reference layout -->
+    <div class="hero-inner" style="grid-template-columns:1.3fr 1.1fr 0.9fr 1.1fr;">
 
       <!-- Card 1: Sprint + Story Points -->
       <div class="hero-kpi">
-        <div class="hk-tag" id="hero-sprint-label">Sprint 9 · Jun 22 – Jul 10, 2026</div>
+        <div class="hk-tag" id="hero-sprint-label">Sprint 10 · Jul 13 – Jul 31, 2026</div>
         <div class="hk-val white" id="hero-sp">–</div>
         <div class="hk-sub">Story Points Completed</div>
         <div class="hk-sub-row">
@@ -528,15 +528,16 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
       <!-- Card 2: Sprint Completion -->
       <div class="hero-kpi hero-kpi-accent">
         <div class="hk-tag" style="color:var(--t300);opacity:.9;">Sprint Completion</div>
-
-        <!-- vs Planned rate (big) -->
-        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:2px;">
-          <div class="hk-val accent" id="hero-rate">–</div>
-          <div style="font-size:10px;font-weight:600;color:rgba(255,255,255,.45);">vs planned</div>
+        <div class="hk-val accent" id="hero-global-rate">–</div>
+        <div class="hk-sub" style="margin-bottom:8px;">
+          <span id="hero-global-done" style="font-weight:700;">–</span>
+          &nbsp;/&nbsp;
+          <span id="hero-global-total" style="color:rgba(255,255,255,.5);">–</span>
+          <span style="color:rgba(255,255,255,.3);"> in backlog</span>
         </div>
-        <div class="hk-sub" id="hero-rate-sub" style="margin-bottom:10px;">–</div>
-
-        <!-- Breakdown row -->
+        <div style="height:5px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;margin-bottom:10px;">
+          <div id="hero-global-bar" style="height:100%;background:linear-gradient(90deg,var(--t500),var(--t300));border-radius:99px;width:0%;transition:width .5s;"></div>
+        </div>
         <div class="hk-sub-row">
           <div class="hk-mini">
             <div class="hk-mini-val" id="hero-done-count" style="color:var(--t300);">–</div>
@@ -548,75 +549,53 @@ body{font-family:'Outfit',sans-serif;background:var(--color-bg);color:var(--tx1)
           </div>
           <div class="hk-mini">
             <div class="hk-mini-val" id="hero-rfr-count" style="color:rgba(255,255,255,.7);">–</div>
-            <div class="hk-mini-lbl">Ready for Release</div>
-          </div>
-          <div class="hk-mini">
-            <div class="hk-mini-val" id="hero-planned-count" style="color:rgba(255,255,255,.45);">–</div>
-            <div class="hk-mini-lbl">Planned</div>
+            <div class="hk-mini-lbl">Ready</div>
           </div>
         </div>
-
-        <!-- Global section — items added after planning -->
-        <div style="margin-top:10px;padding:8px 10px;background:rgba(0,0,0,.2);border-radius:8px;border:1px solid rgba(255,255,255,.08);">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-            <span style="font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.4);">Global — Sprint Backlog</span>
-            <span style="font-size:8px;color:rgba(255,255,255,.3);font-style:italic;">incl. post-planning items</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;">
-            <div style="flex:1;">
-              <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
-                <div style="flex:1;height:7px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;">
-                  <div id="hero-global-bar" style="height:100%;background:linear-gradient(90deg,var(--t500),var(--t300));border-radius:99px;width:0%;transition:width .4s;"></div>
-                </div>
-                <span id="hero-global-rate" style="font-size:13px;font-weight:800;color:var(--t300);min-width:36px;text-align:right;">–</span>
-              </div>
-              <div style="font-size:9px;color:rgba(255,255,255,.4);">
-                <span id="hero-global-done" style="color:rgba(255,255,255,.75);font-weight:700;">–</span>
-                done &nbsp;/&nbsp;
-                <span id="hero-global-total" style="color:rgba(255,255,255,.5);">–</span>
-                in backlog
-              </div>
-            </div>
-          </div>
-        </div>
+        <span id="hero-rate" style="display:none;">–</span>
+        <span id="hero-rate-sub" style="display:none;">–</span>
+        <span id="hero-planned-count" style="display:none;">–</span>
       </div>
 
       <!-- Card 3: Projects in Sprint -->
       <div class="hero-kpi">
         <div class="hk-tag">Projects in Sprint</div>
-        <div class="hk-val white" id="hero-proj">–</div>
-        <div class="hk-sub">Active Business Projects</div>
-      </div>
-
-    </div>
-
-    <!-- Row 2: Delivery Summary — full width strip -->
-    <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:24px;flex-wrap:wrap;" id="delivery-summary-card">
-      <span style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.15);border-radius:4px;padding:2px 8px;white-space:nowrap;">Delivery Summary</span>
-      <div style="display:flex;gap:28px;align-items:flex-end;">
-        <div>
-          <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.38);margin-bottom:3px;">Sprint Avg</div>
-          <div style="display:flex;align-items:baseline;gap:2px;">
-            <span style="font-size:30px;font-weight:800;color:var(--t300);font-family:'JetBrains Mono',monospace;line-height:1;letter-spacing:-1px;" id="ds-sprint-avg">–</span>
-            <span style="font-size:14px;font-weight:700;color:var(--t300);">d</span>
-          </div>
-          <div style="font-size:9px;color:rgba(255,255,255,.32);margin-top:2px;" id="ds-sprint-median">median –d</div>
-        </div>
-        <div>
-          <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.38);margin-bottom:3px;">Range Avg</div>
-          <div style="display:flex;align-items:baseline;gap:2px;">
-            <span style="font-size:30px;font-weight:800;color:rgba(255,255,255,.85);font-family:'JetBrains Mono',monospace;line-height:1;letter-spacing:-1px;" id="ds-range-avg">–</span>
-            <span style="font-size:14px;font-weight:700;color:rgba(255,255,255,.55);">d</span>
-          </div>
-          <div style="font-size:9px;color:rgba(255,255,255,.32);margin-top:2px;" id="ds-range-median">median –d · Full sprint</div>
+        <div class="hk-val white" style="font-size:42px;" id="hero-proj">–</div>
+        <div class="hk-sub" style="margin-bottom:8px;">Active Business Projects</div>
+        <div id="hero-proj-list" style="display:flex;flex-direction:column;gap:3px;overflow:hidden;max-height:110px;">
+          <span style="font-size:10px;color:rgba(255,255,255,.3);">Loading…</span>
         </div>
       </div>
-      <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
-        <input type="date" class="ds-date-input" id="ds-from" onchange="renderDeliverySummary()" style="font-size:10.5px;padding:5px 10px;width:136px;">
-        <span style="color:rgba(255,255,255,.35);font-size:14px;">→</span>
-        <input type="date" class="ds-date-input" id="ds-to" onchange="renderDeliverySummary()" style="font-size:10.5px;padding:5px 10px;width:136px;">
-        <button class="ds-reset" onclick="resetDeliverySummary()">Reset</button>
+
+      <!-- Card 4: Delivery Summary -->
+      <div class="hero-kpi" id="delivery-summary-card">
+        <div class="hk-tag">Delivery Summary</div>
+        <div style="display:flex;gap:20px;align-items:flex-end;margin-bottom:10px;">
+          <div>
+            <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.38);margin-bottom:3px;">Sprint Avg</div>
+            <div style="display:flex;align-items:baseline;gap:2px;">
+              <span style="font-size:30px;font-weight:800;color:var(--t300);font-family:'JetBrains Mono',monospace;line-height:1;letter-spacing:-1px;" id="ds-sprint-avg">–</span>
+              <span style="font-size:13px;font-weight:700;color:var(--t300);">d</span>
+            </div>
+            <div style="font-size:9px;color:rgba(255,255,255,.32);margin-top:2px;" id="ds-sprint-median">median –d</div>
+          </div>
+          <div>
+            <div style="font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.38);margin-bottom:3px;">Range Avg</div>
+            <div style="display:flex;align-items:baseline;gap:2px;">
+              <span style="font-size:30px;font-weight:800;color:rgba(255,255,255,.85);font-family:'JetBrains Mono',monospace;line-height:1;letter-spacing:-1px;" id="ds-range-avg">–</span>
+              <span style="font-size:13px;font-weight:700;color:rgba(255,255,255,.5);">d</span>
+            </div>
+            <div style="font-size:9px;color:rgba(255,255,255,.32);margin-top:2px;" id="ds-range-median">median –d · Full sprint</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+          <input type="date" class="ds-date-input" id="ds-from" onchange="renderDeliverySummary()" style="font-size:10px;padding:4px 7px;width:120px;">
+          <span style="color:rgba(255,255,255,.35);font-size:13px;">→</span>
+          <input type="date" class="ds-date-input" id="ds-to" onchange="renderDeliverySummary()" style="font-size:10px;padding:4px 7px;width:120px;">
+          <button class="ds-reset" onclick="resetDeliverySummary()" style="padding:4px 8px;font-size:9.5px;">Reset</button>
+        </div>
       </div>
+
     </div>
 
   </div>
@@ -1090,6 +1069,16 @@ function renderKPIs(data) {
   // rate-sub already set above
   const namedProjs = new Set(projData.filter(d => d.project && d.project !== 'Other').map(d => d.project));
   safeSet('hero-proj', namedProjs.size || 7);
+  // Populate project list in Card 3
+  const projListEl = document.getElementById('hero-proj-list');
+  if (projListEl) {
+    const projNames = [...namedProjs].sort();
+    projListEl.innerHTML = projNames.map(p =>
+      '<div style="font-size:10.5px;color:rgba(255,255,255,.7);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:5px;">' +
+      '<span style="width:4px;height:4px;border-radius:50%;background:var(--t300);flex-shrink:0;display:inline-block;"></span>' +
+      p + '</div>'
+    ).join('');
+  }
 
   // ── Global sprint completion (35/73 = 48%) ──────────────────
   const DONE_STATES_G = new Set(['Closed','UAT','Ready for Release']);
@@ -1504,7 +1493,7 @@ function renderProjectHealthCards(data) {
   // Only project items — strip INC and remediations
   const projData = data.filter(d => !isRealINC(d) && !isRemediation(d));
 
-  const ALL_PROJECTS = ['Heritage HIPS','EasyOrder','HLSG Support','Quotes','Quickbooks HLSG','SRS Support','AutoMapper','API Governance','Vulnerabilities','Agility Kafka','AdminUI','PriceFx','SRS Credit','Partners Credentials Rotation','LowCode Support'];
+  const ALL_PROJECTS = ['Heritage HIPS','EasyOrder','HLSG Support','Quotes','Quickbooks HLSG','SRS Support','AutoMapper','API Governance','Agility Kafka','AdminUI','PriceFx','SRS Credit','Partners Credentials Rotation','LowCode Support'];
 
   const PROJ_COLORS = {
     'Heritage HIPS':                 ['#0891b2','#cffafe'],
@@ -1717,7 +1706,7 @@ function setBizMode(mode) {
 
 function renderBizProjectChart(data) {
   window._bizData = data;
-  const ALL_PROJECTS = ['Heritage HIPS','EasyOrder','HLSG Support','Quotes','Quickbooks HLSG','SRS Support','AutoMapper','API Governance','Vulnerabilities','Agility Kafka','AdminUI','PriceFx','SRS Credit','Partners Credentials Rotation','LowCode Support'];
+  const ALL_PROJECTS = ['Heritage HIPS','EasyOrder','HLSG Support','Quotes','Quickbooks HLSG','SRS Support','AutoMapper','API Governance','Agility Kafka','AdminUI','PriceFx','SRS Credit','Partners Credentials Rotation','LowCode Support'];
   const STATUSES     = ['Closed','Ready for Release','UAT','In Development','In QA','Blocked','New','Other'];
 
   const STATUS_COLORS = {
