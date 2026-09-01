@@ -3801,6 +3801,33 @@ function resetDeliverySummary() {
   renderDeliverySummary();
 }
 
+
+// ── Portfolio Modal ───────────────────────────────────────────────────────
+
+
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePtdModal();});
+
+function openPtdModal(){document.getElementById('ptd-modal').classList.add('open');}
+function closePtdModal(){document.getElementById('ptd-modal').classList.remove('open');}
+function ptdFilter(){
+  const proj=document.getElementById('ptd-f-proj').value;
+  const owner=document.getElementById('ptd-f-owner').value;
+  const status=document.getElementById('ptd-f-status').value;
+  let visible=0;
+  document.querySelectorAll('.ptd-qs-row').forEach(r=>{
+    const show=(proj==='all'||r.dataset.name===proj)&&(owner==='all'||r.dataset.owner===owner)&&(status==='all'||r.dataset.status===status);
+    r.style.display=show?'flex':'none';
+    if(show)visible++;
+  });
+  document.querySelectorAll('.ptd-tl-row').forEach(r=>{
+    const show=(proj==='all'||r.dataset.name===proj)&&(owner==='all'||r.dataset.owner===owner)&&(status==='all'||r.dataset.status===status);
+    r.style.display=show?'':'none';
+  });
+  const badge=document.getElementById('ptd-filter-count');
+  if(badge)badge.textContent=(proj==='all'&&owner==='all'&&status==='all')?'All Projects':visible+' project'+(visible!==1?'s':'')+' shown';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePtdModal();});
 </script>ice-width,initial-scale=1.0">
 <title>The Integrators Team — Sprint 6</title>
 
@@ -4142,390 +4169,81 @@ function resetDeliverySummary() {
 
 <!-- PROJECT PORTFOLIO DASHBOARD -->
 <div class="ptd-modal" id="ptd-modal">
-  <!-- Sidebar -->
   <div class="ptd-sidebar">
     <div class="ptd-sb-logo">
       <div class="ptd-sb-logo-icon"><span style="color:#fff;font-size:16px;font-weight:800;">IT</span></div>
       <div class="ptd-sb-logo-txt">Integrators<br>Team</div>
     </div>
-    <div class="ptd-sb-item active">
-      <svg class="ptd-sb-icon" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
-      Overview
-    </div>
-    <div class="ptd-sb-item">
-      <svg class="ptd-sb-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3h12v1H2zm0 4h12v1H2zm0 4h8v1H2z"/></svg>
-      Projects
-    </div>
-    <div class="ptd-sb-item">
-      <svg class="ptd-sb-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3h14v1H1zm2 3h10v1H3zm0 3h7v1H3z"/></svg>
-      Timeline
-    </div>
-    <div class="ptd-sb-item">
-      <svg class="ptd-sb-icon" viewBox="0 0 16 16" fill="currentColor"><circle cx="6" cy="6" r="4"/><path d="M10 10l4 4"/></svg>
-      Resources
-    </div>
-    <div class="ptd-sb-item">
-      <svg class="ptd-sb-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 5h5l-4 3 1.5 5L8 11l-4.5 3L5 9 1 6h5z"/></svg>
-      Risks &amp; Issues
-    </div>
-    <div class="ptd-sb-footer">
-      Data refreshed<br>Aug 31, 2026 · Sprint 12
-    </div>
+    <div class="ptd-sb-item active"><svg class="ptd-sb-icon" viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>Overview</div>
+    <div class="ptd-sb-item"><svg class="ptd-sb-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3h12v1H2zm0 4h12v1H2zm0 4h8v1H2z"/></svg>Projects</div>
+    <div class="ptd-sb-item"><svg class="ptd-sb-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3h14v1H1zm2 3h10v1H3zm0 3h7v1H3z"/></svg>Timeline</div>
+    <div class="ptd-sb-item"><svg class="ptd-sb-icon" viewBox="0 0 16 16" fill="currentColor"><circle cx="6" cy="6" r="4"/><path d="M10 10l4 4"/></svg>Resources</div>
+    <div class="ptd-sb-item"><svg class="ptd-sb-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l2 5h5l-4 3 1.5 5L8 11l-4.5 3L5 9 1 6h5z"/></svg>Risks &amp; Issues</div>
+    <div class="ptd-sb-footer">Data refreshed<br>Sep 1, 2026 · Sprint 12</div>
   </div>
-
-  <!-- Main content -->
   <div class="ptd-main">
-    <!-- Topbar -->
     <div class="ptd-topbar">
       <div>
         <div class="ptd-topbar-title">Projects Portfolio Dashboard</div>
-        <div class="ptd-topbar-sub">Real-time overview of all strategic initiatives</div>
+        <div class="ptd-topbar-sub">Real-time overview of all strategic initiatives · 29 Projects</div>
       </div>
       <div class="ptd-topbar-right">
-        <select class="ptd-sel" id="ptd-f-proj" onchange="ptdFilter()"><option value="all">All Projects</option><option value="Curri Delivery Live Tracking">Curri Delivery Live Tracking</option><option value="Pro Referral">Pro Referral</option><option value="ProCard">ProCard</option><option value="Check Order Status (ProCard)">Check Order Status (ProCard)</option><option value="HLSG - Quotes">HLSG - Quotes</option><option value="EIL">EIL</option><option value="Agility Kafka">Agility Kafka</option><option value="ItemActivate / ItemUpdate">ItemActivate / ItemUpdate</option><option value="HLSG - QB">HLSG - QB</option><option value="RH - Quotes">RH - Quotes</option><option value="RH - CC">RH - CC</option><option value="CoSailor">CoSailor</option><option value="Aquafinity">Aquafinity</option><option value="SO/PO/CM Update">SO/PO/CM Update</option><option value="Dispatch Header Update">Dispatch Header Update</option><option value="Agility ShipmentsList Migration">Agility ShipmentsList Migration</option><option value="Agility Remote Connect Traffic">Agility Remote Connect Traffic</option><option value="Vulnerabilities">Vulnerabilities</option><option value="FredericBlock">FredericBlock</option><option value="Azure Service Bus SDK Retire">Azure Service Bus SDK Retire</option><option value="Support (INCs)">Support (INCs)</option><option value="PMI - New Requirements">PMI - New Requirements</option><option value="Pricefx">Pricefx</option><option value="Azure Firewall Cleanup">Azure Firewall Cleanup</option><option value="H+ Prod Issues">H+ Prod Issues</option><option value="Marketing Items">Marketing Items</option></select>
-        <select class="ptd-sel" id="ptd-f-owner" onchange="ptdFilter()"><option value="all">All Owners</option><option value="Chandra">Chandra</option><option value="Eva">Eva</option><option value="Jagadeesh">Jagadeesh</option><option value="Jaime">Jaime</option><option value="Jaime/Chandra">Jaime/Chandra</option><option value="Juan">Juan</option><option value="Mohan/JJ">Mohan/JJ</option><option value="Navya">Navya</option><option value="Sanjay">Sanjay</option><option value="Santosh">Santosh</option><option value="Santosh/Juan">Santosh/Juan</option><option value="Sri">Sri</option><option value="Umesh">Umesh</option></select>
-        <select class="ptd-sel" id="ptd-f-status" onchange="ptdFilter()"><option value="all">All Status</option><option value="Blocked">Blocked</option><option value="Development">Development</option><option value="Discovery">Discovery</option><option value="Gathering Req.">Gathering Req.</option><option value="QA">QA</option><option value="Ready for Release">Ready for Release</option><option value="Resolved">Resolved</option><option value="TBD">TBD</option><option value="UAT">UAT</option></select>
-        <span id="ptd-filter-count" style="font-size:10px;color:#22d3ee;font-weight:600;background:rgba(34,211,238,.1);border-radius:6px;padding:3px 10px;">All Projects</span><span class="ptd-updated">Last Updated: Aug 31, 2026 9:00 AM</span>
+        <select class="ptd-sel" id="ptd-f-proj" onchange="ptdFilter()"><option value="all">All Projects</option><option value="Curri delivery phase 1">Curri delivery phase 1</option><option value="Pro Referral">Pro Referral</option><option value="ProCard">ProCard</option><option value="Check Order status In Agility (ProCard)">Check Order status In Agility (ProCard)</option><option value="HLSG - Quotes">HLSG - Quotes</option><option value="EIL">EIL</option><option value="Agility Kafka">Agility Kafka</option><option value="ItemActivate/ItemUpdate">ItemActivate/ItemUpdate</option><option value="HLSG - QB">HLSG - QB</option><option value="RH - Quotes">RH - Quotes</option><option value="RH - CC">RH - CC</option><option value="CoSailor">CoSailor</option><option value="Aquafinity">Aquafinity</option><option value="SO/PO/CM Update">SO/PO/CM Update</option><option value="Dispatch Header Update (Driver)">Dispatch Header Update (Driver)</option><option value="Agility ShipmentsList & InvoicesList">Agility ShipmentsList & InvoicesList</option><option value="Agility Remote Connect Traffic Move">Agility Remote Connect Traffic Move</option><option value="Vulnerabilities">Vulnerabilities</option><option value="FredericBlock">FredericBlock</option><option value="Azure Service Bus SDK libraries retiring">Azure Service Bus SDK libraries retiring</option><option value="Support (INCs)">Support (INCs)</option><option value="Curri live tracking">Curri live tracking</option><option value="PMI - New Requirements">PMI - New Requirements</option><option value="Pricefx">Pricefx</option><option value="Azure Firewall Cleanup">Azure Firewall Cleanup</option><option value="H+ Prod issues">H+ Prod issues</option><option value="OutSystems">OutSystems</option><option value="Marketing Items">Marketing Items</option><option value="GitHub Repository Move">GitHub Repository Move</option></select>
+        <select class="ptd-sel" id="ptd-f-owner" onchange="ptdFilter()"><option value="all">All Owners</option><option value="/Eva/Saimon">/Eva/Saimon</option><option value="Chandra/Saimon">Chandra/Saimon</option><option value="Giaco">Giaco</option><option value="Jagadeesh/Giaco">Jagadeesh/Giaco</option><option value="Jaime/Chandra/Saimon">Jaime/Chandra/Saimon</option><option value="Jaime/Giaco">Jaime/Giaco</option><option value="Jaime/Saimon">Jaime/Saimon</option><option value="Juan Raygoza">Juan Raygoza</option><option value="Juan/Saimon">Juan/Saimon</option><option value="Mohan/JJ/Saimon">Mohan/JJ/Saimon</option><option value="Navya/Saimon">Navya/Saimon</option><option value="Sanjay/Giaco">Sanjay/Giaco</option><option value="Sanjay/Saimon">Sanjay/Saimon</option><option value="Santhosh/Juan/Giaco">Santhosh/Juan/Giaco</option><option value="Santosh/Giaco">Santosh/Giaco</option><option value="Santosh/Saimon">Santosh/Saimon</option><option value="Sri">Sri</option><option value="Umesh/Giaco">Umesh/Giaco</option><option value="Umesh/Saimon">Umesh/Saimon</option><option value="Umesh/Sri/Saimon">Umesh/Sri/Saimon</option><option value="Viviana/Jaime">Viviana/Jaime</option></select>
+        <select class="ptd-sel" id="ptd-f-status" onchange="ptdFilter()"><option value="all">All Status</option><option value="Blocked">Blocked</option><option value="Development">Development</option><option value="Discovery">Discovery</option><option value="Gathering Req.">Gathering Req.</option><option value="Planning">Planning</option><option value="QA">QA</option><option value="Ready for Release">Ready for Release</option><option value="Remediation">Remediation</option><option value="Resolved">Resolved</option><option value="TBD">TBD</option><option value="UAT">UAT</option><option value="VPN">VPN</option></select>
+        <span id="ptd-filter-count" style="font-size:10px;color:#22d3ee;font-weight:600;background:rgba(34,211,238,.1);border-radius:6px;padding:3px 10px;">All Projects</span>
+        <span class="ptd-updated">Updated: Sep 1, 2026</span>
         <div class="ptd-close" onclick="closePtdModal()">&#10005;</div>
       </div>
     </div>
-
-    <!-- Content -->
     <div class="ptd-content">
-
-      <!-- KPIs -->
       <div class="ptd-kpis">
-<div class="ptd-kpi">
-  <div class="ptd-kpi-icon" style="background:#e0f7fa;"><span style="font-size:20px;color:#0891b2;">&#9632;</span></div>
-  <div class="ptd-kpi-body"><div class="ptd-kpi-label">Total Projects</div><div class="ptd-kpi-val">26</div><div class="ptd-kpi-sub"><span>4 Not Started</span></div></div>
-</div>
-<div class="ptd-kpi">
-  <div class="ptd-kpi-icon" style="background:#e0f7fa;"><span style="font-size:20px;color:#22d3ee;">&#9650;</span></div>
-  <div class="ptd-kpi-body"><div class="ptd-kpi-label">In Progress</div><div class="ptd-kpi-val">22</div><div class="ptd-kpi-sub">84.6% of total</div></div>
-</div>
-<div class="ptd-kpi">
-  <div class="ptd-kpi-icon" style="background:#d1fae5;"><span style="font-size:20px;color:#0d9488;">&#10003;</span></div>
-  <div class="ptd-kpi-body"><div class="ptd-kpi-label">On Track</div><div class="ptd-kpi-val">19</div><div class="ptd-kpi-sub">73.1% of total</div></div>
-</div>
-<div class="ptd-kpi">
-  <div class="ptd-kpi-icon" style="background:#bae6fd;"><span style="font-size:20px;color:#0369a1;">&#9888;</span></div>
-  <div class="ptd-kpi-body"><div class="ptd-kpi-label">Needs Attention</div><div class="ptd-kpi-val">2</div><div class="ptd-kpi-sub">7.7% of total</div></div>
-</div>
-<div class="ptd-kpi">
-  <div class="ptd-kpi-icon" style="background:#fee2e2;"><span style="font-size:20px;color:#dc2626;">!</span></div>
-  <div class="ptd-kpi-body"><div class="ptd-kpi-label">Overdue</div><div class="ptd-kpi-val">0</div><div class="ptd-kpi-sub">0% of total</div></div>
-</div>
-<div class="ptd-kpi">
-  <div class="ptd-kpi-icon" style="background:#e0f2fe;"><span style="font-size:20px;color:#0891b2;">&#128197;</span></div>
-  <div class="ptd-kpi-body"><div class="ptd-kpi-label">Due This Quarter</div><div class="ptd-kpi-val">9</div><div class="ptd-kpi-sub">34.6% of total</div></div>
-</div></div>
-
-      <!-- Charts row -->
+<div class="ptd-kpi"><div class="ptd-kpi-icon" style="background:#e0f7fa;"><span style="font-size:20px;color:#0891b2;">&#9632;</span></div><div class="ptd-kpi-body"><div class="ptd-kpi-label">Total Projects</div><div class="ptd-kpi-val">29</div><div class="ptd-kpi-sub">7 TBD / Planning</div></div></div>
+<div class="ptd-kpi"><div class="ptd-kpi-icon" style="background:#e0f7fa;"><span style="font-size:20px;color:#22d3ee;">&#9650;</span></div><div class="ptd-kpi-body"><div class="ptd-kpi-label">In Progress</div><div class="ptd-kpi-val">25</div><div class="ptd-kpi-sub">86.2% of total</div></div></div>
+<div class="ptd-kpi"><div class="ptd-kpi-icon" style="background:#d1fae5;"><span style="font-size:20px;color:#0d9488;">&#10003;</span></div><div class="ptd-kpi-body"><div class="ptd-kpi-label">On Track</div><div class="ptd-kpi-val">20</div><div class="ptd-kpi-sub">69.0% of total</div></div></div>
+<div class="ptd-kpi"><div class="ptd-kpi-icon" style="background:#bae6fd;"><span style="font-size:20px;color:#0369a1;">&#9888;</span></div><div class="ptd-kpi-body"><div class="ptd-kpi-label">Needs Attention</div><div class="ptd-kpi-val">2</div><div class="ptd-kpi-sub">6.9% of total</div></div></div>
+<div class="ptd-kpi"><div class="ptd-kpi-icon" style="background:#fee2e2;"><span style="font-size:20px;color:#dc2626;">!</span></div><div class="ptd-kpi-body"><div class="ptd-kpi-label">Overdue</div><div class="ptd-kpi-val">0</div><div class="ptd-kpi-sub">0% of total</div></div></div>
+<div class="ptd-kpi"><div class="ptd-kpi-icon" style="background:#e0f2fe;"><span style="font-size:20px;color:#0891b2;">&#128197;</span></div><div class="ptd-kpi-body"><div class="ptd-kpi-label">Due This Quarter</div><div class="ptd-kpi-val">9</div><div class="ptd-kpi-sub">31.0% of total</div></div></div></div>
       <div class="ptd-charts-row">
-        <div class="ptd-card">
-          <div class="ptd-card-title">Projects by Status</div>
-          <div class="ptd-donut-wrap">
-            <svg viewBox="0 0 150 150" width="130" height="130"><path d="M 75.00 29.00 A 46.0 46.0 0 1 1 37.14 48.87" fill="none" stroke="#22d3ee" stroke-width="18" stroke-linecap="round"/><path d="M 37.60 48.21 A 46.0 46.0 0 0 1 75.80 29.01" fill="none" stroke="#0f172a" stroke-width="18" stroke-linecap="round"/><path d="M 76.61 29.03 A 46.0 46.0 0 0 1 87.56 30.75" fill="none" stroke="#2dd4bf" stroke-width="18" stroke-linecap="round"/><text x="75" y="71" text-anchor="middle" font-size="22" font-weight="800" fill="#0f172a">26</text><text x="75" y="89" text-anchor="middle" font-size="10" fill="#64748b">Total</text></svg>
-            <div class="ptd-donut-legend"><div class="ptd-legend-item">
-  <div style="display:flex;align-items:center;"><div class="ptd-legend-dot" style="background:#22d3ee;"></div>In Progress</div>
-  <div class="ptd-legend-val">22 <span style="font-size:9px;color:#94a3b8;">(84.6%)</span></div>
-</div><div class="ptd-legend-item">
-  <div style="display:flex;align-items:center;"><div class="ptd-legend-dot" style="background:#0f172a;"></div>Not Started</div>
-  <div class="ptd-legend-val">4 <span style="font-size:9px;color:#94a3b8;">(15.4%)</span></div>
-</div><div class="ptd-legend-item">
-  <div style="display:flex;align-items:center;"><div class="ptd-legend-dot" style="background:#2dd4bf;"></div>Completed</div>
-  <div class="ptd-legend-val">1 <span style="font-size:9px;color:#94a3b8;">(3.8%)</span></div>
-</div></div>
-          </div>
-        </div>
-        <div class="ptd-card">
-          <div class="ptd-card-title">Projects by RAG Status</div>
-          <div class="ptd-donut-wrap">
-            <svg viewBox="0 0 150 150" width="130" height="130"><path d="M 75.00 29.00 A 46.0 46.0 0 1 1 29.34 80.54" fill="none" stroke="#22d3ee" stroke-width="18" stroke-linecap="round"/><path d="M 29.25 79.75 A 46.0 46.0 0 0 1 32.28 57.94" fill="none" stroke="#0891b2" stroke-width="18" stroke-linecap="round"/><path d="M 32.58 57.20 A 46.0 46.0 0 0 1 65.56 29.98" fill="none" stroke="#94a3b8" stroke-width="18" stroke-linecap="round"/><text x="75" y="71" text-anchor="middle" font-size="22" font-weight="800" fill="#0f172a">26</text><text x="75" y="89" text-anchor="middle" font-size="10" fill="#64748b">Total</text></svg>
-            <div class="ptd-donut-legend"><div class="ptd-legend-item">
-  <div style="display:flex;align-items:center;"><div class="ptd-legend-dot" style="background:#22d3ee;"></div>On Track</div>
-  <div class="ptd-legend-val">19 <span style="font-size:9px;color:#94a3b8;">73.1%</span></div>
-</div><div class="ptd-legend-item">
-  <div style="display:flex;align-items:center;"><div class="ptd-legend-dot" style="background:#0891b2;"></div>Needs Attention</div>
-  <div class="ptd-legend-val">2 <span style="font-size:9px;color:#94a3b8;">7.7%</span></div>
-</div><div class="ptd-legend-item">
-  <div style="display:flex;align-items:center;"><div class="ptd-legend-dot" style="background:#94a3b8;"></div>Not Started</div>
-  <div class="ptd-legend-val">4 <span style="font-size:9px;color:#94a3b8;">15.4%</span></div>
-</div></div>
-          </div>
-        </div>
-        <div class="ptd-card">
-          <div class="ptd-card-title">Projects by Owner (BA)</div>
-          <div class="ptd-owner-row">
-  <div class="ptd-owner-name">Saimon</div>
-  <div class="ptd-owner-bar-track">
-    <div class="ptd-owner-bar-fill" style="width:100%;background:linear-gradient(90deg,#0891b2,#22d3ee);">14</div>
-  </div>
-</div><div class="ptd-owner-row">
-  <div class="ptd-owner-name">Giaco</div>
-  <div class="ptd-owner-bar-track">
-    <div class="ptd-owner-bar-fill" style="width:57%;background:linear-gradient(90deg,#0891b2,#22d3ee);">8</div>
-  </div>
-</div><div class="ptd-owner-row">
-  <div class="ptd-owner-name">Unassigned</div>
-  <div class="ptd-owner-bar-track">
-    <div class="ptd-owner-bar-fill" style="width:21%;background:linear-gradient(90deg,#0891b2,#22d3ee);">3</div>
-  </div>
-</div><div class="ptd-owner-row">
-  <div class="ptd-owner-name">Viviana</div>
-  <div class="ptd-owner-bar-track">
-    <div class="ptd-owner-bar-fill" style="width:7%;background:linear-gradient(90deg,#0891b2,#22d3ee);">1</div>
-  </div>
-</div>
-        </div>
+        <div class="ptd-card"><div class="ptd-card-title">Projects by Status</div><div class="ptd-donut-wrap"><svg viewBox="0 0 140 140" width="120" height="120"><path d="M 70.0 26.0 A 44.0 44.0 0 1 1 36.5 41.5" fill="none" stroke="#22d3ee" stroke-width="16" stroke-linecap="round"/><path d="M 37.0 40.9 A 44.0 44.0 0 0 1 97.2 35.4" fill="none" stroke="#0f172a" stroke-width="16" stroke-linecap="round"/><path d="M 97.8 35.9 A 44.0 44.0 0 0 1 104.5 42.7" fill="none" stroke="#2dd4bf" stroke-width="16" stroke-linecap="round"/><text x="70" y="67" text-anchor="middle" font-size="20" font-weight="800" fill="#0f172a">29</text><text x="70" y="83" text-anchor="middle" font-size="9" fill="#64748b">Total</text></svg><div class="ptd-donut-legend"><div class="ptd-legend-item"><div style="display:flex;align-items:center;"><div class="ptd-legend-dot" style="background:#22d3ee;"></div>In Progress</div><div class="ptd-legend-val">25 <span style="font-size:9px;color:#94a3b8;">(86.2%)</span></div></div><div class="ptd-legend-item"><div style="display:flex;align-items:center;"><div class="ptd-legend-dot" style="background:#0f172a;"></div>TBD / Planning</div><div class="ptd-legend-val">7 <span style="font-size:9px;color:#94a3b8;">(24.1%)</span></div></div><div class="ptd-legend-item"><div style="display:flex;align-items:center;"><div class="ptd-legend-dot" style="background:#2dd4bf;"></div>Completed</div><div class="ptd-legend-val">1 <span style="font-size:9px;color:#94a3b8;">(3.4%)</span></div></div></div></div></div>
+        <div class="ptd-card"><div class="ptd-card-title">Projects by RAG Status</div><div class="ptd-donut-wrap"><svg viewBox="0 0 140 140" width="120" height="120"><path d="M 70.0 26.0 A 44.0 44.0 0 1 1 29.1 86.3" fill="none" stroke="#22d3ee" stroke-width="16" stroke-linecap="round"/><path d="M 28.8 85.6 A 44.0 44.0 0 0 1 26.1 66.9" fill="none" stroke="#0891b2" stroke-width="16" stroke-linecap="round"/><path d="M 26.2 66.1 A 44.0 44.0 0 0 1 71.5 26.0" fill="none" stroke="#94a3b8" stroke-width="16" stroke-linecap="round"/><text x="70" y="67" text-anchor="middle" font-size="20" font-weight="800" fill="#0f172a">29</text><text x="70" y="83" text-anchor="middle" font-size="9" fill="#64748b">Total</text></svg><div class="ptd-donut-legend"><div class="ptd-legend-item"><div style="display:flex;align-items:center;"><div class="ptd-legend-dot" style="background:#22d3ee;"></div>On Track</div><div class="ptd-legend-val">20 <span style="font-size:9px;color:#94a3b8;">69.0%</span></div></div><div class="ptd-legend-item"><div style="display:flex;align-items:center;"><div class="ptd-legend-dot" style="background:#0891b2;"></div>Needs Attention</div><div class="ptd-legend-val">2 <span style="font-size:9px;color:#94a3b8;">6.9%</span></div></div><div class="ptd-legend-item"><div style="display:flex;align-items:center;"><div class="ptd-legend-dot" style="background:#94a3b8;"></div>TBD</div><div class="ptd-legend-val">7 <span style="font-size:9px;color:#94a3b8;">24.1%</span></div></div></div></div></div>
+        <div class="ptd-card"><div class="ptd-card-title">Projects by Owner (BA)</div><div class="ptd-owner-row"><div class="ptd-owner-name">Saimon</div><div class="ptd-owner-bar-track"><div class="ptd-owner-bar-fill" style="width:100%;background:linear-gradient(90deg,#0891b2,#22d3ee);">14</div></div></div><div class="ptd-owner-row"><div class="ptd-owner-name">Giaco</div><div class="ptd-owner-bar-track"><div class="ptd-owner-bar-fill" style="width:64%;background:linear-gradient(90deg,#0891b2,#22d3ee);">9</div></div></div><div class="ptd-owner-row"><div class="ptd-owner-name">Unassigned</div><div class="ptd-owner-bar-track"><div class="ptd-owner-bar-fill" style="width:36%;background:linear-gradient(90deg,#0891b2,#22d3ee);">5</div></div></div><div class="ptd-owner-row"><div class="ptd-owner-name">Viviana</div><div class="ptd-owner-bar-track"><div class="ptd-owner-bar-fill" style="width:7%;background:linear-gradient(90deg,#0891b2,#22d3ee);">1</div></div></div></div>
       </div>
-
-      <!-- Timeline -->
       <div class="ptd-timeline-card">
         <div class="ptd-card-title">Projects Timeline — 2026</div>
         <div class="ptd-timeline-grid">
           <div class="ptd-tl-months" style="padding-left:310px;"><div class="ptd-tl-month">May</div><div class="ptd-tl-month">Jun</div><div class="ptd-tl-month">Jul</div><div class="ptd-tl-month">Aug</div><div class="ptd-tl-month">Sep</div><div class="ptd-tl-month">Oct</div><div class="ptd-tl-month">Nov</div></div>
           <table class="ptd-tl-table">
-            <thead><tr>
-              <th style="width:200px;">Project Name</th>
-              <th style="width:90px;">Owner</th>
-              <th style="width:130px;">Status</th>
-              <th>May &nbsp;&nbsp;&nbsp; Jun &nbsp;&nbsp;&nbsp; Jul &nbsp;&nbsp;&nbsp; Aug &nbsp;&nbsp;&nbsp; Sep &nbsp;&nbsp;&nbsp; Oct &nbsp;&nbsp;&nbsp; Nov</th>
-            </tr></thead>
-            <tbody><tr class="ptd-tl-row" data-name="Curri Delivery Live Tracking" data-owner="Sanjay" data-status="Ready for Release">
-  <td><strong>Curri Delivery Live Tracking</strong></td>
-  <td>Sanjay</td>
-  <td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Ready for Release</div></td>
-  <td class="ptd-tl-bar-cell">
-    <div class="ptd-tl-bar-track">
-      <div class="ptd-tl-bar-fill" style="left:0%;width:14%;background:#22d3ee;opacity:.85;"></div>
-      <div class="ptd-tl-diamond" style="left:16%;"></div>
-    </div>
-  </td>
-</tr><tr class="ptd-tl-row" data-name="Pro Referral" data-owner="Santosh/Juan" data-status="UAT">
-  <td><strong>Pro Referral</strong></td>
-  <td>Santosh/Juan</td>
-  <td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>UAT</div></td>
-  <td class="ptd-tl-bar-cell">
-    <div class="ptd-tl-bar-track">
-      <div class="ptd-tl-bar-fill" style="left:14%;width:14%;background:#22d3ee;opacity:.85;"></div>
-      
-    </div>
-  </td>
-</tr><tr class="ptd-tl-row" data-name="ProCard" data-owner="Santosh" data-status="Development">
-  <td><strong>ProCard</strong></td>
-  <td>Santosh</td>
-  <td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Development</div></td>
-  <td class="ptd-tl-bar-cell">
-    <div class="ptd-tl-bar-track">
-      <div class="ptd-tl-bar-fill" style="left:29%;width:43%;background:#22d3ee;opacity:.85;"></div>
-      
-    </div>
-  </td>
-</tr><tr class="ptd-tl-row" data-name="Check Order Status (ProCard)" data-owner="Jaime" data-status="Discovery">
-  <td><strong>Check Order Status (ProCard)</strong></td>
-  <td>Jaime</td>
-  <td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Discovery</div></td>
-  <td class="ptd-tl-bar-cell">
-    <div class="ptd-tl-bar-track">
-      <div class="ptd-tl-bar-fill" style="left:43%;width:14%;background:#22d3ee;opacity:.85;"></div>
-      <div class="ptd-tl-diamond" style="left:59%;"></div>
-    </div>
-  </td>
-</tr><tr class="ptd-tl-row" data-name="HLSG - Quotes" data-owner="Sanjay" data-status="UAT">
-  <td><strong>HLSG - Quotes</strong></td>
-  <td>Sanjay</td>
-  <td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>UAT</div></td>
-  <td class="ptd-tl-bar-cell">
-    <div class="ptd-tl-bar-track">
-      <div class="ptd-tl-bar-fill" style="left:14%;width:14%;background:#22d3ee;opacity:.85;"></div>
-      <div class="ptd-tl-diamond" style="left:30%;"></div>
-    </div>
-  </td>
-</tr><tr class="ptd-tl-row" data-name="EIL" data-owner="Sri" data-status="Development">
-  <td><strong>EIL</strong></td>
-  <td>Sri</td>
-  <td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Development</div></td>
-  <td class="ptd-tl-bar-cell">
-    <div class="ptd-tl-bar-track">
-      <div class="ptd-tl-bar-fill" style="left:43%;width:43%;background:#22d3ee;opacity:.85;"></div>
-      
-    </div>
-  </td>
-</tr><tr class="ptd-tl-row" data-name="Agility Kafka" data-owner="Navya" data-status="Development">
-  <td><strong>Agility Kafka</strong></td>
-  <td>Navya</td>
-  <td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Development</div></td>
-  <td class="ptd-tl-bar-cell">
-    <div class="ptd-tl-bar-track">
-      <div class="ptd-tl-bar-fill" style="left:29%;width:43%;background:#22d3ee;opacity:.85;"></div>
-      
-    </div>
-  </td>
-</tr><tr class="ptd-tl-row" data-name="ItemActivate / ItemUpdate" data-owner="Jaime" data-status="Development">
-  <td><strong>ItemActivate / ItemUpdate</strong></td>
-  <td>Jaime</td>
-  <td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Development</div></td>
-  <td class="ptd-tl-bar-cell">
-    <div class="ptd-tl-bar-track">
-      <div class="ptd-tl-bar-fill" style="left:43%;width:43%;background:#22d3ee;opacity:.85;"></div>
-      <div class="ptd-tl-diamond" style="left:88%;"></div>
-    </div>
-  </td>
-</tr><tr class="ptd-tl-row" data-name="HLSG - QB" data-owner="Jagadeesh" data-status="Development">
-  <td><strong>HLSG - QB</strong></td>
-  <td>Jagadeesh</td>
-  <td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#0ea5e9;"></div>Development</div></td>
-  <td class="ptd-tl-bar-cell">
-    <div class="ptd-tl-bar-track">
-      <div class="ptd-tl-bar-fill" style="left:14%;width:43%;background:#0ea5e9;opacity:.85;"></div>
-      
-    </div>
-  </td>
-</tr><tr class="ptd-tl-row" data-name="RH - Quotes" data-owner="Umesh" data-status="Blocked">
-  <td><strong>RH - Quotes</strong></td>
-  <td>Umesh</td>
-  <td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Blocked</div></td>
-  <td class="ptd-tl-bar-cell">
-    <div class="ptd-tl-bar-track">
-      <div class="ptd-tl-bar-fill" style="left:29%;width:29%;background:#22d3ee;opacity:.85;"></div>
-      
-    </div>
-  </td>
-</tr></tbody>
+            <thead><tr><th style="width:200px;">Project Name</th><th style="width:90px;">Owner</th><th style="width:130px;">Status</th><th>May &nbsp;&nbsp;&nbsp; Jun &nbsp;&nbsp;&nbsp; Jul &nbsp;&nbsp;&nbsp; Aug &nbsp;&nbsp;&nbsp; Sep &nbsp;&nbsp;&nbsp; Oct &nbsp;&nbsp;&nbsp; Nov</th></tr></thead>
+            <tbody><tr class="ptd-tl-row" data-name="Curri delivery phase 1" data-owner="Sanjay/Giaco" data-status="Ready for Release"><td><strong>Curri delivery phase 1</strong></td><td style="font-size:10px;">Sanjay/Giaco</td><td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div><span style="font-size:9px;">Ready for Release</span></div></td><td class="ptd-tl-bar-cell"><div class="ptd-tl-bar-track"><div class="ptd-tl-bar-fill" style="left:0%;width:14%;background:linear-gradient(90deg,#0891b2,#22d3ee);opacity:.85;"></div><div class="ptd-tl-diamond" style="left:16%;"></div></div></td></tr><tr class="ptd-tl-row" data-name="Pro Referral" data-owner="Santhosh/Juan/Giaco" data-status="UAT"><td><strong>Pro Referral</strong></td><td style="font-size:10px;">Santhosh/Juan/Giac</td><td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div><span style="font-size:9px;">UAT</span></div></td><td class="ptd-tl-bar-cell"><div class="ptd-tl-bar-track"><div class="ptd-tl-bar-fill" style="left:14%;width:21%;background:linear-gradient(90deg,#0891b2,#22d3ee);opacity:.85;"></div></div></td></tr><tr class="ptd-tl-row" data-name="ProCard" data-owner="Santosh/Giaco" data-status="Development"><td><strong>ProCard</strong></td><td style="font-size:10px;">Santosh/Giaco</td><td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div><span style="font-size:9px;">Development</span></div></td><td class="ptd-tl-bar-cell"><div class="ptd-tl-bar-track"><div class="ptd-tl-bar-fill" style="left:29%;width:36%;background:linear-gradient(90deg,#0891b2,#22d3ee);opacity:.85;"></div></div></td></tr><tr class="ptd-tl-row" data-name="Check Order status In Agility (ProCard)" data-owner="Jaime/Giaco" data-status="Discovery"><td><strong>Check Order status In Agility </strong></td><td style="font-size:10px;">Jaime/Giaco</td><td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div><span style="font-size:9px;">Discovery</span></div></td><td class="ptd-tl-bar-cell"><div class="ptd-tl-bar-track"><div class="ptd-tl-bar-fill" style="left:29%;width:21%;background:linear-gradient(90deg,#0891b2,#22d3ee);opacity:.85;"></div><div class="ptd-tl-diamond" style="left:52%;"></div></div></td></tr><tr class="ptd-tl-row" data-name="HLSG - Quotes" data-owner="Sanjay/Giaco" data-status="UAT"><td><strong>HLSG - Quotes</strong></td><td style="font-size:10px;">Sanjay/Giaco</td><td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div><span style="font-size:9px;">UAT</span></div></td><td class="ptd-tl-bar-cell"><div class="ptd-tl-bar-track"><div class="ptd-tl-bar-fill" style="left:14%;width:21%;background:linear-gradient(90deg,#0891b2,#22d3ee);opacity:.85;"></div><div class="ptd-tl-diamond" style="left:37%;"></div></div></td></tr><tr class="ptd-tl-row" data-name="EIL" data-owner="Sri" data-status="Development"><td><strong>EIL</strong></td><td style="font-size:10px;">Sri</td><td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div><span style="font-size:9px;">Development</span></div></td><td class="ptd-tl-bar-cell"><div class="ptd-tl-bar-track"><div class="ptd-tl-bar-fill" style="left:43%;width:36%;background:linear-gradient(90deg,#0891b2,#22d3ee);opacity:.85;"></div></div></td></tr><tr class="ptd-tl-row" data-name="Agility Kafka" data-owner="Navya/Saimon" data-status="Discovery"><td><strong>Agility Kafka</strong></td><td style="font-size:10px;">Navya/Saimon</td><td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div><span style="font-size:9px;">Discovery</span></div></td><td class="ptd-tl-bar-cell"><div class="ptd-tl-bar-track"><div class="ptd-tl-bar-fill" style="left:29%;width:21%;background:linear-gradient(90deg,#0891b2,#22d3ee);opacity:.85;"></div></div></td></tr><tr class="ptd-tl-row" data-name="ItemActivate/ItemUpdate" data-owner="Jaime/Saimon" data-status="Development"><td><strong>ItemActivate/ItemUpdate</strong></td><td style="font-size:10px;">Jaime/Saimon</td><td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div><span style="font-size:9px;">Development</span></div></td><td class="ptd-tl-bar-cell"><div class="ptd-tl-bar-track"><div class="ptd-tl-bar-fill" style="left:43%;width:36%;background:linear-gradient(90deg,#0891b2,#22d3ee);opacity:.85;"></div><div class="ptd-tl-diamond" style="left:81%;"></div></div></td></tr><tr class="ptd-tl-row" data-name="HLSG - QB" data-owner="Jagadeesh/Giaco" data-status="Development"><td><strong>HLSG - QB</strong></td><td style="font-size:10px;">Jagadeesh/Giaco</td><td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#0ea5e9;"></div><span style="font-size:9px;">Development</span></div></td><td class="ptd-tl-bar-cell"><div class="ptd-tl-bar-track"><div class="ptd-tl-bar-fill" style="left:43%;width:36%;background:linear-gradient(90deg,#075985,#0ea5e9);opacity:.85;"></div></div></td></tr><tr class="ptd-tl-row" data-name="RH - Quotes" data-owner="Umesh/Giaco" data-status="Blocked"><td><strong>RH - Quotes</strong></td><td style="font-size:10px;">Umesh/Giaco</td><td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div><span style="font-size:9px;">Blocked</span></div></td><td class="ptd-tl-bar-cell"><div class="ptd-tl-bar-track"><div class="ptd-tl-bar-fill" style="left:29%;width:29%;background:linear-gradient(90deg,#0891b2,#22d3ee);opacity:.85;"></div></div></td></tr><tr class="ptd-tl-row" data-name="RH - CC" data-owner="Navya/Saimon" data-status="UAT"><td><strong>RH - CC</strong></td><td style="font-size:10px;">Navya/Saimon</td><td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div><span style="font-size:9px;">UAT</span></div></td><td class="ptd-tl-bar-cell"><div class="ptd-tl-bar-track"><div class="ptd-tl-bar-fill" style="left:14%;width:21%;background:linear-gradient(90deg,#0891b2,#22d3ee);opacity:.85;"></div><div class="ptd-tl-diamond" style="left:37%;"></div></div></td></tr><tr class="ptd-tl-row" data-name="CoSailor" data-owner="Juan Raygoza" data-status="Development"><td><strong>CoSailor</strong></td><td style="font-size:10px;">Juan Raygoza</td><td><div style="display:flex;align-items:center;gap:5px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div><span style="font-size:9px;">Development</span></div></td><td class="ptd-tl-bar-cell"><div class="ptd-tl-bar-track"><div class="ptd-tl-bar-fill" style="left:43%;width:36%;background:linear-gradient(90deg,#0891b2,#22d3ee);opacity:.85;"></div><div class="ptd-tl-diamond" style="left:81%;"></div></div></td></tr></tbody>
           </table>
           <div style="display:flex;gap:16px;padding-top:10px;font-size:10px;color:#64748b;align-items:center;">
             <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#22d3ee;margin-right:4px;"></span>On Track</span>
             <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#0891b2;margin-right:4px;"></span>Needs Attention</span>
-            <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#94a3b8;margin-right:4px;"></span>Not Started</span>
             <span><span style="display:inline-block;width:8px;height:8px;background:#0f172a;clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);margin-right:4px;"></span>Target Date</span>
           </div>
         </div>
       </div>
-
-      <!-- Bottom row -->
       <div class="ptd-bottom-row">
         <div class="ptd-card">
           <div class="ptd-card-title">Upcoming Target Dates</div>
-          <table class="ptd-dates-table">
-            <thead><tr><th>Project</th><th>Target Date</th><th>Status</th></tr></thead>
-            <tbody><tr>
-  <td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>HLSG - Quotes</div></td>
-  <td style="font-weight:600;">Aug 30, 2026</td>
-  <td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td>
-</tr><tr>
-  <td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Curri Delivery Live Tracking</div></td>
-  <td style="font-weight:600;">Sep 1, 2026</td>
-  <td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td>
-</tr><tr>
-  <td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Check Order Status (ProCard)</div></td>
-  <td style="font-weight:600;">Sep 1, 2026</td>
-  <td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td>
-</tr><tr>
-  <td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>ItemActivate / ItemUpdate</div></td>
-  <td style="font-weight:600;">Sep 1, 2026</td>
-  <td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td>
-</tr><tr>
-  <td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>RH - CC</div></td>
-  <td style="font-weight:600;">Sep 1, 2026</td>
-  <td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td>
-</tr><tr>
-  <td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>SO/PO/CM Update</div></td>
-  <td style="font-weight:600;">Sep 1, 2026</td>
-  <td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td>
-</tr><tr>
-  <td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Azure Service Bus SDK Retire</div></td>
-  <td style="font-weight:600;">Sep 30, 2026</td>
-  <td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td>
-</tr><tr>
-  <td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>CoSailor</div></td>
-  <td style="font-weight:600;">Sep 7, 2026</td>
-  <td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td>
-</tr></tbody>
-          </table>
+          <table class="ptd-dates-table"><thead><tr><th>Project</th><th>Target Date</th><th>Status</th></tr></thead><tbody><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Curri delivery phase 1</div></td><td style="font-weight:600;">Sep 1, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Check Order status In Agility (ProCard)</div></td><td style="font-weight:600;">Sep 1, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>ItemActivate/ItemUpdate</div></td><td style="font-weight:600;">Sep 1, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>RH - CC</div></td><td style="font-weight:600;">Sep 1, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>SO/PO/CM Update</div></td><td style="font-weight:600;">Sep 1, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Azure Service Bus SDK libraries retiring</div></td><td style="font-weight:600;">Sep 30, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>CoSailor</div></td><td style="font-weight:600;">Sep 7, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>HLSG - Quotes</div></td><td style="font-weight:600;">Sep 8, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td></tr></tbody></table>
         </div>
-        <div class="ptd-card" style="background:#f8fafc;"><div class="ptd-card-title" style="color:#64748b;">Quick Status</div><div id="ptd-qs-list" style="max-height:320px;overflow-y:auto;"><div class="ptd-qs-row" data-name="Curri Delivery Live Tracking" data-owner="Sanjay" data-status="Ready for Release" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Curri Delivery Live Tracking</div><div style="font-size:9px;color:#94a3b8;">Ready for Release</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Pro Referral" data-owner="Santosh/Juan" data-status="UAT" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Pro Referral</div><div style="font-size:9px;color:#94a3b8;">UAT</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="ProCard" data-owner="Santosh" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">ProCard</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Check Order Status (ProCard)" data-owner="Jaime" data-status="Discovery" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Check Order Status (ProCard)</div><div style="font-size:9px;color:#94a3b8;">Discovery</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="HLSG - Quotes" data-owner="Sanjay" data-status="UAT" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">HLSG - Quotes</div><div style="font-size:9px;color:#94a3b8;">UAT</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="EIL" data-owner="Sri" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">EIL</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Agility Kafka" data-owner="Navya" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Agility Kafka</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="ItemActivate / ItemUpdate" data-owner="Jaime" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">ItemActivate / ItemUpdate</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="HLSG - QB" data-owner="Jagadeesh" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#0ea5e9;flex-shrink:0;"></div><div style="flex:1;color:#374151;">HLSG - QB</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(14,165,233,.12);color:#0369a1;">Needs Attention</span></div><div class="ptd-qs-row" data-name="RH - Quotes" data-owner="Umesh" data-status="Blocked" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">RH - Quotes</div><div style="font-size:9px;color:#94a3b8;">Blocked</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="RH - CC" data-owner="Navya" data-status="UAT" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">RH - CC</div><div style="font-size:9px;color:#94a3b8;">UAT</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="CoSailor" data-owner="Juan" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">CoSailor</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Aquafinity" data-owner="Jaime" data-status="Gathering Req." style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#cbd5e1;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Aquafinity</div><div style="font-size:9px;color:#94a3b8;">Gathering Req.</div><span class="ptd-rag-pill" style="background:rgba(148,163,184,.12);color:#475569;">Not Started</span></div><div class="ptd-qs-row" data-name="SO/PO/CM Update" data-owner="Sanjay" data-status="Ready for Release" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">SO/PO/CM Update</div><div style="font-size:9px;color:#94a3b8;">Ready for Release</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Dispatch Header Update" data-owner="Navya" data-status="Gathering Req." style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#cbd5e1;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Dispatch Header Update</div><div style="font-size:9px;color:#94a3b8;">Gathering Req.</div><span class="ptd-rag-pill" style="background:rgba(148,163,184,.12);color:#475569;">Not Started</span></div><div class="ptd-qs-row" data-name="Agility ShipmentsList Migration" data-owner="Umesh" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Agility ShipmentsList Migration</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Agility Remote Connect Traffic" data-owner="Umesh" data-status="QA" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Agility Remote Connect Traffic</div><div style="font-size:9px;color:#94a3b8;">QA</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Vulnerabilities" data-owner="Jaime/Chandra" data-status="UAT" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Vulnerabilities</div><div style="font-size:9px;color:#94a3b8;">UAT</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="FredericBlock" data-owner="Chandra" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#0ea5e9;flex-shrink:0;"></div><div style="flex:1;color:#374151;">FredericBlock</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(14,165,233,.12);color:#0369a1;">Needs Attention</span></div><div class="ptd-qs-row" data-name="Azure Service Bus SDK Retire" data-owner="Juan" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Azure Service Bus SDK Retire</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Support (INCs)" data-owner="Jaime" data-status="Ready for Release" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Support (INCs)</div><div style="font-size:9px;color:#94a3b8;">Ready for Release</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="PMI - New Requirements" data-owner="Jagadeesh" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#cbd5e1;flex-shrink:0;"></div><div style="flex:1;color:#374151;">PMI - New Requirements</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(148,163,184,.12);color:#475569;">Not Started</span></div><div class="ptd-qs-row" data-name="Pricefx" data-owner="Santosh" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Pricefx</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Azure Firewall Cleanup" data-owner="—" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#cbd5e1;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Azure Firewall Cleanup</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(148,163,184,.12);color:#475569;">Not Started</span></div><div class="ptd-qs-row" data-name="H+ Prod Issues" data-owner="Eva" data-status="Resolved" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">H+ Prod Issues</div><div style="font-size:9px;color:#94a3b8;">Resolved</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Marketing Items" data-owner="Mohan/JJ" data-status="TBD" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Marketing Items</div><div style="font-size:9px;color:#94a3b8;">TBD</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div></div></div></div>
+        <div class="ptd-card" style="background:#f8fafc;">
+          <div class="ptd-card-title" style="color:#64748b;">Quick Status</div>
+          <div id="ptd-qs-list" style="max-height:320px;overflow-y:auto;"><div class="ptd-qs-row" data-name="Curri delivery phase 1" data-owner="Sanjay/Giaco" data-status="Ready for Release" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Curri delivery phase 1</div><div style="font-size:9px;color:#94a3b8;">Ready for Release</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Pro Referral" data-owner="Santhosh/Juan/Giaco" data-status="UAT" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Pro Referral</div><div style="font-size:9px;color:#94a3b8;">UAT</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="ProCard" data-owner="Santosh/Giaco" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">ProCard</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Check Order status In Agility (ProCard)" data-owner="Jaime/Giaco" data-status="Discovery" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Check Order status In Agility (ProCard)</div><div style="font-size:9px;color:#94a3b8;">Discovery</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="HLSG - Quotes" data-owner="Sanjay/Giaco" data-status="UAT" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">HLSG - Quotes</div><div style="font-size:9px;color:#94a3b8;">UAT</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="EIL" data-owner="Sri" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">EIL</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Agility Kafka" data-owner="Navya/Saimon" data-status="Discovery" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Agility Kafka</div><div style="font-size:9px;color:#94a3b8;">Discovery</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="ItemActivate/ItemUpdate" data-owner="Jaime/Saimon" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">ItemActivate/ItemUpdate</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="HLSG - QB" data-owner="Jagadeesh/Giaco" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#0ea5e9;flex-shrink:0;"></div><div style="flex:1;color:#374151;">HLSG - QB</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(14,165,233,.14);color:#0369a1;">Needs Attention</span></div><div class="ptd-qs-row" data-name="RH - Quotes" data-owner="Umesh/Giaco" data-status="Blocked" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">RH - Quotes</div><div style="font-size:9px;color:#94a3b8;">Blocked</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="RH - CC" data-owner="Navya/Saimon" data-status="UAT" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">RH - CC</div><div style="font-size:9px;color:#94a3b8;">UAT</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="CoSailor" data-owner="Juan Raygoza" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">CoSailor</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Aquafinity" data-owner="Viviana/Jaime" data-status="Gathering Req." style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#cbd5e1;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Aquafinity</div><div style="font-size:9px;color:#94a3b8;">Gathering Req.</div><span class="ptd-rag-pill" style="background:rgba(148,163,184,.12);color:#475569;">TBD</span></div><div class="ptd-qs-row" data-name="SO/PO/CM Update" data-owner="Sanjay/Saimon" data-status="Ready for Release" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">SO/PO/CM Update</div><div style="font-size:9px;color:#94a3b8;">Ready for Release</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Dispatch Header Update (Driver)" data-owner="Navya/Saimon" data-status="Gathering Req." style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#cbd5e1;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Dispatch Header Update (Driver)</div><div style="font-size:9px;color:#94a3b8;">Gathering Req.</div><span class="ptd-rag-pill" style="background:rgba(148,163,184,.12);color:#475569;">TBD</span></div><div class="ptd-qs-row" data-name="Agility ShipmentsList & InvoicesList" data-owner="Umesh/Saimon" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Agility ShipmentsList & InvoicesList</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Agility Remote Connect Traffic Move" data-owner="Umesh/Sri/Saimon" data-status="QA" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Agility Remote Connect Traffic Move</div><div style="font-size:9px;color:#94a3b8;">QA</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Vulnerabilities" data-owner="Jaime/Chandra/Saimon" data-status="UAT" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Vulnerabilities</div><div style="font-size:9px;color:#94a3b8;">UAT</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="FredericBlock" data-owner="Chandra/Saimon" data-status="Remediation" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#0ea5e9;flex-shrink:0;"></div><div style="flex:1;color:#374151;">FredericBlock</div><div style="font-size:9px;color:#94a3b8;">Remediation</div><span class="ptd-rag-pill" style="background:rgba(14,165,233,.14);color:#0369a1;">Needs Attention</span></div><div class="ptd-qs-row" data-name="Azure Service Bus SDK libraries retiring" data-owner="Juan/Saimon" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Azure Service Bus SDK libraries retiring</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Support (INCs)" data-owner="Jaime/Saimon" data-status="Ready for Release" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Support (INCs)</div><div style="font-size:9px;color:#94a3b8;">Ready for Release</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Curri live tracking" data-owner="Giaco" data-status="Gathering Req." style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#cbd5e1;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Curri live tracking</div><div style="font-size:9px;color:#94a3b8;">Gathering Req.</div><span class="ptd-rag-pill" style="background:rgba(148,163,184,.12);color:#475569;">TBD</span></div><div class="ptd-qs-row" data-name="PMI - New Requirements" data-owner="Jagadeesh/Giaco" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#cbd5e1;flex-shrink:0;"></div><div style="flex:1;color:#374151;">PMI - New Requirements</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(148,163,184,.12);color:#475569;">TBD</span></div><div class="ptd-qs-row" data-name="Pricefx" data-owner="Santosh/Saimon" data-status="Discovery" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Pricefx</div><div style="font-size:9px;color:#94a3b8;">Discovery</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Azure Firewall Cleanup" data-owner="—" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#cbd5e1;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Azure Firewall Cleanup</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(148,163,184,.12);color:#475569;">TBD</span></div><div class="ptd-qs-row" data-name="H+ Prod issues" data-owner="/Eva/Saimon" data-status="Resolved" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">H+ Prod issues</div><div style="font-size:9px;color:#94a3b8;">Resolved</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="OutSystems" data-owner="—" data-status="VPN" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#cbd5e1;flex-shrink:0;"></div><div style="flex:1;color:#374151;">OutSystems</div><div style="font-size:9px;color:#94a3b8;">VPN</div><span class="ptd-rag-pill" style="background:rgba(148,163,184,.12);color:#475569;">TBD</span></div><div class="ptd-qs-row" data-name="Marketing Items" data-owner="Mohan/JJ/Saimon" data-status="TBD" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Marketing Items</div><div style="font-size:9px;color:#94a3b8;">TBD</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="GitHub Repository Move" data-owner="—" data-status="Planning" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#cbd5e1;flex-shrink:0;"></div><div style="flex:1;color:#374151;">GitHub Repository Move</div><div style="font-size:9px;color:#94a3b8;">Planning</div><span class="ptd-rag-pill" style="background:rgba(148,163,184,.12);color:#475569;">TBD</span></div></div>
+        </div>
       </div>
-
-      <!-- Key Insights -->
       <div class="ptd-insights">
-  <div class="ptd-insight-label">
-    <div class="ptd-insight-label-icon">&#128161;</div>
-    <div class="ptd-insight-label-txt">Key<br>Insights</div>
-  </div>
+  <div class="ptd-insight-label"><div class="ptd-insight-label-icon">&#128161;</div><div class="ptd-insight-label-txt">Key<br>Insights</div></div>
   <div class="ptd-insight-items">
-    <div class="ptd-insight-item">
-      <div class="ptd-insight-icon" style="border-color:#22d3ee;color:#22d3ee;">&#9654;</div>
-      <div>
-        <div class="ptd-insight-big" style="color:#22d3ee;">84.6%</div>
-        <div class="ptd-insight-txt">of projects are<br>currently in progress</div>
-      </div>
-    </div>
-    <div class="ptd-insight-item">
-      <div class="ptd-insight-icon" style="border-color:#7dd3fc;color:#7dd3fc;">&#9888;</div>
-      <div>
-        <div class="ptd-insight-big" style="color:#7dd3fc;">2</div>
-        <div class="ptd-insight-txt">projects need<br>attention</div>
-      </div>
-    </div>
-    <div class="ptd-insight-item">
-      <div class="ptd-insight-icon" style="border-color:#2dd4bf;color:#2dd4bf;">&#128197;</div>
-      <div>
-        <div class="ptd-insight-big" style="color:#2dd4bf;">9</div>
-        <div class="ptd-insight-txt">projects due<br>this quarter</div>
-      </div>
-    </div>
-    <div class="ptd-insight-item">
-      <div class="ptd-insight-icon" style="border-color:#22d3ee;color:#22d3ee;">&#9650;</div>
-      <div>
-        <div class="ptd-insight-big" style="color:#22d3ee;">73.1%</div>
-        <div class="ptd-insight-txt">of projects are<br>on track</div>
-      </div>
-    </div>
-    <div class="ptd-insight-item">
-      <div class="ptd-insight-icon" style="border-color:#0ea5e9;color:#0ea5e9;">&#9679;</div>
-      <div>
-        <div class="ptd-insight-big" style="color:#0ea5e9;">2</div>
-        <div class="ptd-insight-txt">projects need<br>monitoring</div>
-      </div>
-    </div>
+    <div class="ptd-insight-item"><div class="ptd-insight-icon" style="border-color:#22d3ee;color:#22d3ee;">&#9654;</div><div><div class="ptd-insight-big" style="color:#22d3ee;">86.2%</div><div class="ptd-insight-txt">of projects are<br>currently in progress</div></div></div>
+    <div class="ptd-insight-item"><div class="ptd-insight-icon" style="border-color:#7dd3fc;color:#7dd3fc;">&#9888;</div><div><div class="ptd-insight-big" style="color:#7dd3fc;">2</div><div class="ptd-insight-txt">projects need<br>attention</div></div></div>
+    <div class="ptd-insight-item"><div class="ptd-insight-icon" style="border-color:#2dd4bf;color:#2dd4bf;">&#128197;</div><div><div class="ptd-insight-big" style="color:#2dd4bf;">9</div><div class="ptd-insight-txt">projects due<br>this quarter</div></div></div>
+    <div class="ptd-insight-item"><div class="ptd-insight-icon" style="border-color:#22d3ee;color:#22d3ee;">&#9650;</div><div><div class="ptd-insight-big" style="color:#22d3ee;">69.0%</div><div class="ptd-insight-txt">of projects are<br>on track</div></div></div>
+    <div class="ptd-insight-item"><div class="ptd-insight-icon" style="border-color:#0ea5e9;color:#0ea5e9;">&#9679;</div><div><div class="ptd-insight-big" style="color:#0ea5e9;">3</div><div class="ptd-insight-txt">projects ready<br>to ship</div></div></div>
   </div>
 </div>
-
     </div>
   </div>
-</div>
-<script>
-
-function openPtdModal(){document.getElementById('ptd-modal').classList.add('open');}
-function closePtdModal(){document.getElementById('ptd-modal').classList.remove('open');}
-function ptdFilter(){
-  const proj   = document.getElementById('ptd-f-proj').value;
-  const owner  = document.getElementById('ptd-f-owner').value;
-  const status = document.getElementById('ptd-f-status').value;
-  let visible = 0;
-  // Filter Quick Status
-  document.querySelectorAll('.ptd-qs-row').forEach(r=>{
-    const show=(proj==='all'||r.dataset.name===proj)
-            &&(owner==='all'||r.dataset.owner===owner)
-            &&(status==='all'||r.dataset.status===status);
-    r.style.display=show?'flex':'none';
-    if(show)visible++;
-  });
-  // Filter Timeline
-  document.querySelectorAll('.ptd-tl-row').forEach(r=>{
-    const show=(proj==='all'||r.dataset.name===proj)
-            &&(owner==='all'||r.dataset.owner===owner)
-            &&(status==='all'||r.dataset.status===status);
-    r.style.display=show?'':'none';
-  });
-  // Badge
-  const badge=document.getElementById('ptd-filter-count');
-  if(badge) badge.textContent=(proj==='all'&&owner==='all'&&status==='all')
-    ?'All Projects':visible+' project'+(visible!==1?'s':'')+' shown';
-}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closePtdModal();});
-
-</script>
-</body>
-</html>
+</div>>
