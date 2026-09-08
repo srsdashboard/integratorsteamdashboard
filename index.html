@@ -2852,10 +2852,10 @@ function updateSprintChip() {
   if (c)   c.innerHTML = '<span class="live"></span>Sprint ' + sp + (sp===12 ? ' — Active' : ' — Closed ✓');
   const sl = document.getElementById('hero-sprint-label');
   if (sl) sl.textContent = 'Sprint ' + sp + ' · ' + (sp===11 ? 'Aug 3 – Aug 21, 2026' : sp===10 ? 'Jul 13 – Jul 31, 2026' : sp===9 ? 'Jun 22 – Jul 10, 2026' : sp===8 ? 'Jun 1 – Jun 19, 2026' : sp===7 ? 'May 11 – May 29, 2026' : sp===6 ? 'Apr 21 – May 12, 2026' : 'Mar 30 – Apr 17, 2026') + (sp===9 ? '' : ' ✓ Closed');
-  if (d)   d.textContent  = sp===12 ? 'Deploy Sep 1' : sp===11 ? 'Deploy Aug 25' : sp===10 ? 'Deploy Aug 11' : sp===9 ? 'Deploy Jul 14' : sp===8 ? 'Deploy Jun 23' : sp===7 ? 'Deploy May 29' : sp===6 ? 'Deployed May 12' : 'Deployed Apr 17';
+  if (d)   d.textContent  = sp===12 ? 'Deploy Sep 9' : sp===11 ? 'Deploy Aug 25' : sp===10 ? 'Deploy Aug 11' : sp===9 ? 'Deploy Jul 14' : sp===8 ? 'Deploy Jun 23' : sp===7 ? 'Deploy May 29' : sp===6 ? 'Deployed May 12' : 'Deployed Apr 17';
   if (dt)  dt.textContent = sp===12 ? 'Aug 24 – Sep 11, 2026' : sp===11 ? 'Aug 3 – Aug 21, 2026' : sp===10 ? 'Jul 13 – Jul 31, 2026' : sp===9 ? 'Jun 22 – Jul 10, 2026' : sp===8 ? 'Jun 1 – Jun 19, 2026' : sp===7 ? 'May 11 – May 29, 2026' : sp===6 ? 'Apr 21 – May 12, 2026' : 'Mar 30 – Apr 17, 2026';
-  if (hd)  hd.textContent = sp===12 ? 'Sep 1, 2026' : sp===11 ? 'Aug 25, 2026' : sp===10 ? 'Aug 11, 2026' : sp===9 ? 'Jul 14, 2026' : sp===8 ? 'Jun 23, 2026' : sp===7 ? 'May 29, 2026' : sp===6 ? 'May 12, 2026' : 'Apr 17, 2026';
-  if (rfr) rfr.textContent = sp===12 ? 'Sep 1' : sp===11 ? 'Aug 25' : sp===10 ? 'Aug 11' : sp===9 ? 'Jul 14' : sp===8 ? 'Jun 23' : sp===7 ? 'May 29' : sp===6 ? 'May 12' : 'Apr 17';
+  if (hd)  hd.textContent = sp===12 ? 'Sep 9, 2026' : sp===11 ? 'Aug 25, 2026' : sp===10 ? 'Aug 11, 2026' : sp===9 ? 'Jul 14, 2026' : sp===8 ? 'Jun 23, 2026' : sp===7 ? 'May 29, 2026' : sp===6 ? 'May 12, 2026' : 'Apr 17, 2026';
+  if (rfr) rfr.textContent = sp===12 ? 'Sep 9' : sp===11 ? 'Aug 25' : sp===10 ? 'Aug 11' : sp===9 ? 'Jul 14' : sp===8 ? 'Jun 23' : sp===7 ? 'May 29' : sp===6 ? 'May 12' : 'Apr 17';
   const n1 = document.getElementById('vel-footer-note');
   const n2 = document.getElementById('vel-footer-note2');
   const lb = sp===12 ? 'Sprint 12 · Aug 24 – Sep 11, 2026' : sp===11 ? 'Sprint 11 · Aug 3 – Aug 21, 2026' : sp===10 ? 'Sprint 10 · Jul 13 – Jul 31, 2026' : sp===9 ? 'Sprint 9 · Jun 22 – Jul 10, 2026' : sp===8 ? 'Sprint 8 · Jun 1 – Jun 19, 2026' : sp===7 ? 'Sprint 7 · May 11 – May 29, 2026' : sp===6 ? 'Sprint 6 · Apr 21 – May 12, 2026' : 'Sprint 5 · Mar 30 – Apr 17, 2026';
@@ -3923,239 +3923,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closePtdModal();});
 
 
 <!-- PROJECT PORTFOLIO MODAL -->
-<div class="pt-modal" id="pt-modal">
-  <div class="pt-box">
-    <div class="pt-hdr">
-      <div><div class="pt-ttl">The Integrators Team — Project Portfolio</div><div class="pt-sttl">Sprint 12 · Aug 24 – Sep 11, 2026 · Leadership View</div></div>
-      <div class="pt-x" onclick="closePtModal()">&#10005;</div>
-    </div>
-    <div class="pt-sum" id="pt-sum-el"></div>
-    <div class="pt-topbar">
-      <div class="pt-leg">
-        <span><span class="pt-ld" style="background:#22d3ee;"></span>On Track</span>
-        <span><span class="pt-ld" style="background:#0ea5e9;"></span>Needs Attention</span>
-        <span><span class="pt-ld" style="background:#38bdf8;"></span>TBD</span>
-        <span style="color:#2dd4bf;font-weight:700;">-- Ships soon</span>
-      </div>
-      <div class="pt-flt">
-        <button class="pt-fb on" onclick="ptFilter('all',this)">All</button>
-        <button class="pt-fb" onclick="ptFilter('rfr',this)">Ready to Ship</button>
-        <button class="pt-fb" onclick="ptFilter('uat',this)">UAT / QA</button>
-        <button class="pt-fb" onclick="ptFilter('dev',this)">In Development</button>
-        <button class="pt-fb" onclick="ptFilter('risk',this)">Needs Attention</button>
-      </div>
-    </div>
-    <div class="pt-grid" id="pt-grid"><div class="pt-secl">Ready to Ship</div><div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="Ready for Release">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">Curri Delivery Live Tracking</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">90%</div></div>
-  <div><span class="pt-ms" style="color:#2dd4bf;">Ready for Release</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:90%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Sanjay</span><span class="pt-tg vsoon">-- Sep 1</span></div>
-  <div class="pt-ev">Both items Ready for Release</div>
-  <div class="pt-nxt">Deploy Sep 1</div>
-</div>
-<div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="Ready for Release">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">SO/PO/CM Update (Descartes)</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">88%</div></div>
-  <div><span class="pt-ms" style="color:#2dd4bf;">Ready for Release</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:88%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Sanjay</span><span class="pt-tg vsoon">-- Sep 1</span></div>
-  <div class="pt-ev">Ready for Release</div>
-  <div class="pt-rk">CM HLSG update pending</div><div class="pt-nxt">Helen checking — all other scenarios working</div>
-</div>
-<div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="Ready for Release">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">Support (INCs)</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">60%</div></div>
-  <div><span class="pt-ms" style="color:#2dd4bf;">Ready for Release</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:60%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Jaime</span><span class="pt-tg ">Ongoing</span></div>
-  <div class="pt-ev">2 RFR · 2 In Dev · 2 Closed</div>
-  <div class="pt-rk">Open incidents</div><div class="pt-nxt">Prioritize critical INCs</div>
-</div>
-<div class="pt-secl">In UAT / QA</div><div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="UAT">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">RH Credit Card (CC)</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">70%</div></div>
-  <div><span class="pt-ms" style="color:#67e8f9;">UAT</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:70%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Navya</span><span class="pt-tg vsoon">-- Sep 1</span></div>
-  <div class="pt-ev">2 UAT · 1 Closed</div>
-  <div class="pt-rk">UAT Delay — WorldPay fields missing</div><div class="pt-nxt">PaymentAccount error being fixed with WorldPay</div>
-</div>
-<div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="UAT">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">HLSG Quotes</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">60%</div></div>
-  <div><span class="pt-ms" style="color:#67e8f9;">UAT</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:60%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Sanjay</span><span class="pt-tg vsoon">-- Sep 1</span></div>
-  <div class="pt-ev">1 GR · 1 In Dev · 1 UAT</div>
-  <div class="pt-rk">Testing defects</div><div class="pt-nxt">QuoteList API in progress</div>
-</div>
-<div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="UAT">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">Pro Referral</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">65%</div></div>
-  <div><span class="pt-ms" style="color:#67e8f9;">UAT</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:65%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Santosh/Juan</span><span class="pt-tg ">TBD</span></div>
-  <div class="pt-ev">2 Closed · 1 UAT</div>
-  <div class="pt-nxt">Pending CSP_PRO_REFERRAL_DETAILS_GLOBAL proc</div>
-</div>
-<div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="UAT">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">Vulnerabilities</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">60%</div></div>
-  <div><span class="pt-ms" style="color:#67e8f9;">UAT</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:60%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Jaime/Chandra</span><span class="pt-tg ">Ongoing</span></div>
-  <div class="pt-ev">1 UAT · 1 Blocked</div>
-  <div class="pt-rk">Security findings</div><div class="pt-nxt">Prioritize remediation items</div>
-</div>
-<div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="QA">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">Agility Remote Connect Traffic</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">75%</div></div>
-  <div><span class="pt-ms" style="color:#67e8f9;">QA</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:75%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Umesh/Sri</span><span class="pt-tg ">TBD</span></div>
-  <div class="pt-ev">In QA — STG Load Test</div>
-  <div class="pt-nxt">Devi to approve APIM endpoint exclusions</div>
-</div>
-<div class="pt-secl">In Development</div><div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="Development">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">ItemActivate / ItemUpdate</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">25%</div></div>
-  <div><span class="pt-ms" style="color:#a5b4fc;">Development</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:25%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Jaime</span><span class="pt-tg vsoon">-- Sep 1</span></div>
-  <div class="pt-ev">No work items found</div>
-  <div class="pt-rk">Delay on credentials</div><div class="pt-nxt">Prod permissions needed</div>
-</div>
-<div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="Discovery">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">Check Order Status (ProCard)</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">10%</div></div>
-  <div><span class="pt-ms" style="color:#93c5fd;">Discovery</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:10%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Jaime</span><span class="pt-tg vsoon">-- Sep 1</span></div>
-  <div class="pt-ev">Ideation — Agility Order Failure Webhook</div>
-  
-</div>
-<div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="Development">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">CoSailor</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">30%</div></div>
-  <div><span class="pt-ms" style="color:#a5b4fc;">Development</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:30%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Juan</span><span class="pt-tg soon">-- Sep 7</span></div>
-  <div class="pt-ev">In development</div>
-  <div class="pt-rk">QA pending</div><div class="pt-nxt">New changes requested</div>
-</div>
-<div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="Development">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">Agility ShipmentsList Migration</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">40%</div></div>
-  <div><span class="pt-ms" style="color:#a5b4fc;">Development</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:40%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Umesh</span><span class="pt-tg soon">-- Sep 8</span></div>
-  <div class="pt-ev">Both In Development</div>
-  <div class="pt-rk">Response format change requested</div><div class="pt-nxt">Naveen SP changes expected Aug 31</div>
-</div>
-<div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="Development">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">Azure Service Bus SDK Retire</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">50%</div></div>
-  <div><span class="pt-ms" style="color:#a5b4fc;">Development</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:50%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Juan</span><span class="pt-tg ">Sep 30</span></div>
-  <div class="pt-ev">1 Ideation · 1 Closed</div>
-  <div class="pt-nxt">Discovery complete</div>
-</div>
-<div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="Development">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">ProCard</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">30%</div></div>
-  <div><span class="pt-ms" style="color:#a5b4fc;">Development</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:30%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Santosh</span><span class="pt-tg ">TBD</span></div>
-  <div class="pt-ev">3 Ideation · 2 Active · 1 In Dev</div>
-  <div class="pt-nxt">5th service needs technical definitions</div>
-</div>
-<div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="Blocked">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">RH Quotes</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">50%</div></div>
-  <div><span class="pt-ms" style="color:#7dd3fc;">Blocked</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:50%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Umesh</span><span class="pt-tg ">TBD</span></div>
-  <div class="pt-ev">Blocked — Attachments on Quote Request</div>
-  <div class="pt-nxt">Worldview definitions provided — resuming</div>
-</div>
-<div class="pt-card" style="background:rgba(8,145,178,.1);border-color:rgba(8,145,178,.3);" data-rag="attn" data-ms="Development">
-  <div class="pt-ch"><div class="pt-dot" style="background:#0ea5e9;"></div><div class="pt-nm">HLSG QuickBooks</div><div class="pt-pct" style="background:rgba(14,165,233,.18);color:#0ea5e9;">35%</div></div>
-  <div><span class="pt-ms" style="color:#a5b4fc;">Development</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:35%;background:linear-gradient(90deg,#075985,#0ea5e9);"></div></div></div>
-  <div class="pt-mt"><span>Jagadeesh</span><span class="pt-tg ">TBD</span></div>
-  <div class="pt-ev">Both In Development</div>
-  <div class="pt-rk">Business field modifications pending</div><div class="pt-nxt">Pending answers from Nagraj</div>
-</div>
-<div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="Development">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">EIL</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">20%</div></div>
-  <div><span class="pt-ms" style="color:#a5b4fc;">Development</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:20%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Sri</span><span class="pt-tg ">TBD</span></div>
-  <div class="pt-ev">In development</div>
-  
-</div>
-<div class="pt-card" style="background:rgba(22,78,99,.08);border-color:rgba(22,78,99,.25);" data-rag="tbd" data-ms="Development">
-  <div class="pt-ch"><div class="pt-dot" style="background:#38bdf8;"></div><div class="pt-nm">PMI — New Requirements</div><div class="pt-pct" style="background:rgba(56,189,248,.1);color:#38bdf8;">30%</div></div>
-  <div><span class="pt-ms" style="color:#a5b4fc;">Development</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:30%;background:linear-gradient(90deg,#0c4a6e,#38bdf8);"></div></div></div>
-  <div class="pt-mt"><span>Jagadeesh</span><span class="pt-tg ">TBD</span></div>
-  <div class="pt-ev">1 Dev Complete · 1 Blocked</div>
-  <div class="pt-rk">Vendor V3 API requirements</div><div class="pt-nxt">Waiting on Prod endpoint from PMI</div>
-</div>
-<div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="Development">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">Pricefx</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">5%</div></div>
-  <div><span class="pt-ms" style="color:#a5b4fc;">Development</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:5%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Santosh</span><span class="pt-tg ">TBD</span></div>
-  <div class="pt-ev">1 Active · 1 Ideation</div>
-  <div class="pt-rk">Work not started</div><div class="pt-nxt">Awaiting management direction</div>
-</div>
-<div class="pt-card" style="background:rgba(8,145,178,.1);border-color:rgba(8,145,178,.3);" data-rag="attn" data-ms="Development">
-  <div class="pt-ch"><div class="pt-dot" style="background:#0ea5e9;"></div><div class="pt-nm">FredericBlock</div><div class="pt-pct" style="background:rgba(14,165,233,.18);color:#0ea5e9;">10%</div></div>
-  <div><span class="pt-ms" style="color:#a5b4fc;">Development</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:10%;background:linear-gradient(90deg,#075985,#0ea5e9);"></div></div></div>
-  <div class="pt-mt"><span>Chandra</span><span class="pt-tg ">3-4 mo</span></div>
-  <div class="pt-ev">In development</div>
-  <div class="pt-rk">No prior team experience</div><div class="pt-nxt">Chandra reviewing migration plan</div>
-</div>
-<div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="Development">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">Agility Kafka</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">15%</div></div>
-  <div><span class="pt-ms" style="color:#a5b4fc;">Development</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:15%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Navya</span><span class="pt-tg ">Dec 2026</span></div>
-  <div class="pt-ev">Active — Kafka Stream Discovery</div>
-  <div class="pt-rk">Discovery scope</div><div class="pt-nxt">Connectivity details pending from DSMi/Kris</div>
-</div>
-<div class="pt-card" style="background:rgba(22,78,99,.08);border-color:rgba(22,78,99,.25);" data-rag="tbd" data-ms="Development">
-  <div class="pt-ch"><div class="pt-dot" style="background:#38bdf8;"></div><div class="pt-nm">Azure Firewall Cleanup</div><div class="pt-pct" style="background:rgba(56,189,248,.1);color:#38bdf8;">20%</div></div>
-  <div><span class="pt-ms" style="color:#a5b4fc;">Development</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:20%;background:linear-gradient(90deg,#0c4a6e,#38bdf8);"></div></div></div>
-  <div class="pt-mt"><span>—</span><span class="pt-tg ">TBD</span></div>
-  <div class="pt-ev">Active — Analyze Network Traffic</div>
-  <div class="pt-nxt">Confirm cleanup scope</div>
-</div>
-<div class="pt-card" style="background:rgba(22,78,99,.08);border-color:rgba(22,78,99,.25);" data-rag="tbd" data-ms="Gathering Req.">
-  <div class="pt-ch"><div class="pt-dot" style="background:#38bdf8;"></div><div class="pt-nm">Dispatch Header Update (Driver)</div><div class="pt-pct" style="background:rgba(56,189,248,.1);color:#38bdf8;">5%</div></div>
-  <div><span class="pt-ms" style="color:#c4b5fd;">Gathering Req.</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:5%;background:linear-gradient(90deg,#0c4a6e,#38bdf8);"></div></div></div>
-  <div class="pt-mt"><span>Navya</span><span class="pt-tg ">TBD</span></div>
-  <div class="pt-ev">Ideation — Enable Descartes update Driver ID</div>
-  <div class="pt-nxt">Awaiting sample output from Descartes</div>
-</div>
-<div class="pt-card" style="background:rgba(22,78,99,.08);border-color:rgba(22,78,99,.25);" data-rag="tbd" data-ms="Gathering Req.">
-  <div class="pt-ch"><div class="pt-dot" style="background:#38bdf8;"></div><div class="pt-nm">Aquafinity</div><div class="pt-pct" style="background:rgba(56,189,248,.1);color:#38bdf8;">5%</div></div>
-  <div><span class="pt-ms" style="color:#c4b5fd;">Gathering Req.</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:5%;background:linear-gradient(90deg,#0c4a6e,#38bdf8);"></div></div></div>
-  <div class="pt-mt"><span>Jaime</span><span class="pt-tg ">TBD</span></div>
-  <div class="pt-ev">Status TBD</div>
-  <div class="pt-rk">Ownership TBD</div><div class="pt-nxt">Confirm next steps</div>
-</div>
-<div class="pt-secl">Monitoring</div><div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="Resolved">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">H+ Prod Issues</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">100%</div></div>
-  <div><span class="pt-ms" style="color:#2dd4bf;">Resolved</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:100%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Eva</span><span class="pt-tg ">Ongoing</span></div>
-  <div class="pt-ev">Resolved</div>
-  
-</div>
-<div class="pt-card" style="background:rgba(6,182,212,.07);border-color:rgba(6,182,212,.22);" data-rag="green" data-ms="TBD">
-  <div class="pt-ch"><div class="pt-dot" style="background:#22d3ee;"></div><div class="pt-nm">Marketing Items</div><div class="pt-pct" style="background:rgba(6,182,212,.15);color:#22d3ee;">30%</div></div>
-  <div><span class="pt-ms" style="color:#4e7896;">TBD</span></div>
-  <div class="pt-pr"><div class="pt-pt"><div class="pt-pf" style="width:30%;background:linear-gradient(90deg,#0891b2,#22d3ee);"></div></div></div>
-  <div class="pt-mt"><span>Mohan/JJ</span><span class="pt-tg ">Ongoing</span></div>
-  <div class="pt-ev">PHP migration + daily requests</div>
-  <div class="pt-nxt">PHP migration + daily requests</div>
-</div>
-</div>
-  </div>
-</div>
+
 
 
 <!-- PROJECT PORTFOLIO DASHBOARD -->
@@ -4208,7 +3976,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closePtdModal();});
         </div>
       </div>
       <div class="ptd-bottom-row">
-        <div class="ptd-card"><div class="ptd-card-title">Upcoming Target Dates</div><table class="ptd-dates-table"><thead><tr><th>Project</th><th>Target Date</th><th>Status</th></tr></thead><tbody><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#2dd4bf;"></div>ItemActivate/ItemUpdate</div></td><td style="font-weight:600;">Sep 1, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(45,212,191,.12);color:#0d9488;">Completed</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#2dd4bf;"></div>SO/PO/CM Update</div></td><td style="font-weight:600;">Sep 1, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(45,212,191,.12);color:#0d9488;">Completed</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#2dd4bf;"></div>Check Order status In Agility (ProCard)</div></td><td style="font-weight:600;">Sep 1, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(45,212,191,.12);color:#0d9488;">Completed</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Dispatch Header Update (Driver)</div></td><td style="font-weight:600;">Sep 15, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Agility ShipmentsList & InvoicesList</div></td><td style="font-weight:600;">Sep 15, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>CoSailor</div></td><td style="font-weight:600;">Sep 20, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Azure Service Bus SDK Retire</div></td><td style="font-weight:600;">Sep 30, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#2dd4bf;"></div>Agility Remote Connect Traffic Move</div></td><td style="font-weight:600;">Sep 4, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(45,212,191,.12);color:#0d9488;">Completed</span></td></tr></tbody></table></div>
+        <div class="ptd-card"><div class="ptd-card-title">Upcoming Target Dates</div><table class="ptd-dates-table"><thead><tr><th>Project</th><th>Target Date</th><th>Status</th></tr></thead><tbody><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#2dd4bf;"></div>ItemActivate/ItemUpdate</div></td><td style="font-weight:600;">Sep 9, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(45,212,191,.12);color:#0d9488;">Completed</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#2dd4bf;"></div>SO/PO/CM Update</div></td><td style="font-weight:600;">Sep 9, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(45,212,191,.12);color:#0d9488;">Completed</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#2dd4bf;"></div>Check Order status In Agility (ProCard)</div></td><td style="font-weight:600;">Sep 9, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(45,212,191,.12);color:#0d9488;">Completed</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Dispatch Header Update (Driver)</div></td><td style="font-weight:600;">Sep 15, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Agility ShipmentsList & InvoicesList</div></td><td style="font-weight:600;">Sep 15, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>CoSailor</div></td><td style="font-weight:600;">Sep 20, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#22d3ee;"></div>Azure Service Bus SDK Retire</div></td><td style="font-weight:600;">Sep 30, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></td></tr><tr><td><div style="display:flex;align-items:center;gap:7px;"><div class="ptd-rag-dot" style="background:#2dd4bf;"></div>Agility Remote Connect Traffic Move</div></td><td style="font-weight:600;">Sep 4, 2026</td><td><span class="ptd-rag-pill" style="background:rgba(45,212,191,.12);color:#0d9488;">Completed</span></td></tr></tbody></table></div>
         <div class="ptd-card" style="background:#f8fafc;"><div class="ptd-card-title" style="color:#64748b;">Quick Status</div><div id="ptd-qs-list" style="max-height:320px;overflow-y:auto;"><div class="ptd-qs-row" data-name="ItemActivate/ItemUpdate" data-owner="—" data-status="Deployed" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#2dd4bf;flex-shrink:0;"></div><div style="flex:1;color:#374151;">ItemActivate/ItemUpdate</div><div style="font-size:9px;color:#94a3b8;">Deployed</div><span class="ptd-rag-pill" style="background:rgba(45,212,191,.12);color:#0d9488;">Completed</span></div><div class="ptd-qs-row" data-name="SO/PO/CM Update" data-owner="—" data-status="Deployed" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#2dd4bf;flex-shrink:0;"></div><div style="flex:1;color:#374151;">SO/PO/CM Update</div><div style="font-size:9px;color:#94a3b8;">Deployed</div><span class="ptd-rag-pill" style="background:rgba(45,212,191,.12);color:#0d9488;">Completed</span></div><div class="ptd-qs-row" data-name="Agility Remote Connect Traffic Move" data-owner="—" data-status="Completed" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#2dd4bf;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Agility Remote Connect Traffic Move</div><div style="font-size:9px;color:#94a3b8;">Completed</div><span class="ptd-rag-pill" style="background:rgba(45,212,191,.12);color:#0d9488;">Completed</span></div><div class="ptd-qs-row" data-name="Check Order status In Agility (ProCard)" data-owner="—" data-status="Completed" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#2dd4bf;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Check Order status In Agility (ProCard)</div><div style="font-size:9px;color:#94a3b8;">Completed</div><span class="ptd-rag-pill" style="background:rgba(45,212,191,.12);color:#0d9488;">Completed</span></div><div class="ptd-qs-row" data-name="Curri delivery phase 1" data-owner="Sanjay/Giaco" data-status="Ready for Release" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Curri delivery phase 1</div><div style="font-size:9px;color:#94a3b8;">Ready for Release</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Pro Referral" data-owner="Santhosh/Juan/Giaco" data-status="UAT" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Pro Referral</div><div style="font-size:9px;color:#94a3b8;">UAT</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="ProCard" data-owner="Santosh/Giaco" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">ProCard</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="HLSG - Quotes" data-owner="Sanjay/Giaco" data-status="UAT" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">HLSG - Quotes</div><div style="font-size:9px;color:#94a3b8;">UAT</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="EIL" data-owner="Sri" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">EIL</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Agility Kafka" data-owner="Navya/Saimon" data-status="Discovery" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Agility Kafka</div><div style="font-size:9px;color:#94a3b8;">Discovery</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="HLSG - QB" data-owner="Jagadeesh/Giaco" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#0ea5e9;flex-shrink:0;"></div><div style="flex:1;color:#374151;">HLSG - QB</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(14,165,233,.14);color:#0369a1;">Needs Attention</span></div><div class="ptd-qs-row" data-name="RH - Quotes" data-owner="Umesh/Giaco" data-status="UAT/In QA" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">RH - Quotes</div><div style="font-size:9px;color:#94a3b8;">UAT/In QA</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="RH - CC" data-owner="Navya/Saimon" data-status="UAT" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">RH - CC</div><div style="font-size:9px;color:#94a3b8;">UAT</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="CoSailor" data-owner="Juan Raygoza" data-status="UAT" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">CoSailor</div><div style="font-size:9px;color:#94a3b8;">UAT</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Aquafinity" data-owner="Viviana/Jaime" data-status="Documentation" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Aquafinity</div><div style="font-size:9px;color:#94a3b8;">Documentation</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Dispatch Header Update (Driver)" data-owner="Navya/Saimon" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Dispatch Header Update (Driver)</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Agility ShipmentsList & InvoicesList" data-owner="Umesh/Saimon" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Agility ShipmentsList & InvoicesList</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Vulnerabilities" data-owner="Jaime/Chandra/Saimon" data-status="Remediation" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Vulnerabilities</div><div style="font-size:9px;color:#94a3b8;">Remediation</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="FredericBlock" data-owner="Chandra/Saimon" data-status="Remediation" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#0ea5e9;flex-shrink:0;"></div><div style="flex:1;color:#374151;">FredericBlock</div><div style="font-size:9px;color:#94a3b8;">Remediation</div><span class="ptd-rag-pill" style="background:rgba(14,165,233,.14);color:#0369a1;">Needs Attention</span></div><div class="ptd-qs-row" data-name="Azure Service Bus SDK Retire" data-owner="Juan/Saimon" data-status="Discovery" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Azure Service Bus SDK Retire</div><div style="font-size:9px;color:#94a3b8;">Discovery</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Support (INCs)" data-owner="Jaime/Saimon" data-status="Ready for Release" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Support (INCs)</div><div style="font-size:9px;color:#94a3b8;">Ready for Release</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Curri live tracking" data-owner="Giaco" data-status="Gathering Req." style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#cbd5e1;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Curri live tracking</div><div style="font-size:9px;color:#94a3b8;">Gathering Req.</div><span class="ptd-rag-pill" style="background:rgba(148,163,184,.12);color:#475569;">TBD</span></div><div class="ptd-qs-row" data-name="PMI - New Requirements" data-owner="Jagadeesh/Giaco" data-status="UAT" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#cbd5e1;flex-shrink:0;"></div><div style="flex:1;color:#374151;">PMI - New Requirements</div><div style="font-size:9px;color:#94a3b8;">UAT</div><span class="ptd-rag-pill" style="background:rgba(148,163,184,.12);color:#475569;">TBD</span></div><div class="ptd-qs-row" data-name="Pricefx" data-owner="Santosh/Saimon" data-status="Ready for QA" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Pricefx</div><div style="font-size:9px;color:#94a3b8;">Ready for QA</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Azure Firewall Cleanup" data-owner="Santosh" data-status="Development" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#cbd5e1;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Azure Firewall Cleanup</div><div style="font-size:9px;color:#94a3b8;">Development</div><span class="ptd-rag-pill" style="background:rgba(148,163,184,.12);color:#475569;">TBD</span></div><div class="ptd-qs-row" data-name="H+ Prod issues" data-owner="Eva/Saimon" data-status="Resolved" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">H+ Prod issues</div><div style="font-size:9px;color:#94a3b8;">Resolved</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div><div class="ptd-qs-row" data-name="Marketing Items" data-owner="Mohan/JJ/Saimon" data-status="TBD" style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:11px;"><div class="ptd-rag-dot" style="background:#22d3ee;flex-shrink:0;"></div><div style="flex:1;color:#374151;">Marketing Items</div><div style="font-size:9px;color:#94a3b8;">TBD</div><span class="ptd-rag-pill" style="background:rgba(34,211,238,.12);color:#0891b2;">On Track</span></div></div></div>
       </div>
       <div class="ptd-insights">
