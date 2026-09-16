@@ -2768,7 +2768,7 @@ function updateSprintChip() {
   const rfr = document.getElementById('rfr-date-badge');
   if (c)   c.innerHTML = '<span class="live"></span>Sprint ' + sp + (sp===12 ? ' — Active' : ' — Closed ✓');
   const sl = document.getElementById('hero-sprint-label');
-  if (sl) sl.textContent = 'Sprint ' + sp + ' · ' + (sp===11 ? 'Aug 3 – Aug 21, 2026' : sp===10 ? 'Jul 13 – Jul 31, 2026' : sp===9 ? 'Jun 22 – Jul 10, 2026' : sp===8 ? 'Jun 1 – Jun 19, 2026' : sp===7 ? 'May 11 – May 29, 2026' : sp===6 ? 'Apr 21 – May 12, 2026' : 'Mar 30 – Apr 17, 2026') + (sp===9 ? '' : ' ✓ Closed');
+  if (sl) sl.textContent = 'Sprint ' + sp + ' · ' + (sp===12 ? 'Aug 24 – Sep 11, 2026' : sp===11 ? 'Aug 3 – Aug 21, 2026' : sp===10 ? 'Jul 13 – Jul 31, 2026' : sp===9 ? 'Jun 22 – Jul 10, 2026' : sp===8 ? 'Jun 1 – Jun 19, 2026' : sp===7 ? 'May 11 – May 29, 2026' : sp===6 ? 'Apr 21 – May 12, 2026' : 'Mar 30 – Apr 17, 2026') + (sp===9 ? '' : ' ✓ Closed');
   if (d)   d.textContent  = sp===12 ? 'Deploy Sep 22' : sp===11 ? 'Deploy Aug 25' : sp===10 ? 'Deploy Aug 11' : sp===9 ? 'Deploy Jul 14' : sp===8 ? 'Deploy Jun 23' : sp===7 ? 'Deploy May 29' : sp===6 ? 'Deployed May 12' : 'Deployed Apr 17';
   if (dt)  dt.textContent = sp===12 ? 'Aug 24 – Sep 11, 2026' : sp===11 ? 'Aug 3 – Aug 21, 2026' : sp===10 ? 'Jul 13 – Jul 31, 2026' : sp===9 ? 'Jun 22 – Jul 10, 2026' : sp===8 ? 'Jun 1 – Jun 19, 2026' : sp===7 ? 'May 11 – May 29, 2026' : sp===6 ? 'Apr 21 – May 12, 2026' : 'Mar 30 – Apr 17, 2026';
   if (hd)  hd.textContent = sp===12 ? 'Sep 22, 2026' : sp===11 ? 'Aug 25, 2026' : sp===10 ? 'Aug 11, 2026' : sp===9 ? 'Jul 14, 2026' : sp===8 ? 'Jun 23, 2026' : sp===7 ? 'May 29, 2026' : sp===6 ? 'May 12, 2026' : 'Apr 17, 2026';
